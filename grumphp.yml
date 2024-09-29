@@ -1,0 +1,29 @@
+grumphp:
+  environment:
+    variables:
+      GRUMPHP_BIN_DIR: "/var/www/html/vendor/bin"
+  tasks:
+    #    phpcbf:
+    #      standard: Magento2
+    #      severity: ~
+    #      triggered_by: ['php']
+    phpcs:
+      standard: Magento2
+      triggered_by: [ 'php', 'phtml' ]
+    phpcsfixer2:
+      config: "../../../../.php-cs-fixer.dist.php"
+    phplint:
+      triggered_by: [ 'php' ]
+    phpmd:
+      ruleset: [ 'cleancode', 'codesize', 'design', 'naming', 'unusedcode' ]
+      triggered_by: [ 'php' ]
+    phpstan:
+      level: 5
+      autoload_file: "../../../../vendor/autoload.php"
+      triggered_by: [ 'php' ]
+    phpunit:
+      config_file: ../../../../dev/tests/unit/phpunit.xml.dist
+      group: [ 'unit' ]
+      always_execute: false
+    xmllint:
+      triggered_by: [ 'xml' ]
