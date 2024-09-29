@@ -65,7 +65,7 @@ class InpostCourier extends AbstractCarrier implements CarrierInterface
         $method->setPrice('0.00');
         $method->setCost('0.00');
 
-        $result->append($method);
+        $result->append($method); //
 
         return $result;
     }
