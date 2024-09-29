@@ -1,7 +1,8 @@
 grumphp:
   environment:
     variables:
-      GRUMPHP_BIN_DIR: "/var/www/html/vendor/bin"
+      #      GRUMPHP_BIN_DIR: "/var/www/html/vendor/bin"
+      GRUMPHP_BIN_DIR: "./../../../../vendor/bin"
   tasks:
     #    phpcbf:
     #      standard: Magento2
