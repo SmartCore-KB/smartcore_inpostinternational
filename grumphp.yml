@@ -1,19 +1,18 @@
 grumphp:
   environment:
     variables:
-      #      GRUMPHP_BIN_DIR: "/var/www/html/vendor/bin"
       GRUMPHP_BIN_DIR: "../../../../vendor/bin"
       bin_dir: "../../../../vendor/bin"
   tasks:
-    #    phpcbf:
-    #      standard: Magento2
-    #      severity: ~
-    #      triggered_by: ['php']
     phpcs:
       standard: Magento2
       triggered_by: [ 'php', 'phtml' ]
     phpcsfixer2:
       config: "../../../../.php-cs-fixer.dist.php"
+      allow_risky: true
+      diff: true
+      using_cache: false
+      triggered_by: [ 'php', 'phtml' ]
     phplint:
       triggered_by: [ 'php' ]
     phpmd:
