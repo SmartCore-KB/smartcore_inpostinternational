@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model\Carrier;
 
-use Magento\Framework\DataObject;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Quote\Model\Quote\Address\RateResult\Method;
 use Magento\Quote\Model\Quote\Address\RateResult\MethodFactory;
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
+use Magento\Shipping\Model\Rate\Result;
 use Magento\Shipping\Model\Rate\ResultFactory;
 
 class InpostCourier extends AbstractCarrier implements CarrierInterface
@@ -37,9 +37,9 @@ class InpostCourier extends AbstractCarrier implements CarrierInterface
     /**
      * Get allowed shipping methods
      *
-     * @inheritdoc
+     * @return array<string>
      */
-    public function getAllowedMethods()
+    public function getAllowedMethods(): array
     {
         return [self::METHOD_CODE => $this->getConfigData('name')];
     }
@@ -48,15 +48,20 @@ class InpostCourier extends AbstractCarrier implements CarrierInterface
      * Collect and get rates
      *
      * @param RateRequest $request
-     * @return DataObject|bool|null
+     * @return Result|bool
      */
-    public function collectRates(RateRequest $request): DataObject|bool|null
+    public function collectRates(RateRequest $request): Result|bool
     {
+        if (!$this->getConfigFlag('active')) {
+            return false;
+        }
+
+        $result = $this->_rateResultFactory->create();
 
         /** @var Method $method */
         $method = $this->_rateMethodFactory->create();
 
-        $method->setCarrier('freeshipping');
+        $method->setCarrier('freeshipping' . $request->getId());
         $method->setCarrierTitle($this->getConfigData('title'));
 
         $method->setMethod('freeshipping');
@@ -65,7 +70,7 @@ class InpostCourier extends AbstractCarrier implements CarrierInterface
         $method->setPrice('0.00');
         $method->setCost('0.00');
 
-        $result->append($method); //
+        $result->append($method);
 
         return $result;
     }
