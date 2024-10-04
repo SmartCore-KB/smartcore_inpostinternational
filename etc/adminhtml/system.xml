@@ -76,12 +76,12 @@
                     <field id="default_way_sending" translate="label" type="select" sortOrder="90" showInDefault="1"
                            showInWebsite="1">
                         <label>Default way of sending</label>
-                        <source_model>DefaultWaySendingCourierStandard</source_model>
+                        <!--                        <source_model>DefaultWaySendingCourierStandard</source_model>-->
                     </field>
                     <field id="default_sending_point" translate="comment" sortOrder="100" showInDefault="1"
                            showInWebsite="1" showInStore="0">
                         <label>Default sending point</label>
-                        <frontend_model>DefaultSendingPointCourierStandard</frontend_model>
+                        <!--                        <frontend_model>DefaultSendingPointCourierStandard</frontend_model>-->
                     </field>
                     <field id="sallowspecific" translate="label" type="select" sortOrder="110" showInDefault="1"
                            showInWebsite="1" showInStore="0">
@@ -96,6 +96,28 @@
                         <can_be_empty>1</can_be_empty>
                     </field>
                 </group>
+            </group>
+        </section>
+
+        <section id="shipping">
+            <group id="inpostinternational" translate="label" type="text" showInDefault="1" showInWebsite="1"
+                   sortOrder="998">
+                <label>InPost International</label>
+                <field id="client_id" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Client ID</label>
+                </field>
+                <field id="client_secret" translate="label" type="obscure" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Client secret</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="auth_request" translate="label" type="button" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <frontend_model>Smartcore\InPostInternational\Block\Adminhtml\System\Config\AuthRequestButton
+                    </frontend_model>
+                    <comment>Client ID and Client Secret needs to be saved before request authorization</comment>
+                </field>
             </group>
         </section>
     </system>

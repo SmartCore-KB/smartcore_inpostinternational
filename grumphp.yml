@@ -8,7 +8,7 @@ grumphp:
       standard: Magento2
       triggered_by: [ 'php', 'phtml' ]
     phpcsfixer2:
-      config: "../../../../.php-cs-fixer.dist.php"
+      config: "../../../../.php-cs-fixer.php"
       allow_risky: true
       diff: true
       using_cache: false
