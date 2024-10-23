@@ -4,25 +4,24 @@ declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model\Config;
 
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Store\Model\StoreManagerInterface;
 use Smartcore\InPostInternational\Helper\PkceHelper;
+use Smartcore\InPostInternational\Model\Api\WellKnownService;
 use Smartcore\InPostInternational\Model\ConfigProvider;
 
-class Authorization
+class RequestAuthorization
 {
 
     /**
      * Authorization constructor.
      *
      * @param ConfigProvider $configProvider
-     * @param StoreManagerInterface $storeManager
      * @param PkceHelper $pkceHelper
+     * @param WellKnownService $wellKnownService
      */
     public function __construct(
-        private readonly ConfigProvider        $configProvider,
-        private readonly StoreManagerInterface $storeManager,
-        private readonly PkceHelper            $pkceHelper
+        private ConfigProvider $configProvider,
+        private PkceHelper     $pkceHelper,
+        private WellKnownService     $wellKnownService
     ) {
     }
 
@@ -30,9 +29,8 @@ class Authorization
      * Get authorization url
      *
      * @return string
-     * @throws NoSuchEntityException
      */
-    public function getAuthorizationUrl(): string
+    public function getRequestAuthorizationUrl(): string
     {
         $clientId = $this->configProvider->getClientId();
         $codeVerifier = $this->pkceHelper->generateCodeVerifier();
@@ -40,7 +38,7 @@ class Authorization
 
         $queryParams = [
             'client_id' => $clientId,
-            'redirect_uri' => $this->storeManager->getStore()->getBaseUrl() . 'inpostinternational/oauth/callback',
+            'redirect_uri' => $this->configProvider->getCallbackRedirectUri(),
             'response_type' => 'code',
             'scope' => 'api:shipments:write api:tracking:read api:one-time-pickups:write api:points:read'
                 . ' offline_access',
@@ -48,8 +46,6 @@ class Authorization
             'code_challenge_method' => 'S256'
         ];
 
-        // @TODO move to config model
-        return 'https://sandbox-login.inpost-group.com/realm/external/protocol/openid-connect/auth?'
-            . http_build_query($queryParams);
+        return $this->wellKnownService->getAuthorizationEndpoint() . '?' . http_build_query($queryParams);
     }
 }

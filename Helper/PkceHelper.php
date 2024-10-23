@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Helper;
 
-use Magento\Config\Model\ResourceModel\Config;
-use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\App\Cache\Manager;
+use Magento\Framework\App\Cache\Type\Config;
 use Smartcore\InPostInternational\Model\ConfigProvider;
 
 class PkceHelper
@@ -14,12 +14,12 @@ class PkceHelper
     /**
      * PkceHelper constructor.
      *
-     * @param Config $_resourceConfig
      * @param ConfigProvider $configProvider
+     * @param Manager $cacheManager
      */
     public function __construct(
-        protected Config       $_resourceConfig,
-        private ConfigProvider $configProvider
+        private readonly ConfigProvider $configProvider,
+        private readonly Manager $cacheManager
     ) {
     }
 
@@ -32,11 +32,8 @@ class PkceHelper
     {
         $random = bin2hex(openssl_random_pseudo_bytes(32));
         $result = rtrim(strtr(base64_encode($random), '+/', '-_'), '=');
-        $this->_resourceConfig->saveConfig(
-            $this->configProvider::SHIPPING_CONFIG_PATH . 'code_verifier',
-            $result,
-            ScopeInterface::SCOPE_STORE
-        );
+        $this->configProvider->saveCodeVerifier($result);
+        $this->cacheManager->clean([Config::TYPE_IDENTIFIER]);
 
         return $result;
     }
