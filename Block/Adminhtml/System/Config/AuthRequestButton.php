@@ -62,7 +62,7 @@ class AuthRequestButton extends Field
      */
     public function getButtonUrl(): string
     {
-        return $this->urlBuilder->getUrl('smartcore_inpostinternational/system_config/authorization');
+        return $this->urlBuilder->getUrl('inpostinternational/system_config/requestauthorization');
     }
 
     /**

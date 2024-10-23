@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <shipping>
+            <inpostinternational>
+                <mode>sandbox</mode>
+                <well_known_prod>https://login.inpost-group.com/realms/external/.well-known/openid-configuration</well_known_prod>
+                <well_known_sandbox>https://sandbox-login.inpost-group.com/realms/external/.well-known/openid-configuration</well_known_sandbox>
+            </inpostinternational>
+        </shipping>
+    </default>
+</config>
