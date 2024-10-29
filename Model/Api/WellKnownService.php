@@ -10,7 +10,7 @@ class WellKnownService
     /**
      * @var array|null
      */
-    private ?array $configuration;
+    private ?array $configuration = null;
 
     /**
      * WellKnownService constructor.
@@ -59,16 +59,6 @@ class WellKnownService
     public function getJwksUri(): ?string
     {
         return $this->getConfiguration()['jwks_uri'] ?? null;
-    }
-
-    /**
-     * Get token endpoint
-     *
-     * @return string|null
-     */
-    public function getTokenEndpoint(): ?string
-    {
-        return $this->getConfiguration()['token_endpoint'] ?? null;
     }
 
     /**

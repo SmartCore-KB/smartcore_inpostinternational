@@ -19,9 +19,9 @@ class RequestAuthorization
      * @param WellKnownService $wellKnownService
      */
     public function __construct(
-        private ConfigProvider $configProvider,
-        private PkceHelper     $pkceHelper,
-        private WellKnownService     $wellKnownService
+        private readonly ConfigProvider $configProvider,
+        private readonly PkceHelper     $pkceHelper,
+        private readonly WellKnownService $wellKnownService
     ) {
     }
 

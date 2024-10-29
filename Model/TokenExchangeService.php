@@ -23,10 +23,10 @@ class TokenExchangeService
      * @param Config $_resourceConfig
      */
     public function __construct(
-        private ConfigProvider $configProvider,
-        private Curl           $curl,
-        private readonly JwtService $jwtService,
-        protected Config                      $_resourceConfig,
+        private readonly ConfigProvider $configProvider,
+        private readonly Curl           $curl,
+        private readonly JwtService     $jwtService,
+        protected Config                $_resourceConfig,
     ) {
     }
 
@@ -61,17 +61,16 @@ class TokenExchangeService
     public function validateAndSaveTokens(mixed $tokenResponse): bool
     {
         try {
-            $accessToken = $tokenResponse['access_token'];
-            $refreshToken = $tokenResponse['refresh_token'];
+            $accessToken = $tokenResponse['access_token'] ?: null;
+            $refreshToken = $tokenResponse['refresh_token'] ?: null;
             $decodedAccessToken = $this->jwtService->validateAccessToken($accessToken);
-            $this->jwtService->validateRefreshToken($refreshToken);
         } catch (Exception $e) {
             throw new InvalidTokenException(sprintf('Invalid tokens. %s', $e->getMessage()));
         }
 
         try {
             $this->configProvider->saveAccessToken($accessToken);
-            $this->configProvider->saveAccessTokenExpiresAt($decodedAccessToken['exp']);
+            $this->configProvider->saveAccessTokenExpiresAt($decodedAccessToken->exp);
             $this->configProvider->saveRefreshToken($refreshToken);
         } catch (Exception $e) {
             throw new TokenSaveException(sprintf('Failed to save tokens: %s', $e->getMessage()));
