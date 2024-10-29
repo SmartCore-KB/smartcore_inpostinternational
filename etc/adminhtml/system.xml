@@ -140,7 +140,7 @@
                 <field id="auth_request" translate="label" type="button" sortOrder="30" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <frontend_model>Smartcore\InPostInternational\Block\Adminhtml\System\Config\AuthRequestButton</frontend_model>
-                    <comment>Client ID and Client Secret needs to be saved before request authorization. Authorization needs to be refreshed after mode change.</comment>
+                    <comment>Client ID and Client Secret needs to be saved before You will request authorization. Authorization needs to be refreshed after mode change.</comment>
                 </field>
                 <field id="well_known_production" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0"
                        showInStore="0">

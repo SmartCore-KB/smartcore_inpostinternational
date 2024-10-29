@@ -3,11 +3,14 @@
 namespace Smartcore\InPostInternational\Model\Api\Validators;
 
 use Exception;
+use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-use InvalidArgumentException;
 use Smartcore\InPostInternational\Exception\AccessTokenValidationException;
-use Smartcore\InPostInternational\Exception\RefreshTokenValidationException;
+use Smartcore\InPostInternational\Exception\InvalidAuthorizedPartyException;
+use Smartcore\InPostInternational\Exception\InvalidIssuerException;
+use Smartcore\InPostInternational\Exception\MissingRequiredClaimsException;
+use Smartcore\InPostInternational\Model\Api\JwksService;
+use Smartcore\InPostInternational\Model\Api\WellKnownService;
 use stdClass;
 
 class TokenValidator
@@ -18,10 +21,16 @@ class TokenValidator
      *
      * @param ClaimsValidator $claimsValidator
      * @param JWT $jwt
+     * @param JWK $jwk
+     * @param WellKnownService $wellKnownService
+     * @param JwksService $jwksService
      */
     public function __construct(
         private readonly ClaimsValidator $claimsValidator,
-        private readonly JWT $jwt
+        private readonly JWT $jwt,
+        private readonly JWK $jwk,
+        private readonly WellKnownService $wellKnownService,
+        private readonly JwksService $jwksService,
     ) {
     }
 
@@ -35,66 +44,46 @@ class TokenValidator
     public function validateAccessToken(string $token): stdClass
     {
         try {
-            $header = $this->decodeHeader($token);
-            $decoded = $this->jwt->decode($token, new Key($header['kid'], 'RS256'));
+            $decodedJWT = $this->validateJwt($token);
 
-            $this->claimsValidator->validateCommonClaims($decoded);
-
-            if ($decoded->typ !== 'Bearer') {
+            if ($decodedJWT->typ !== 'Bearer') {
                 throw new AccessTokenValidationException('Invalid token type');
             }
 
-            return $decoded;
+            return $decodedJWT;
         } catch (Exception $e) {
             throw new AccessTokenValidationException('Access token validation failed: ' . $e->getMessage());
         }
     }
 
     /**
-     * Validate refresh token
+     * Validate JWT
      *
      * @param string $token
      * @return stdClass
-     * @throws RefreshTokenValidationException
+     * @throws InvalidAuthorizedPartyException
+     * @throws InvalidIssuerException
+     * @throws MissingRequiredClaimsException
      */
-    public function validateRefreshToken(string $token): stdClass
+    private function validateJwt(string $token): stdClass
     {
-        try {
-            $header = $this->decodeHeader($token);
-            $decoded = $this->jwt->decode($token, new Key($header['kid'], 'HS512'));
+        $jwks = $this->getJwks();
+        $keySet = $this->jwk->parseKeySet($jwks);
+        $decodedJWT = $this->jwt->decode($token, $keySet);
+        $this->claimsValidator->validateCommonClaims($decodedJWT);
 
-            $this->claimsValidator->validateCommonClaims($decoded);
-
-            if ($decoded->typ !== 'Offline') {
-                throw new RefreshTokenValidationException('Invalid token type');
-            }
-
-            if ($decoded->aud !== ClaimsValidator::ISS) {
-                throw new RefreshTokenValidationException('Invalid audience');
-            }
-
-            return $decoded;
-        } catch (Exception $e) {
-            throw new RefreshTokenValidationException('Refresh token validation failed: ' . $e->getMessage());
-        }
+        return $decodedJWT;
     }
 
     /**
-     * Decode JWT header
+     * Get JSON Web Key Set
      *
-     * @param string $token
      * @return array
      */
-    private function decodeHeader(string $token): array
+    private function getJwks(): array
     {
-        $segments = explode('.', $token);
-        if (count($segments) !== 3) {
-            throw new InvalidArgumentException('Invalid token format');
-        }
+        $jwksUri = $this->wellKnownService->getJwksUri();
 
-        $header = $segments[0];
-        $decodedHeader = $this->jwt->jsonDecode($this->jwt->urlsafeB64Decode($header));
-
-        return (array) $decodedHeader;
+        return $this->jwksService->getJwks($jwksUri);
     }
 }

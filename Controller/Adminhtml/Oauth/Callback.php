@@ -72,9 +72,9 @@ class Callback extends Action
         }
         $tokenResponse = $this->tokenExchangeService->exchangeCodeForToken($code);
 
-        if (!isset($tokenResponse['error'])) {
+        if (isset($tokenResponse['error'])) {
             $this->messageManager->addErrorMessage(
-                __('Failed to authorize because of error: %1', $tokenResponse['error_description'])->render()
+                __('Failed to authorize because of error: %1', $tokenResponse['error_description'] ?? '')->render()
             );
         }
 

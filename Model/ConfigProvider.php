@@ -15,8 +15,6 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class ConfigProvider
 {
-    //    private const string API_URL_SANDBOX = 'https://sandbox-api.inpost-group.com';
-    //    private const string API_URL_PROD = 'https://api.inpost-group.com';
     private const string AUTHORIZATION_ENDPOINT = 'https://api-sandbox-pl.inpost.pl/oauth/authorize';
     private const string TOKEN_ENDPOINT = 'https://sandbox-api.inpost-group.com/auth/token';
     public const string SHIPPING_CONFIG_PATH = 'shipping/inpostinternational/';
