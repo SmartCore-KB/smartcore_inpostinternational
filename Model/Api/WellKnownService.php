@@ -80,4 +80,14 @@ class WellKnownService
     {
         return $this->getConfiguration()['authorization_endpoint'] ?? null;
     }
+
+    /**
+     * Get token endpoint
+     *
+     * @return string|null
+     */
+    public function getTokenEndpoint(): ?string
+    {
+        return $this->getConfiguration()['token_endpoint'] ?? null;
+    }
 }
