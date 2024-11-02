@@ -7,7 +7,9 @@ namespace Smartcore\InPostInternational\Model;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Config\Model\ResourceModel\Config;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\FlagManager;
 use Magento\Store\Model\ScopeInterface;
@@ -15,13 +17,11 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class ConfigProvider
 {
-    private const string AUTHORIZATION_ENDPOINT = 'https://api-sandbox-pl.inpost.pl/oauth/authorize';
-    private const string TOKEN_ENDPOINT = 'https://sandbox-api.inpost-group.com/auth/token';
     public const string SHIPPING_CONFIG_PATH = 'shipping/inpostinternational/';
-    /**
-     * @var string
-     */
-    private string $scopeCode;
+    private const string ACCESS_TOKEN_EXPIRES_AT = 'access_token_expires_at';
+    private const string ACCESS_TOKEN = 'access_token';
+    private const string REFRESH_TOKEN = 'refresh_token';
+    private const string CODE_VERIFIER = 'code_verifier';
 
     /**
      * ConfigProvider constructor.
@@ -32,60 +32,55 @@ class ConfigProvider
      * @param Config $_resourceConfig
      * @param StoreManagerInterface $storeManager
      * @param FlagManager $flagManager
+     * @param RequestInterface $request
      * @throws NoSuchEntityException
      */
     public function __construct(
-        private readonly ScopeConfigInterface $scopeConfig,
-        private readonly UrlInterface         $adminUrl,
-        private readonly EncryptorInterface   $encryptor,
-        private readonly Config               $_resourceConfig,
-        private readonly StoreManagerInterface $storeManager,
-        private readonly FlagManager $flagManager
+        private readonly ScopeConfigInterface   $scopeConfig,
+        private readonly UrlInterface           $adminUrl,
+        private readonly EncryptorInterface     $encryptor,
+        private readonly Config                 $_resourceConfig,
+        private readonly StoreManagerInterface  $storeManager,
+        private readonly FlagManager            $flagManager,
+        private readonly RequestInterface       $request
     ) {
-        $this->scopeCode = $this->storeManager->getStore()->getCode();
     }
 
     /**
      * Get mode
      *
      * @return string
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getMode(): string
     {
-        return $this->scopeConfig->getValue(
-            self::SHIPPING_CONFIG_PATH . 'mode',
-            ScopeInterface::SCOPE_STORE,
-            $this->scopeCode
-        );
+        return $this->doGetShippingConfig('mode');
     }
 
     /**
      * Get client id
      *
      * @return string
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getClientId(): string
     {
-        return (string) $this->scopeConfig->getValue(
-            self::SHIPPING_CONFIG_PATH . 'client_id_' . $this->getMode(),
-            ScopeInterface::SCOPE_STORE,
-            $this->scopeCode
-        );
+        return $this->doGetShippingConfig('client_id_' . $this->getMode());
     }
 
     /**
      * Get client secret
      *
      * @return string
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getClientSecret(): string
     {
         return $this->encryptor->decrypt(
-            $this->scopeConfig->getValue(
-                self::SHIPPING_CONFIG_PATH . 'client_secret_' . $this->getMode(),
-                ScopeInterface::SCOPE_STORE,
-                $this->scopeCode
-            )
+            $this->doGetShippingConfig('client_secret_' . $this->getMode())
         );
     }
 
@@ -93,30 +88,48 @@ class ConfigProvider
      * Get client secret
      *
      * @return string
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getWellKnownUrl(): string
     {
-        return (string) $this->scopeConfig->getValue(self::SHIPPING_CONFIG_PATH . 'well_known_' . $this->getMode());
+        return $this->doGetShippingConfig('well_known_' . $this->getMode());
     }
 
     /**
-     * Get authorization endpoint
+     * Get client secret
      *
-     * @return string
+     * @return string|null
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
-    public function getAuthorizationEndpoint(): string
+    public function getRawAccessToken(): ?string
     {
-        return self::AUTHORIZATION_ENDPOINT;
+        return $this->doGetShippingConfig(self::ACCESS_TOKEN);
     }
 
     /**
-     * Get token endpoint
+     * Get client secret
      *
-     * @return string
+     * @return string|null
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
-    public function getTokenEndpoint(): string
+    public function getAccessTokenExpiresAt(): ?string
     {
-        return self::TOKEN_ENDPOINT;
+        return $this->doGetShippingConfig(self::ACCESS_TOKEN_EXPIRES_AT);
+    }
+
+    /**
+     * Get client secret
+     *
+     * @return string|null
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    public function getRawRefreshToken(): ?string
+    {
+        return $this->doGetShippingConfig(self::REFRESH_TOKEN);
     }
 
     /**
@@ -126,7 +139,7 @@ class ConfigProvider
      */
     public function getCodeVerifier(): string
     {
-        return $this->flagManager->getFlagData('code_verifier');
+        return $this->flagManager->getFlagData(self::CODE_VERIFIER);
     }
 
     /**
@@ -149,7 +162,7 @@ class ConfigProvider
     {
         // Flag manager is used because code verifier is needed in the callback action
         // while it is hard to read it from config in this case
-        $this->flagManager->saveFlag('code_verifier', $codeVerifier);
+        $this->flagManager->saveFlag(self::CODE_VERIFIER, $codeVerifier);
     }
 
     /**
@@ -157,10 +170,12 @@ class ConfigProvider
      *
      * @param mixed $accessToken
      * @return void
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function saveAccessToken(mixed $accessToken): void
     {
-        $this->saveShippingConfig('access_token', $accessToken);
+        $this->saveShippingConfig(self::ACCESS_TOKEN, $accessToken);
     }
 
     /**
@@ -168,10 +183,12 @@ class ConfigProvider
      *
      * @param int $exp
      * @return void
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function saveAccessTokenExpiresAt(int $exp): void
     {
-        $this->saveShippingConfig('access_token_expires_at', $exp);
+        $this->saveShippingConfig(self::ACCESS_TOKEN_EXPIRES_AT, $exp);
     }
 
     /**
@@ -179,10 +196,30 @@ class ConfigProvider
      *
      * @param mixed $refreshToken
      * @return void
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function saveRefreshToken(mixed $refreshToken): void
     {
-        $this->saveShippingConfig('refresh_token', $refreshToken);
+        $this->saveShippingConfig(self::REFRESH_TOKEN, $refreshToken);
+    }
+
+    /**
+     * Get config
+     *
+     * @param string $path
+     * @return mixed
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    private function doGetShippingConfig(string $path): mixed
+    {
+        list($scope, $scopeId) = $this->getCurrentScope();
+        return $this->scopeConfig->getValue(
+            self::SHIPPING_CONFIG_PATH . $path,
+            $scope,
+            $scopeId
+        );
     }
 
     /**
@@ -191,13 +228,44 @@ class ConfigProvider
      * @param string $path
      * @param mixed $value
      * @return void
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     private function saveShippingConfig(string $path, mixed $value): void
     {
+        list($scope, $scopeId) = $this->getCurrentScope();
         $this->_resourceConfig->saveConfig(
             self::SHIPPING_CONFIG_PATH . $path,
             $value,
-            ScopeInterface::SCOPE_STORE
+            $scope,
+            $scopeId
         );
+    }
+
+    /**
+     * Get current scope and scope id
+     *
+     * @return array
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
+     */
+    protected function getCurrentScope(): array
+    {
+        $storeCode   = $this->request->getParam('store');
+        $websiteCode = $this->request->getParam('website');
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT;
+        $scopeId = 0;
+
+        if ($storeCode) {
+            $store   = $this->storeManager->getStore($storeCode);
+            $scope   = ScopeInterface::SCOPE_STORE;
+            $scopeId = $store->getId();
+        } elseif ($websiteCode) {
+            $website = $this->storeManager->getWebsite($websiteCode);
+            $scope   = ScopeInterface::SCOPE_WEBSITE;
+            $scopeId = $website->getId();
+        }
+
+        return [$scope, $scopeId];
     }
 }

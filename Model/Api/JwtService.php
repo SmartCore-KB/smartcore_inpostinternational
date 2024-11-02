@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Model\Api;
 
-use Smartcore\InPostInternational\Exception\AccessTokenValidationException;
-use Smartcore\InPostInternational\Model\Api\Validators\TokenValidator;
+use Firebase\JWT\JWK;
+use Firebase\JWT\JWT;
 use stdClass;
 
 class JwtService
@@ -11,22 +13,35 @@ class JwtService
     /**
      * JwtService constructor.
      *
-     * @param TokenValidator $tokenValidator
+     * @param JWT $jwt
+     * @param JWK $jwk
      */
     public function __construct(
-        private readonly TokenValidator $tokenValidator
+        private readonly JWT $jwt,
+        private readonly JWK $jwk
     ) {
     }
 
     /**
-     * Validate access token
+     * Decode token
      *
      * @param string $token
+     * @param array $keySet
      * @return stdClass
-     * @throws AccessTokenValidationException
      */
-    public function validateAccessToken(string $token): stdClass
+    public function decode(string $token, array $keySet): stdClass
     {
-        return $this->tokenValidator->validateAccessToken($token);
+        return $this->jwt->decode($token, $keySet);
+    }
+
+    /**
+     * Parse key set
+     *
+     * @param array $jwks
+     * @return array
+     */
+    public function parseKeySet(array $jwks): array
+    {
+        return $this->jwk->parseKeySet($jwks);
     }
 }

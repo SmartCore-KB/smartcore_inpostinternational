@@ -42,7 +42,7 @@ class AuthRequestButton extends Field
      * @return string
      * @throws LocalizedException
      */
-    public function getButtonHtml()
+    public function getButtonHtml(): string
     {
         $buttonData = [
             'id' => 'auth_request',
