@@ -8,5 +8,17 @@
                 <well_known_sandbox>https://sandbox-login.inpost-group.com/realms/external/.well-known/openid-configuration</well_known_sandbox>
             </inpostinternational>
         </shipping>
+        <carriers>
+            <inpostinternationalcourier>
+                <model>Smartcore\InPostInternational\Model\Carrier\InpostCourier</model>
+                <active>0</active>
+                <title>InPost International</title>
+                <name>Courier</name>
+                <position>1</position>
+                <max_cart_weight>25</max_cart_weight>
+                <sallowspecific>1</sallowspecific>
+                <specificcountry>BE,ES,FR,IT,LU,NL,PT</specificcountry>
+            </inpostinternationalcourier>
+        </carriers>
     </default>
 </config>

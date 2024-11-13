@@ -7,11 +7,18 @@ namespace Smartcore\InPostInternational\Api\Data;
 interface ShipmentInterface
 {
     /**
+     * Shipment entity ID
+     *
+     * @var string
+     */
+    public const ENTITY_ID = 'entity_id';
+
+    /**
      * Get shipment id
      *
      * @return string
      */
-    public function getShipmentId();
+    public function getShipmentId(): string;
 
     /**
      * Set shipment id
@@ -19,14 +26,14 @@ interface ShipmentInterface
      * @param string $shipmentId
      * @return $this
      */
-    public function setShipmentId($shipmentId);
+    public function setShipmentId(string $shipmentId): self;
 
     /**
      * Get sender address
      *
      * @return AddressInterface
      */
-    public function getSenderAddress();
+    public function getSenderAddress(): AddressInterface;
 
     /**
      * Set sender address
@@ -34,14 +41,14 @@ interface ShipmentInterface
      * @param AddressInterface $senderAddress
      * @return $this
      */
-    public function setSenderAddress($senderAddress);
+    public function setSenderAddress(AddressInterface $senderAddress): self;
 
     /**
      * Get recipient address
      *
      * @return AddressInterface
      */
-    public function getRecipientAddress();
+    public function getRecipientAddress(): AddressInterface;
 
     /**
      * Set recipient address
@@ -49,14 +56,14 @@ interface ShipmentInterface
      * @param AddressInterface $recipientAddress
      * @return $this
      */
-    public function setRecipientAddress($recipientAddress);
+    public function setRecipientAddress(AddressInterface $recipientAddress): self;
 
     /**
      * Get parcels
      *
      * @return ParcelInterface[]
      */
-    public function getParcels();
+    public function getParcels(): array;
 
     /**
      * Set parcels
@@ -64,27 +71,28 @@ interface ShipmentInterface
      * @param ParcelInterface[] $parcels
      * @return $this
      */
-    public function setParcels(array $parcels);
+    public function setParcels(array $parcels): self;
 
     /**
-     * Get service
+     * Get service type
      *
      * @return string
      */
-    public function getService();
+    public function getService(): string;
 
     /**
-     * Set service
+     * Set service type
      *
      * @param string $service
      * @return $this
      */
-    public function setService($service);
+    public function setService(string $service): self;
 
     /**
      * Get customs declaration
      *
      * @TODO Check if this is correct
+     * @return mixed
      */
     public function getCustomsDeclaration();
 
@@ -95,14 +103,14 @@ interface ShipmentInterface
      * @param mixed $customsDeclaration
      * @return $this
      */
-    public function setCustomsDeclaration($customsDeclaration);
+    public function setCustomsDeclaration($customsDeclaration): self;
 
     /**
      * Get reference
      *
      * @return string|null
      */
-    public function getReference();
+    public function getReference(): ?string;
 
     /**
      * Set reference
@@ -110,29 +118,29 @@ interface ShipmentInterface
      * @param string|null $reference
      * @return $this
      */
-    public function setReference($reference);
+    public function setReference(?string $reference): self;
 
     /**
-     * Get is insured
+     * Get if shipment is insured
      *
      * @return bool
      */
-    public function isInsured();
+    public function isInsured(): bool;
 
     /**
-     * Set is insured
+     * Set if shipment is insured
      *
      * @param bool $isInsured
      * @return $this
      */
-    public function setIsInsured($isInsured);
+    public function setIsInsured(bool $isInsured): self;
 
     /**
      * Get insurance amount
      *
      * @return float|null
      */
-    public function getInsuranceAmount();
+    public function getInsuranceAmount(): ?float;
 
     /**
      * Set insurance amount
@@ -140,5 +148,5 @@ interface ShipmentInterface
      * @param float|null $insuranceAmount
      * @return $this
      */
-    public function setInsuranceAmount($insuranceAmount);
+    public function setInsuranceAmount(?float $insuranceAmount): self;
 }

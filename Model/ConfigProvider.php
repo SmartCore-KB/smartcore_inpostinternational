@@ -153,6 +153,28 @@ class ConfigProvider
     }
 
     /**
+     * Get weight attribute code
+     *
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
+     */
+    public function getWeightAttributeCode()
+    {
+        return $this->doGetShippingConfig('weight_attribute_code');
+    }
+
+    /**
+     * Get weight unit
+     *
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
+     */
+    public function getWeightUnit()
+    {
+        return $this->doGetShippingConfig('weight_unit');
+    }
+
+    /**
      * Save code verifier
      *
      * @param string $codeVerifier
