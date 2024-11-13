@@ -19,7 +19,7 @@ class Size extends AbstractSelect
         $shippingMethod = $data['shipping_method'];
 
         $this->size->setShippingMethod($shippingMethod);
-        $this->size->setIncludeProductAttribute(false);
+        $this->size->setInclProductAttr(false);
 
         if (isset($config['dataScope']) && $config['dataScope'] == 'size') {
             $config['options'] = $this->size->toOptionArray();
