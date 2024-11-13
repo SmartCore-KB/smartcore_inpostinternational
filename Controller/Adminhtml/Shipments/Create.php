@@ -1,0 +1,44 @@
+<?php
+
+namespace Smartcore\InPostInternational\Controller\Adminhtml\Shipments;
+
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Page;
+use Magento\Framework\View\Result\PageFactory;
+
+class Create extends Action
+{
+    /**
+     * @var PageFactory
+     */
+    protected PageFactory $resultPageFactory;
+
+    /**
+     * Constructor
+     *
+     * @param Context $context
+     * @param PageFactory $resultPageFactory
+     */
+    public function __construct(
+        Context $context,
+        PageFactory $resultPageFactory
+    ) {
+        parent::__construct($context);
+        $this->resultPageFactory = $resultPageFactory;
+    }
+
+    /**
+     * Create new InPost International Shipment form
+     *
+     * @return Page
+     */
+    public function execute(): Page
+    {
+        /** @var Page $resultPage */
+        $resultPage = $this->resultPageFactory->create();
+        $resultPage->getConfig()->getTitle()->set(__('New InPost International Shipment'));
+
+        return $resultPage;
+    }
+}

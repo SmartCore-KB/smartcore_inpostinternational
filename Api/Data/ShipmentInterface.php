@@ -14,6 +14,34 @@ interface ShipmentInterface
     public const ENTITY_ID = 'entity_id';
 
     /**
+     * Shipment status
+     *
+     * @var string
+     */
+    public const STATUS = 'status';
+
+    /**
+     * Shipment service type
+     *
+     * @var string
+     */
+    public const SERVICE = 'service';
+
+    /**
+     * Shipment attributes (e.g., size, type)
+     *
+     * @var string
+     */
+    public const SHIPMENT_ATTRIBUTES = 'shipment_attributes';
+
+    /**
+     * Target point for the shipment (e.g., delivery point)
+     *
+     * @var string
+     */
+    public const TARGET_POINT = 'target_point';
+
+    /**
      * Get shipment id
      *
      * @return string
