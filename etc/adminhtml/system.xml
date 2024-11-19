@@ -73,7 +73,7 @@
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="120" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <label>Ship to Specific Countries</label>
-                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <source_model>Smartcore\InPostInternational\Model\Config\Source\Country</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
             </group>

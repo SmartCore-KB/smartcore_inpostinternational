@@ -18,6 +18,7 @@ use Magento\Store\Model\StoreManagerInterface;
 class ConfigProvider
 {
     public const string SHIPPING_CONFIG_PATH = 'shipping/inpostinternational/';
+    public const string CARRIERS_CONFIG_PATH = 'carriers/inpostinternationalcourier/';
     private const string ACCESS_TOKEN_EXPIRES_AT = 'access_token_expires_at';
     private const string ACCESS_TOKEN = 'access_token';
     private const string REFRESH_TOKEN = 'refresh_token';
@@ -175,6 +176,17 @@ class ConfigProvider
     }
 
     /**
+     * Get configured shipping countries
+     *
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
+     */
+    public function getShippingCountries()
+    {
+        return $this->doGetCarriersConfig('specificcountry');
+    }
+
+    /**
      * Save code verifier
      *
      * @param string $codeVerifier
@@ -239,6 +251,24 @@ class ConfigProvider
         list($scope, $scopeId) = $this->getCurrentScope();
         return $this->scopeConfig->getValue(
             self::SHIPPING_CONFIG_PATH . $path,
+            $scope,
+            $scopeId
+        );
+    }
+
+    /**
+     * Get carriers config
+     *
+     * @param string $path
+     * @return mixed
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    private function doGetCarriersConfig(string $path): mixed
+    {
+        list($scope, $scopeId) = $this->getCurrentScope();
+        return $this->scopeConfig->getValue(
+            self::CARRIERS_CONFIG_PATH . $path,
             $scope,
             $scopeId
         );

@@ -30,10 +30,10 @@ class ShippingMethods implements OptionSourceInterface
      */
     public function toOptionArray(bool $isActiveOnlyFlag = false, bool $onlyMethodTitle = false): array
     {
-        $methods = [['value' => '', 'label' => '']];
+        $methods = [];
         $carriers = $this->shippingConfig->getAllCarriers();
         foreach ($carriers as $carrierCode => $carrierModel) {
-            if ((!$carrierModel->isActive() && (bool)$isActiveOnlyFlag === true)
+            if ((!$carrierModel->isActive() && $isActiveOnlyFlag === true)
                 || !in_array($carrierCode, self::INPOST_CARRIER_CODES)
             ) {
                 continue;
