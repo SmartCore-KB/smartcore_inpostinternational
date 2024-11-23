@@ -205,4 +205,46 @@ class ParcelTemplate extends AbstractModel implements ParcelTemplateInterface
     {
         return $this->setData(self::BARCODE, $barcode);
     }
+
+    /**
+     * Get dimension unit
+     *
+     * @return string|null
+     */
+    public function getDimensionUnit(): ?string
+    {
+        return 'cm';
+    }
+
+    /**
+     * Set dimension unit
+     *
+     * @param string|null $dimensionUnit
+     * @return $this
+     */
+    public function setDimensionUnit(?string $dimensionUnit): static
+    {
+        return $this->setData(self::DIMENSION_UNIT, $dimensionUnit);
+    }
+
+    /**
+     * Get weight unit
+     *
+     * @return string|null
+     */
+    public function getWeightUnit(): ?string
+    {
+        return 'kg';
+    }
+
+    /**
+     * Set weight unit
+     *
+     * @param string|null $weightUnit
+     * @return $this
+     */
+    public function setWeightUnit(?string $weightUnit): static
+    {
+        return $this->setData(self::WEIGHT_UNIT, $weightUnit);
+    }
 }

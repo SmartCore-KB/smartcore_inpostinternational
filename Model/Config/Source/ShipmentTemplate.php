@@ -6,6 +6,7 @@ namespace Smartcore\InPostInternational\Model\Config\Source;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Shipping\Model\Config;
+use Smartcore\InPostInternational\Api\ParcelTemplateRepositoryInterface;
 
 class ShipmentTemplate implements OptionSourceInterface
 {
@@ -14,10 +15,12 @@ class ShipmentTemplate implements OptionSourceInterface
      *
      * @param ScopeConfigInterface $scopeConfig
      * @param Config $shippingConfig
+     * @param ParcelTemplateRepositoryInterface $parcelTmplRepository
      */
     public function __construct(
         protected ScopeConfigInterface $scopeConfig,
-        protected Config $shippingConfig
+        protected Config $shippingConfig,
+        protected ParcelTemplateRepositoryInterface $parcelTmplRepository
     ) {
     }
 
@@ -27,14 +30,34 @@ class ShipmentTemplate implements OptionSourceInterface
     public function toOptionArray(): array
     {
         $methods = [];
-        $methods[] = [
-            'value' => 1,
-            'label' => 'Template 1cm x 16cm x 24cm (1kg)',
-        ];
-        $methods[] = [
-            'value' => 2,
-            'label' => 'Template 1cm x 16cm x 24cm (2kg)',
-        ];
+        $templates = $this->parcelTmplRepository->getList();
+        $defaultSet = false;
+
+        foreach ($templates as $template) {
+            $sizeUnit = $template->getDimensionUnit();
+            $option = [
+                'value' => $template->getId(),
+                'label' => sprintf(
+                    '%s (%d%s x %d%s x %d%s, %d%s)',
+                    $template->getLabel(),
+                    $template->getLength(),
+                    $sizeUnit,
+                    $template->getWidth(),
+                    $sizeUnit,
+                    $template->getHeight(),
+                    $sizeUnit,
+                    $template->getWeight(),
+                    $template->getWeightUnit()
+                ),
+            ];
+
+            if (!$defaultSet && $template->isDefault()) {
+                $option['selected'] = 'selected';
+                $defaultSet = true;
+            }
+
+            $methods[] = $option;
+        }
 
         return $methods;
     }

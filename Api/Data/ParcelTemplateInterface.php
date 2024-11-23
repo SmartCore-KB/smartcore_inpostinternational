@@ -15,6 +15,8 @@ interface ParcelTemplateInterface
     public const string WEIGHT = 'weight';
     public const string COMMENT = 'comment';
     public const string BARCODE = 'barcode';
+    public const string DIMENSION_UNIT = 'dimension_unit';
+    public const string WEIGHT_UNIT = 'weight_unit';
 
     /**
      * Get entity id
@@ -150,4 +152,34 @@ interface ParcelTemplateInterface
      * @return $this
      */
     public function setBarcode(?string $barcode): static;
+
+    /**
+     * Get dimension unit
+     *
+     * @return string|null
+     */
+    public function getDimensionUnit(): ?string;
+
+    /**
+     * Set dimension unit
+     *
+     * @param string|null $dimensionUnit
+     * @return $this
+     */
+    public function setDimensionUnit(?string $dimensionUnit): static;
+
+    /**
+     * Get weight unit
+     *
+     * @return string|null
+     */
+    public function getWeightUnit(): ?string;
+
+    /**
+     * Set weight unit
+     *
+     * @param string|null $weightUnit
+     * @return $this
+     */
+    public function setWeightUnit(?string $weightUnit): static;
 }

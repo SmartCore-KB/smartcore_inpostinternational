@@ -11,6 +11,7 @@ use Magento\Framework\Model\AbstractModel;
 use Smartcore\InPostInternational\Api\Data\ParcelTemplateInterface;
 use Smartcore\InPostInternational\Api\ParcelTemplateRepositoryInterface;
 use Smartcore\InPostInternational\Model\ResourceModel\ParcelTemplate as ResourceModel;
+use Smartcore\InPostInternational\Model\ResourceModel\ParcelTemplate\CollectionFactory;
 
 class ParcelTemplateRepository implements ParcelTemplateRepositoryInterface
 {
@@ -20,10 +21,12 @@ class ParcelTemplateRepository implements ParcelTemplateRepositoryInterface
      *
      * @param ResourceModel $resourceModel
      * @param ParcelTemplateFactory $parcelTmplFactory
+     * @param CollectionFactory $collectionFactory
      */
     public function __construct(
         private readonly ResourceModel $resourceModel,
-        private readonly ParcelTemplateFactory $parcelTmplFactory
+        private readonly ParcelTemplateFactory $parcelTmplFactory,
+        private CollectionFactory $collectionFactory,
     ) {
     }
 
@@ -65,5 +68,28 @@ class ParcelTemplateRepository implements ParcelTemplateRepositoryInterface
         $parcelTemplate = $this->parcelTmplFactory->create();
         $this->resourceModel->load($parcelTemplate, $modelId);
         return $parcelTemplate;
+    }
+
+    /**
+     * Get list of Parcel Templates
+     *
+     * @return array<mixed>
+     */
+    public function getList(): array
+    {
+        $collection = $this->collectionFactory->create();
+        return $collection->getItems();
+    }
+
+    /**
+     * Get default Parcel Template ID
+     *
+     * @return int|null
+     */
+    public function getDefaultId(): ?int
+    {
+        $collection = $this->collectionFactory->create();
+        $collection->addFieldToFilter('is_default', ['eq' => 1]);
+        return (int)$collection->getFirstItem()->getId();
     }
 }
