@@ -1,6 +1,6 @@
 <?php
 
-namespace Smartcore\InPostInternational\Block\Adminhtml\Shipment\Create\Buttons;
+namespace Smartcore\InPostInternational\Block\Adminhtml\Buttons;
 
 use Magento\Catalog\Block\Adminhtml\Product\Edit\Button\Generic;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
@@ -15,7 +15,7 @@ class Save extends Generic implements ButtonProviderInterface
     public function getButtonData()
     {
         return [
-            'label' => __('Create InPost Shipment'),
+            'label' => __('Save'),
             'class' => 'save primary',
             'data_attribute' => [
                 'mage-init' => ['button' => ['event' => 'save']],

@@ -28,6 +28,25 @@
         </constraint>
     </table>
 
+    <table name="inpostinternational_parcel_template" resource="default" engine="innodb" comment="Inpost parcel template">
+        <column name="entity_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity id"/>
+        <column name="type" xsi:type="varchar" length="64" nullable="false" comment="Parcel type"/>
+        <column name="label" xsi:type="varchar" length="255" nullable="false" comment="Parcel template label"/>
+        <column name="length" xsi:type="decimal" scale="2" precision="10" unsigned="true" nullable="false" comment="Length"/>
+        <column name="width" xsi:type="decimal" scale="2" precision="10" unsigned="true" nullable="false" comment="Width"/>
+        <column name="height" xsi:type="decimal" scale="2" precision="10" unsigned="true" nullable="false" comment="Height"/>
+        <column name="dimension_unit" xsi:type="varchar" length="8" nullable="false" comment="Dimensions unit"/>
+        <column name="weight" xsi:type="decimal" scale="2" precision="10" unsigned="true" nullable="false" comment="Weight"/>
+        <column name="weight_unit" xsi:type="varchar" length="8" nullable="false" comment="Weight unit"/>
+        <column name="comment" xsi:type="varchar" length="64" nullable="false" comment="Parcel comment"/>
+        <column name="barcode" xsi:type="varchar" length="64" nullable="false" comment="Parcel barcode"/>
+        <column name="is_default" xsi:type="smallint" nullable="false" comment="Is default"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
     <table name="quote" resource="default" engine="innodb">
         <column name="inpostinternational_locker_id" xsi:type="varchar" length="16" />
     </table>

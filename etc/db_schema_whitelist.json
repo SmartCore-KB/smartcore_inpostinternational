@@ -1,0 +1,60 @@
+{
+    "inpostinternational_shipment": {
+        "column": {
+            "entity_id": true,
+            "shipment_id": true,
+            "tracking_number": true,
+            "status": true,
+            "service": true,
+            "shipment_attributes": true,
+            "target_point": true,
+            "sending_method": true,
+            "receiver_data": true,
+            "reference": true,
+            "dispatch_order_id": true,
+            "shipping_method": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "inpostinternational_shipment_order_link": {
+        "column": {
+            "link_id": true,
+            "shipment_id": true,
+            "increment_id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "inpostinternational_parcel_template": {
+        "column": {
+            "entity_id": true,
+            "type": true,
+            "label": true,
+            "length": true,
+            "width": true,
+            "height": true,
+            "dimension_unit": true,
+            "weight": true,
+            "weight_unit": true,
+            "comment": true,
+            "barcode": true,
+            "is_default": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "quote": {
+        "column": {
+            "inpostinternational_locker_id": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "inpostinternational_locker_id": true
+        }
+    }
+}

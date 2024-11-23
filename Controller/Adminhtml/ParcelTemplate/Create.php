@@ -1,6 +1,8 @@
 <?php
 
-namespace Smartcore\InPostInternational\Controller\Adminhtml\Shipments;
+declare(strict_types=1);
+
+namespace Smartcore\InPostInternational\Controller\Adminhtml\ParcelTemplate;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -12,7 +14,7 @@ class Create extends Action
     /**
      * @var PageFactory
      */
-    protected PageFactory $resultPageFactory;
+    protected $resultPageFactory;
 
     /**
      * Constructor
@@ -29,15 +31,15 @@ class Create extends Action
     }
 
     /**
-     * Create new InPost International Shipment form
+     * Create new Parcel Template form
      *
      * @return Page
      */
-    public function execute(): Page
+    public function execute()
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->set(__('New InPost International Shipment'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Create Parcel Template')->getText());
 
         return $resultPage;
     }
@@ -49,6 +51,6 @@ class Create extends Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Smartcore_InPostInternational::shipments_create');
+        return $this->_authorization->isAllowed('Smartcore_InPostInternational::parcel_create');
     }
 }

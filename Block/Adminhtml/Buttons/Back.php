@@ -1,6 +1,6 @@
 <?php
 
-namespace Smartcore\InPostInternational\Block\Adminhtml\Shipment\Create\Buttons;
+namespace Smartcore\InPostInternational\Block\Adminhtml\Buttons;
 
 use Magento\Catalog\Block\Adminhtml\Product\Edit\Button\Generic;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;

@@ -4,10 +4,10 @@
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
             <item name="provider" xsi:type="string">
-                inpostinternationalshipment_form_create.inpostinternationalshipment_form_create_data_source
+                inpostinternational_shipment_form_create.inpostinternational_shipment_form_create_data_source
             </item>
             <item name="deps" xsi:type="string">
-                inpostinternationalshipment_form_create.inpostinternationalshipment_form_create_data_source
+                inpostinternational_shipment_form_create.inpostinternational_shipment_form_create_data_source
             </item>
         </item>
         <item name="label" xsi:type="string" translate="true">New InPost Shipment</item>
@@ -18,22 +18,22 @@
 
     <settings>
         <buttons>
-            <button name="save" class="Smartcore\InPostInternational\Block\Adminhtml\Shipment\Create\Buttons\Save" />
-            <button name="back" class="Smartcore\InPostInternational\Block\Adminhtml\Shipment\Create\Buttons\Back" />
+            <button name="save" class="Smartcore\InPostInternational\Block\Adminhtml\Buttons\Save" />
+            <button name="back" class="Smartcore\InPostInternational\Block\Adminhtml\Buttons\Back" />
         </buttons>
-        <namespace>inpostinternationalshipment_form_create</namespace>
+        <namespace>inpostinternational_shipment_form_create</namespace>
         <dataScope>data</dataScope>
         <deps>
-            <dep>inpostinternationalshipment_form_create.inpostinternationalshipment_form_create_data_source</dep>
+            <dep>inpostinternational_shipment_form_create.inpostinternational_shipment_form_create_data_source</dep>
         </deps>
     </settings>
 
-    <dataSource name="inpostinternationalshipment_form_create_data_source">
+    <dataSource name="inpostinternational_shipment_form_create_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
             <argument name="class" xsi:type="string">
-                Smartcore\InPostInternational\Ui\DataProvider\Inpostshipment\CreateDataProvider
+                Smartcore\InPostInternational\Ui\DataProvider\Shipment\CreateDataProvider
             </argument>
-            <argument name="name" xsi:type="string">inpostinternationalshipment_form_create_data_source</argument>
+            <argument name="name" xsi:type="string">inpostinternational_shipment_form_create_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
             <argument name="requestFieldName" xsi:type="string">order_id</argument>
         </argument>
@@ -80,7 +80,7 @@
         <field name="shipment_template" formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternationalshipment_form_create</item>
+                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
                 </item>
             </argument>
             <settings>
@@ -100,7 +100,7 @@
         <field name="origin" formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternationalshipment_form_create</item>
+                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
                 </item>
             </argument>
             <settings>
@@ -120,7 +120,7 @@
         <field name="destination_country" formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternationalshipment_form_create</item>
+                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
                 </item>
             </argument>
             <settings>
@@ -143,7 +143,7 @@
         <field name="language_code" formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternationalshipment_form_create</item>
+                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
                 </item>
             </argument>
             <settings>
@@ -166,7 +166,7 @@
         <field name="point_name" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternationalshipment_form_create</item>
+                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
                 </item>
             </argument>
             <settings>

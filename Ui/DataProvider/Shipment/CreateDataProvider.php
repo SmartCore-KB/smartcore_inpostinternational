@@ -1,6 +1,6 @@
 <?php
 
-namespace Smartcore\InPostInternational\Ui\DataProvider\Inpostshipment;
+namespace Smartcore\InPostInternational\Ui\DataProvider\Shipment;
 
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\ReportingInterface;
