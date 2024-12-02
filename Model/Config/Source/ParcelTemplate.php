@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model\Config\Source;
@@ -7,8 +8,9 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Shipping\Model\Config;
 use Smartcore\InPostInternational\Api\ParcelTemplateRepositoryInterface;
+use Smartcore\InPostInternational\Model\ParcelTemplate as ParcelTemplateModel;
 
-class ShipmentTemplate implements OptionSourceInterface
+class ParcelTemplate implements OptionSourceInterface
 {
     /**
      * Shipping methods mapper
@@ -33,6 +35,7 @@ class ShipmentTemplate implements OptionSourceInterface
         $templates = $this->parcelTmplRepository->getList();
         $defaultSet = false;
 
+        /** @var ParcelTemplateModel $template */
         foreach ($templates as $template) {
             $sizeUnit = $template->getDimensionUnit();
             $option = [

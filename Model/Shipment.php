@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Model;
 
 use Magento\Framework\Model\AbstractModel;

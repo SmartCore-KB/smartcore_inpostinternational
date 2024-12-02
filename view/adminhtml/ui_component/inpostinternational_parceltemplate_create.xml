@@ -108,7 +108,6 @@
                     <rule name="validate-number" xsi:type="boolean">true</rule>
                     <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
                 </validation>
-                <notice translate="true">[cm]</notice>
             </settings>
         </field>
 
@@ -127,7 +126,6 @@
                     <rule name="validate-number" xsi:type="boolean">true</rule>
                     <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
                 </validation>
-                <notice translate="true">[cm]</notice>
             </settings>
         </field>
 
@@ -146,8 +144,27 @@
                     <rule name="validate-number" xsi:type="boolean">true</rule>
                     <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
                 </validation>
-                <notice translate="true">[cm]</notice>
             </settings>
+        </field>
+
+        <field name="dimension_unit" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Dimension unit</label>
+                <dataScope>dimension_unit</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Smartcore\InPostInternational\Model\Config\Source\DimensionUnit"/>
+                    </settings>
+                </select>
+            </formElements>
         </field>
 
         <field name="weight" formElement="input">
@@ -165,8 +182,27 @@
                     <rule name="validate-number" xsi:type="boolean">true</rule>
                     <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
                 </validation>
-                <notice translate="true">[kg]</notice>
             </settings>
+        </field>
+
+        <field name="weight_unit" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Weight unit</label>
+                <dataScope>weight_unit</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Smartcore\InPostInternational\Model\Config\Source\ParcelWeightUnit"/>
+                    </settings>
+                </select>
+            </formElements>
         </field>
 
         <field name="comment" formElement="input">

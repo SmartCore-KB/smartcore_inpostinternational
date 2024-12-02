@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Controller\Adminhtml\Shipments;
 
 use Magento\Backend\App\Action;
@@ -55,7 +57,7 @@ class Save extends Action
             $model->setData($data);
 
             try {
-                $this->messageManager->addSuccessMessage(__('Shipment saved successfully.'));
+                $this->messageManager->addSuccessMessage(__('Shipment saved successfully.')->getText());
                 $this->dataPersistor->clear('inpostinternational_shipment');
 
                 $resultRedirect->setPath('*/*/index');

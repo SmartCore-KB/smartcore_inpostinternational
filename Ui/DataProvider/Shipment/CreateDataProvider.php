@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Ui\DataProvider\Shipment;
 
 use Magento\Framework\Api\FilterBuilder;
@@ -11,7 +13,7 @@ use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 use Magento\Sales\Model\Order;
 use Smartcore\InPostInternational\Model\Config\CountrySettings;
 use Smartcore\InPostInternational\Model\Order\Processor as OrderProcessor;
-use Smartcore\InPostInternational\Model\ParcelTemplateRepository;
+use Smartcore\InPostInternational\Model\PickupAddressRepository;
 
 class CreateDataProvider extends DataProvider
 {
@@ -34,25 +36,27 @@ class CreateDataProvider extends DataProvider
      * @param OrderProcessor $orderProcessor
      * @param PriceCurrencyInterface $priceCurrency
      * @param CountrySettings $countrySettings
-     * @param ParcelTemplateRepository $parcelTmplRepository
+     * @param PickupAddressRepository $parcelTmplRepository
+     * @param PickupAddressRepository $pickupAddrRepository
      * @param array $meta
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        string                           $name,
-        string                           $primaryFieldName,
-        string                           $requestFieldName,
-        ReportingInterface               $reporting,
-        SearchCriteriaBuilder            $searchCritBuilder,
-        RequestInterface                 $request,
-        FilterBuilder                    $filterBuilder,
-        private readonly OrderProcessor  $orderProcessor,
-        private PriceCurrencyInterface   $priceCurrency,
-        private CountrySettings          $countrySettings,
-        private ParcelTemplateRepository $parcelTmplRepository,
-        array                            $meta = [],
-        array                            $data = []
+        string                          $name,
+        string                          $primaryFieldName,
+        string                          $requestFieldName,
+        ReportingInterface              $reporting,
+        SearchCriteriaBuilder           $searchCritBuilder,
+        RequestInterface                $request,
+        FilterBuilder                   $filterBuilder,
+        private readonly OrderProcessor $orderProcessor,
+        private PriceCurrencyInterface  $priceCurrency,
+        private CountrySettings         $countrySettings,
+        private PickupAddressRepository $parcelTmplRepository,
+        private PickupAddressRepository $pickupAddrRepository,
+        array                           $meta = [],
+        array                           $data = []
     ) {
         parent::__construct(
             $name,
@@ -76,10 +80,12 @@ class CreateDataProvider extends DataProvider
     {
         $orderId = $this->request->getParam('order_id');
         $parcelTmplDefaultId = $this->parcelTmplRepository->getDefaultId();
+        $pickupAddrDefaultId = $this->pickupAddrRepository->getDefaultId();
 
         $defaultData = [
             'shipment_fieldset' => [
-                'parcel_template' => $parcelTmplDefaultId
+                'parcel_template' => $parcelTmplDefaultId,
+                'origin' => $pickupAddrDefaultId
             ],
         ];
 

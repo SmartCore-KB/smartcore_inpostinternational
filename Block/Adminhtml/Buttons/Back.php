@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Block\Adminhtml\Buttons;
 
 use Magento\Catalog\Block\Adminhtml\Product\Edit\Button\Generic;

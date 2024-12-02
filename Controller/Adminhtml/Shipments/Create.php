@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Controller\Adminhtml\Shipments;
 
 use Magento\Backend\App\Action;
@@ -37,7 +39,7 @@ class Create extends Action
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->set(__('New InPost International Shipment'));
+        $resultPage->getConfig()->getTitle()->set(__('New InPost International Shipment')->getText());
 
         return $resultPage;
     }

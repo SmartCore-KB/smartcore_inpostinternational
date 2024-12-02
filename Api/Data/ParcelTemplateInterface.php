@@ -31,7 +31,7 @@ interface ParcelTemplateInterface
      * @param int $entityId
      * @return $this
      */
-    public function setEntityId(int $entityId): static;
+    public function setEntityId(int $entityId): self;
 
     /**
      * Get label
@@ -46,7 +46,7 @@ interface ParcelTemplateInterface
      * @param string $label
      * @return $this
      */
-    public function setLabel(string $label): static;
+    public function setLabel(string $label): self;
 
     /**
      * Get is default
@@ -61,7 +61,7 @@ interface ParcelTemplateInterface
      * @param bool $isDefault
      * @return $this
      */
-    public function setIsDefault(bool $isDefault): static;
+    public function setIsDefault(bool $isDefault): self;
 
     /**
      * Get length
@@ -76,7 +76,7 @@ interface ParcelTemplateInterface
      * @param float $length
      * @return $this
      */
-    public function setLength(float $length): static;
+    public function setLength(float $length): self;
 
     /**
      * Get width
@@ -91,7 +91,7 @@ interface ParcelTemplateInterface
      * @param float $width
      * @return $this
      */
-    public function setWidth(float $width): static;
+    public function setWidth(float $width): self;
 
     /**
      * Get height
@@ -106,7 +106,7 @@ interface ParcelTemplateInterface
      * @param float $height
      * @return $this
      */
-    public function setHeight(float $height): static;
+    public function setHeight(float $height): self;
 
     /**
      * Get weight
@@ -121,7 +121,7 @@ interface ParcelTemplateInterface
      * @param float $weight
      * @return $this
      */
-    public function setWeight(float $weight): static;
+    public function setWeight(float $weight): self;
 
     /**
      * Get comment
@@ -136,7 +136,7 @@ interface ParcelTemplateInterface
      * @param string|null $comment
      * @return $this
      */
-    public function setComment(?string $comment): static;
+    public function setComment(?string $comment): self;
 
     /**
      * Get barcode
@@ -151,7 +151,7 @@ interface ParcelTemplateInterface
      * @param string|null $barcode
      * @return $this
      */
-    public function setBarcode(?string $barcode): static;
+    public function setBarcode(?string $barcode): self;
 
     /**
      * Get dimension unit
@@ -166,7 +166,7 @@ interface ParcelTemplateInterface
      * @param string|null $dimensionUnit
      * @return $this
      */
-    public function setDimensionUnit(?string $dimensionUnit): static;
+    public function setDimensionUnit(?string $dimensionUnit): self;
 
     /**
      * Get weight unit
@@ -181,5 +181,5 @@ interface ParcelTemplateInterface
      * @param string|null $weightUnit
      * @return $this
      */
-    public function setWeightUnit(?string $weightUnit): static;
+    public function setWeightUnit(?string $weightUnit): self;
 }

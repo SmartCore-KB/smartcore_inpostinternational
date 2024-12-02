@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Model;
 
 use Magento\Framework\Model\AbstractModel;
@@ -66,7 +69,7 @@ class ParcelTemplate extends AbstractModel implements ParcelTemplateInterface
      */
     public function isDefault(): bool
     {
-        return $this->getData(self::IS_DEFAULT);
+        return (bool)$this->getData(self::IS_DEFAULT);
     }
 
     /**
@@ -87,7 +90,7 @@ class ParcelTemplate extends AbstractModel implements ParcelTemplateInterface
      */
     public function getLength(): float
     {
-        return $this->getData(self::LENGTH);
+        return (float)$this->getData(self::LENGTH);
     }
 
     /**
@@ -108,7 +111,7 @@ class ParcelTemplate extends AbstractModel implements ParcelTemplateInterface
      */
     public function getWidth(): float
     {
-        return $this->getData(self::WIDTH);
+        return (float)$this->getData(self::WIDTH);
     }
 
     /**
@@ -129,7 +132,7 @@ class ParcelTemplate extends AbstractModel implements ParcelTemplateInterface
      */
     public function getHeight(): float
     {
-        return $this->getData(self::HEIGHT);
+        return (float)$this->getData(self::HEIGHT);
     }
 
     /**
@@ -150,7 +153,7 @@ class ParcelTemplate extends AbstractModel implements ParcelTemplateInterface
      */
     public function getWeight(): float
     {
-        return $this->getData(self::WEIGHT);
+        return (float)$this->getData(self::WEIGHT);
     }
 
     /**

@@ -7,7 +7,7 @@ use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultInterface;
 use Smartcore\InPostInternational\Model\ParcelTemplateFactory;
-use Smartcore\InPostInternational\Model\ParcelTemplateRepository;
+use Smartcore\InPostInternational\Model\PickupAddressRepository;
 
 class Save extends Action
 {
@@ -17,12 +17,12 @@ class Save extends Action
      *
      * @param Context $context
      * @param ParcelTemplateFactory $parcelTmplFactory
-     * @param ParcelTemplateRepository $parcelTmplRepository
+     * @param PickupAddressRepository $parcelTmplRepository
      */
     public function __construct(
         Context                          $context,
         protected ParcelTemplateFactory  $parcelTmplFactory,
-        private ParcelTemplateRepository $parcelTmplRepository
+        private PickupAddressRepository $parcelTmplRepository
     ) {
         parent::__construct($context);
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
-    <table name="inpostinternational_shipment" resource="default" engine="innodb" comment="Inpost shipment">
+    <table name="inpostinternational_shipment" resource="default" engine="innodb" comment="InPost shipment">
         <column name="entity_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity id"/>
         <column name="shipment_id" xsi:type="int" padding="10" unsigned="true" nullable="false" comment="Shipment id"/>
         <column name="tracking_number" xsi:type="varchar" length="255" nullable="true" comment="Shipment tracking number"/>
@@ -19,7 +19,7 @@
         </constraint>
     </table>
 
-    <table name="inpostinternational_shipment_order_link" resource="default" engine="innodb" comment="Inpost shipment link with order">
+    <table name="inpostinternational_shipment_order_link" resource="default" engine="innodb" comment="InPost shipment link with order">
         <column name="link_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="true" comment="Link id"/>
         <column name="shipment_id" xsi:type="int" padding="10" unsigned="true" nullable="false" comment="Shipment id"/>
         <column xsi:type="varchar" name="increment_id" nullable="false" length="50" comment="Increment ID"/>
@@ -28,7 +28,7 @@
         </constraint>
     </table>
 
-    <table name="inpostinternational_parcel_template" resource="default" engine="innodb" comment="Inpost parcel template">
+    <table name="inpostinternational_parcel_template" resource="default" engine="innodb" comment="InPost parcel template">
         <column name="entity_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity id"/>
         <column name="type" xsi:type="varchar" length="64" nullable="false" comment="Parcel type"/>
         <column name="label" xsi:type="varchar" length="255" nullable="false" comment="Parcel template label"/>
@@ -40,6 +40,22 @@
         <column name="weight_unit" xsi:type="varchar" length="8" nullable="false" comment="Weight unit"/>
         <column name="comment" xsi:type="varchar" length="64" nullable="false" comment="Parcel comment"/>
         <column name="barcode" xsi:type="varchar" length="64" nullable="false" comment="Parcel barcode"/>
+        <column name="is_default" xsi:type="smallint" nullable="false" comment="Is default"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <table name="inpostinternational_pickup_address" resource="default" engine="innodb" comment="InPost pickup address">
+        <column name="entity_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity id"/>
+        <column name="label" xsi:type="varchar" length="255" nullable="false" comment="Pickup address label"/>
+        <column name="house_number" xsi:type="varchar" length="64" nullable="false" comment="House number"/>
+        <column name="flat_number" xsi:type="varchar" length="64" nullable="false" comment="Flat number"/>
+        <column name="street" xsi:type="varchar" length="255" nullable="false" comment="Street"/>
+        <column name="city" xsi:type="varchar" length="255" nullable="false" comment="City"/>
+        <column name="postal_code" xsi:type="varchar" length="16" nullable="false" comment="Postal code"/>
+        <column name="country_code" xsi:type="varchar" length="2" nullable="false" comment="Country code"/>
         <column name="is_default" xsi:type="smallint" nullable="false" comment="Is default"/>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">

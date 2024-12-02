@@ -8,7 +8,7 @@ use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\Redirect;
-use Smartcore\InPostInternational\Model\ParcelTemplateRepository;
+use Smartcore\InPostInternational\Model\PickupAddressRepository;
 
 class Delete extends Action
 {
@@ -17,11 +17,11 @@ class Delete extends Action
      * Delete constructor
      *
      * @param Context $context
-     * @param ParcelTemplateRepository $parcelTmplRepository
+     * @param PickupAddressRepository $parcelTmplRepository
      */
     public function __construct(
         Context                          $context,
-        private ParcelTemplateRepository $parcelTmplRepository
+        private PickupAddressRepository $parcelTmplRepository
     ) {
         parent::__construct($context);
     }

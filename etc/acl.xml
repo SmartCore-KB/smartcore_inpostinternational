@@ -6,10 +6,12 @@
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Sales::sales">
                     <resource id="Magento_Sales::sales_operation">
-                        <resource id="Smartcore_InPostInternational::shipments_create" title="InPost International Shipments template form" sortOrder="10"/>
-                        <resource id="Smartcore_InPostInternational::shipments_list" title="InPost International Shipments list" sortOrder="11"/>
-                        <resource id="Smartcore_InPostInternational::parceltemplate_create" title="InPost International Parcel template form" sortOrder="12"/>
-                        <resource id="Smartcore_InPostInternational::parceltemplate_list" title="InPost International Parcel template list" sortOrder="13"/>
+                        <resource id="Smartcore_InPostInternational::shipments_create" title="InPost International Shipments create form" sortOrder="10"/>
+                        <resource id="Smartcore_InPostInternational::shipments_index" title="InPost International Shipments list" sortOrder="11"/>
+                        <resource id="Smartcore_InPostInternational::parceltemplate_create" title="InPost International Parcel template create form" sortOrder="12"/>
+                        <resource id="Smartcore_InPostInternational::parceltemplate_index" title="InPost International Parcel template list" sortOrder="13"/>
+                        <resource id="Smartcore_InPostInternational::pickupaddress_create" title="InPost International Pickup address create form" sortOrder="14"/>
+                        <resource id="Smartcore_InPostInternational::pickupaddress_index" title="InPost International Pickup address list" sortOrder="15"/>
                     </resource>
                 </resource>
             </resource>

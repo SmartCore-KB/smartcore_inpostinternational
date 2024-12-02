@@ -23,7 +23,7 @@ interface ParcelTemplateRepositoryInterface
      * @param ParcelTemplateInterface&AbstractModel $parcelTemplate
      * @return $this
      */
-    public function delete(ParcelTemplateInterface $parcelTemplate): static;
+    public function delete(ParcelTemplateInterface $parcelTemplate): self;
 
     /**
      * Load Parcel Template

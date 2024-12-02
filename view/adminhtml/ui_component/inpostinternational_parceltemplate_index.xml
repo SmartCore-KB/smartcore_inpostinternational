@@ -4,24 +4,21 @@
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
             <item name="provider" xsi:type="string">
-                inpostinternational_parceltemplate_listing.inpostinternational_parceltemplate_listing_data_source
+                inpostinternational_parceltemplate_index.inpostinternational_parceltemplate_index_data_source
             </item>
         </item>
     </argument>
     <settings>
         <buttons>
-            <button name="add">
-                <url path="*/*/create"/>
-                <class>primary</class>
-                <label translate="true">Add New Parcel Template</label>
-            </button>
+            <button name="add"
+                    class="Smartcore\InPostInternational\Ui\Component\Listing\Button\AddParcelTemplateButton"/>
         </buttons>
         <spinner>inpostinternational_parceltemplate_columns</spinner>
         <deps>
-            <dep>inpostinternational_parceltemplate_listing.inpostinternational_parceltemplate_listing_data_source</dep>
+            <dep>inpostinternational_parceltemplate_index.inpostinternational_parceltemplate_index_data_source</dep>
         </deps>
     </settings>
-    <dataSource name="inpostinternational_parceltemplate_listing_data_source" component="Magento_Ui/js/grid/provider">
+    <dataSource name="inpostinternational_parceltemplate_index_data_source" component="Magento_Ui/js/grid/provider">
         <settings>
             <storageConfig>
                 <param name="indexField" xsi:type="string">entity_id</param>
@@ -30,7 +27,7 @@
         </settings>
         <aclResource>Smartcore_InPostInternational::parcel_template</aclResource>
         <dataProvider class="Smartcore\InPostInternational\Ui\DataProvider\ParcelTemplate\ListingDataProvider"
-                      name="inpostinternational_parceltemplate_listing_data_source">
+                      name="inpostinternational_parceltemplate_index_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>
                 <primaryFieldName>entity_id</primaryFieldName>
@@ -60,7 +57,7 @@
             <childDefaults>
                 <param name="fieldAction" xsi:type="array">
                     <item name="provider" xsi:type="string">
-                        inpostinternational_parceltemplate_listing.inpostinternational_parceltemplate_listing.inpostinternational_parceltemplate_columns.actions
+                        inpostinternational_parceltemplate_index.inpostinternational_parceltemplate_index.inpostinternational_parceltemplate_columns.actions
                     </item>
                     <item name="target" xsi:type="string">applyAction</item>
                     <item name="params" xsi:type="array">

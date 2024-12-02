@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Block\Adminhtml\System\Config;
