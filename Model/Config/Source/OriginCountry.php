@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model\Config\Source;
@@ -6,18 +7,21 @@ namespace Smartcore\InPostInternational\Model\Config\Source;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Shipping\Model\Config;
+use Smartcore\InPostInternational\Api\PickupAddressRepositoryInterface;
 
-class Origin implements OptionSourceInterface
+class OriginCountry implements OptionSourceInterface
 {
     /**
      * Shipping methods mapper
      *
      * @param ScopeConfigInterface $scopeConfig
      * @param Config $shippingConfig
+     * @param PickupAddressRepositoryInterface $pickupAddrRepository
      */
     public function __construct(
         protected ScopeConfigInterface $scopeConfig,
-        protected Config $shippingConfig
+        protected Config $shippingConfig,
+        protected PickupAddressRepositoryInterface $pickupAddrRepository
     ) {
     }
 
@@ -26,16 +30,9 @@ class Origin implements OptionSourceInterface
      */
     public function toOptionArray(): array
     {
-        $methods = [];
-        $methods[] = [
-            'value' => 1,
-            'label' => 'Location 1 (Warsaw)',
-        ];
-        $methods[] = [
-            'value' => 2,
-            'label' => 'Location 2 (Krakow)',
-        ];
-
-        return $methods;
+        return [[
+            'value' => 'PL',
+            'label' => 'Poland',
+        ]];
     }
 }
