@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model\Config\Source;
@@ -29,7 +30,7 @@ class Country implements OptionSourceInterface
      */
     public function toOptionArray(): array
     {
-        $allCountries = $this->countrySettings->getAllCountrySettings();
+        $allCountries = $this->countrySettings->getCountryCanShipToSettings();
 
         $countryCollection = $this->countryCollFactory->create()
             ->addFieldToFilter('country_id', ['in' => array_keys($allCountries)])

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
@@ -9,7 +11,7 @@ use Smartcore\InPostInternational\Api\Data\ShipmentInterface;
 
 class Shipment extends AbstractDb
 {
-    private const string TABLE_NAME = 'inpostinternational_shipment';
+    private const string TABLE_NAME = 'inpostinternational_shipments';
 
     /**
      * Core DateTime
@@ -23,7 +25,7 @@ class Shipment extends AbstractDb
      *
      * @param Context $context
      * @param DateTime $coreDate
-     * @param string $connectionName
+     * @param string|null $connectionName
      */
     public function __construct(
         Context $context,

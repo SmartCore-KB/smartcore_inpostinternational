@@ -144,6 +144,39 @@
                         <field id="mode">sandbox</field>
                     </depends>
                 </field>
+                <group id="sender" translate="label" type="text" showInDefault="1" showInWebsite="1" sortOrder="80">
+                    <label>Sender data and settings</label>
+                    <attribute type="expanded">1</attribute>
+                    <field id="shipment_type" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="1">
+                        <label>Way of sending</label>
+                        <source_model>Smartcore\InPostInternational\Model\Config\Source\ShipmentType</source_model>
+                    </field>
+                    <field id="pickup_point" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Pickup point</label>
+                    </field>
+                    <field id="company_name" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Company name</label>
+                    </field>
+                    <field id="first_name" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>First name</label>
+                    </field>
+                    <field id="last_name" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Last name</label>
+                    </field>
+                    <field id="email" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Email</label>
+                    </field>
+                    <field id="phone_prefix" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Phone prefix</label>
+                    </field>
+                    <field id="phone_number" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Phone number</label>
+                    </field>
+                    <field id="language" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" canRestore="1">
+                        <label>Language</label>
+                        <source_model>Smartcore\InPostInternational\Model\Config\Source\LanguageCode</source_model>
+                    </field>
+                </group>
             </group>
         </section>
     </system>

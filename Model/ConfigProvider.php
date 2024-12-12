@@ -14,6 +14,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\FlagManager;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Psr\Log\LoggerInterface;
 
 class ConfigProvider
 {
@@ -34,7 +35,7 @@ class ConfigProvider
      * @param StoreManagerInterface $storeManager
      * @param FlagManager $flagManager
      * @param RequestInterface $request
-     * @throws NoSuchEntityException
+     * @param LoggerInterface $logger
      */
     public function __construct(
         private readonly ScopeConfigInterface   $scopeConfig,
@@ -43,7 +44,8 @@ class ConfigProvider
         private readonly Config                 $_resourceConfig,
         private readonly StoreManagerInterface  $storeManager,
         private readonly FlagManager            $flagManager,
-        private readonly RequestInterface       $request
+        private readonly RequestInterface       $request,
+        private readonly LoggerInterface        $logger,
     ) {
     }
 
@@ -51,8 +53,6 @@ class ConfigProvider
      * Get mode
      *
      * @return string
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function getMode(): string
     {
@@ -63,8 +63,6 @@ class ConfigProvider
      * Get client id
      *
      * @return string
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function getClientId(): string
     {
@@ -75,8 +73,6 @@ class ConfigProvider
      * Get client secret
      *
      * @return string
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function getClientSecret(): string
     {
@@ -89,8 +85,6 @@ class ConfigProvider
      * Get client secret
      *
      * @return string
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function getWellKnownUrl(): string
     {
@@ -101,8 +95,6 @@ class ConfigProvider
      * Get client secret
      *
      * @return string|null
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function getRawAccessToken(): ?string
     {
@@ -113,8 +105,6 @@ class ConfigProvider
      * Get client secret
      *
      * @return string|null
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function getAccessTokenExpiresAt(): ?string
     {
@@ -125,8 +115,6 @@ class ConfigProvider
      * Get client secret
      *
      * @return string|null
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function getRawRefreshToken(): ?string
     {
@@ -155,9 +143,6 @@ class ConfigProvider
 
     /**
      * Get weight attribute code
-     *
-     * @throws NoSuchEntityException
-     * @throws LocalizedException
      */
     public function getWeightAttributeCode()
     {
@@ -166,9 +151,6 @@ class ConfigProvider
 
     /**
      * Get weight unit
-     *
-     * @throws NoSuchEntityException
-     * @throws LocalizedException
      */
     public function getWeightUnit()
     {
@@ -177,13 +159,31 @@ class ConfigProvider
 
     /**
      * Get configured shipping countries
-     *
-     * @throws NoSuchEntityException
-     * @throws LocalizedException
      */
     public function getShippingCountries()
     {
         return $this->doGetCarriersConfig('specificcountry');
+    }
+
+    /**
+     * Get default shipment type
+     *
+     * @return string
+     */
+    public function getShipmentType(): string
+    {
+        $sender = (array) $this->getSenderSettings();
+        return (string) $sender['shipment_type'];
+    }
+
+    /**
+     * Get sender settings
+     *
+     * @return array<string, mixed>
+     */
+    public function getSenderSettings(): array
+    {
+        return (array) $this->doGetShippingConfig('sender');
     }
 
     /**
@@ -243,17 +243,20 @@ class ConfigProvider
      *
      * @param string $path
      * @return mixed
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     private function doGetShippingConfig(string $path): mixed
     {
-        list($scope, $scopeId) = $this->getCurrentScope();
-        return $this->scopeConfig->getValue(
-            self::SHIPPING_CONFIG_PATH . $path,
-            $scope,
-            $scopeId
-        );
+        try {
+            list($scope, $scopeId) = $this->getCurrentScope();
+            return $this->scopeConfig->getValue(
+                self::SHIPPING_CONFIG_PATH . $path,
+                $scope,
+                $scopeId
+            );
+        } catch (NoSuchEntityException|LocalizedException $e) {
+            $this->logger->error($e->getMessage());
+            return null;
+        }
     }
 
     /**
@@ -261,17 +264,20 @@ class ConfigProvider
      *
      * @param string $path
      * @return mixed
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     private function doGetCarriersConfig(string $path): mixed
     {
-        list($scope, $scopeId) = $this->getCurrentScope();
-        return $this->scopeConfig->getValue(
-            self::CARRIERS_CONFIG_PATH . $path,
-            $scope,
-            $scopeId
-        );
+        try {
+            list($scope, $scopeId) = $this->getCurrentScope();
+            return $this->scopeConfig->getValue(
+                self::CARRIERS_CONFIG_PATH . $path,
+                $scope,
+                $scopeId
+            );
+        } catch (NoSuchEntityException|LocalizedException $e) {
+            $this->logger->error($e->getMessage());
+            return null;
+        }
     }
 
     /**

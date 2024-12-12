@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Model\Config\Source;
 
 use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;

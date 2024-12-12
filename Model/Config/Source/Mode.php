@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model\Config\Source;
@@ -16,8 +17,8 @@ class Mode implements OptionSourceInterface
     public function toOptionArray() : array
     {
         return [
-            ['value' => self::SANDBOX, 'label' => __('Sandbox')],
-            ['value' => self::PRODUCTION, 'label' => __('Production')],
+            ['value' => self::SANDBOX, 'label' => __('Sandbox')->getText()],
+            ['value' => self::PRODUCTION, 'label' => __('Production')->getText()],
         ];
     }
 }

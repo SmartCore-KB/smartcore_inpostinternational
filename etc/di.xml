@@ -1,0 +1,7 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Smartcore\InPostInternational\Api\ParcelTemplateRepositoryInterface"
+                type="Smartcore\InPostInternational\Model\ParcelTemplateRepository" />
+    <preference for="Smartcore\InPostInternational\Api\PickupAddressRepositoryInterface"
+                type="Smartcore\InPostInternational\Model\PickupAddressRepository" />
+</config>

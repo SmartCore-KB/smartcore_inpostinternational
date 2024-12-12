@@ -8,6 +8,8 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Smartcore\InPostInternational\Model\Config\RequestAuthorization as AuthorizationModel;
 
 class RequestAuthorization extends Action
@@ -31,6 +33,8 @@ class RequestAuthorization extends Action
      * Request authorization action
      *
      * @return Redirect
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function execute(): Redirect
     {

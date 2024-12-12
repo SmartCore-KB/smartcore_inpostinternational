@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model\Config;
 
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Smartcore\InPostInternational\Helper\PkceHelper;
 use Smartcore\InPostInternational\Model\Api\WellKnownService;
 use Smartcore\InPostInternational\Model\ConfigProvider;
@@ -29,6 +31,8 @@ class RequestAuthorization
      * Get authorization url
      *
      * @return string
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getRequestAuthorizationUrl(): string
     {

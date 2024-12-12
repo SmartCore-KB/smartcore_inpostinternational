@@ -1,74 +1,55 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Controller\Adminhtml\Shipments;
 
+use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Redirect;
-use Magento\Framework\Controller\Result\RedirectFactory;
-use Smartcore\InPostInternational\Model\ShipmentFactory;
+use Magento\Framework\Controller\ResultInterface;
+use Smartcore\InPostInternational\Service\ShipmentProcessor;
 
 class Save extends Action
 {
-    /**
-     * @var DataPersistorInterface
-     */
-    protected $dataPersistor;
 
     /**
-     * @var ShipmentFactory
-     */
-    protected $shipmentFactory;
-
-    /**
-     * Save constructor.
+     * Shipments Save constructor.
      *
      * @param Context $context
-     * @param DataPersistorInterface $dataPersistor
-     * @param ShipmentFactory $shipmentFactory
-     * @param RedirectFactory $redirectFactory
+     * @param ShipmentProcessor $shipmentProcessor
      */
     public function __construct(
-        Action\Context $context,
-        DataPersistorInterface $dataPersistor,
-        ShipmentFactory $shipmentFactory,
-        private readonly RedirectFactory      $redirectFactory
+        Context $context,
+        private readonly ShipmentProcessor $shipmentProcessor
     ) {
-        $this->dataPersistor   = $dataPersistor;
-        $this->shipmentFactory = $shipmentFactory;
         parent::__construct($context);
     }
 
     /**
-     * Execute the save action.
+     * Execute action
      *
-     * @return Redirect
+     * @return ResponseInterface|Redirect|ResultInterface
      */
-    public function execute(): Redirect
+    public function execute()
     {
-        $resultRedirect = $this->redirectFactory->create();
-        $data = $this->getRequest()->getPostValue();
-        if ($data) {
-            $model = $this->shipmentFactory->create();
+        try {
+            $formData = $this->getRequest()->getPostValue();
+            $this->shipmentProcessor->process($formData);
+            $this->messageManager->addSuccessMessage(__('Shipment has been successfully created.')->getText());
 
-            $model->setData($data);
-
-            try {
-                $this->messageManager->addSuccessMessage(__('Shipment saved successfully.'));
-                $this->dataPersistor->clear('inpostinternational_shipment');
-
-                $resultRedirect->setPath('*/*/index');
-                return $resultRedirect;
-            } catch (\Exception $e) {
-                $this->messageManager->addErrorMessage($e->getMessage());
-            }
-
-            $this->dataPersistor->set('inpostinternational_shipment', $data);
-            $resultRedirect->setPath('*/*/create');
-            return $resultRedirect;
+            return $this->resultRedirectFactory->create()->setPath('*/*/index');
+        } catch (Exception $e) {
+            $this->messageManager->addComplexErrorMessage('inpostinternationalApiMessage', [
+                'message' => $e->getMessage()
+            ]);
+            $this->_getSession()->setFormData($formData);
+            return $this->resultRedirectFactory->create()->setPath(
+                '*/*/create',
+                ['order_id' => $formData['shipment_fieldset']['order_id']]
+            );
         }
-        $resultRedirect->setPath('*/*/index');
-        return $resultRedirect;
     }
 }

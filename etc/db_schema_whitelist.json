@@ -1,0 +1,186 @@
+{
+    "inpostinternational_shipment": {
+        "column": {
+            "entity_id": true,
+            "shipment_id": true,
+            "tracking_number": true,
+            "status": true,
+            "service": true,
+            "shipment_attributes": true,
+            "target_point": true,
+            "sending_method": true,
+            "receiver_data": true,
+            "reference": true,
+            "dispatch_order_id": true,
+            "shipping_method": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "inpostinternational_shipment_order_link": {
+        "column": {
+            "link_id": true,
+            "shipment_id": true,
+            "increment_id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "inpostinternational_parcel_template": {
+        "column": {
+            "entity_id": true,
+            "type": true,
+            "label": true,
+            "length": true,
+            "width": true,
+            "height": true,
+            "dimension_unit": true,
+            "weight": true,
+            "weight_unit": true,
+            "comment": true,
+            "barcode": true,
+            "is_default": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "quote": {
+        "column": {
+            "inpostinternational_locker_id": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "inpostinternational_locker_id": true
+        }
+    },
+    "inpostinternational_pickup_address": {
+        "column": {
+            "entity_id": true,
+            "label": true,
+            "house_number": true,
+            "flat_number": true,
+            "street": true,
+            "city": true,
+            "postal_code": true,
+            "country_code": true,
+            "is_default": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "inpostinternational_shipments": {
+        "column": {
+            "id": true,
+            "order_id": true,
+            "shipment_type": true,
+            "status": true,
+            "tracking_number": true,
+            "uuid": true,
+            "label_url": true,
+            "service": true,
+            "reference": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "index": {
+            "INPOSTINTERNATIONAL_SHIPMENTS_ORDER_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "INPOSTINTERNATIONAL_SHIPMENTS_ORDER_ID_SALES_ORDER_ENTITY_ID": true
+        }
+    },
+    "inpostinternational_shipment_addresses": {
+        "column": {
+            "id": true,
+            "shipment_id": true,
+            "type": true,
+            "name": true,
+            "company_name": true,
+            "street": true,
+            "city": true,
+            "postal_code": true,
+            "country_code": true,
+            "email": true,
+            "phone": true
+        },
+        "index": {
+            "INPOSTINTERNATIONAL_SHIPMENT_ADDRESSES_SHIPMENT_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_D36295ED626531AB5C81F4ED93B81B90": true
+        }
+    },
+    "inpostinternational_parcels": {
+        "column": {
+            "id": true,
+            "shipment_id": true,
+            "weight": true,
+            "length": true,
+            "width": true,
+            "height": true,
+            "tracking_number": true,
+            "uuid": true
+        },
+        "index": {
+            "INPOSTINTERNATIONAL_PARCELS_SHIPMENT_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_14809C326C3CBF5A612DACC1A51F8835": true
+        }
+    },
+    "inpostinternational_services": {
+        "column": {
+            "id": true,
+            "shipment_id": true,
+            "service_code": true,
+            "service_name": true,
+            "service_details": true
+        },
+        "index": {
+            "INPOSTINTERNATIONAL_SERVICES_SHIPMENT_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_EEBCF6AC7B922368BA5AA2DDB79310E9": true
+        }
+    },
+    "inpostinternational_shipment_statuses": {
+        "column": {
+            "id": true,
+            "shipment_id": true,
+            "status": true,
+            "description": true,
+            "updated_at": true
+        },
+        "index": {
+            "INPOSTINTERNATIONAL_SHIPMENT_STATUSES_SHIPMENT_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_BEBE43322C7EC4448EACABA9F627D6BB": true
+        }
+    },
+    "inpostinternational_routing": {
+        "column": {
+            "id": true,
+            "shipment_id": true,
+            "deliver_area": true,
+            "delivery_depot_number": true
+        },
+        "index": {
+            "INPOSTINTERNATIONAL_ROUTING_SHIPMENT_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_A7937486B293F8AE7E3A5F02485CCE4C": true
+        }
+    }
+}

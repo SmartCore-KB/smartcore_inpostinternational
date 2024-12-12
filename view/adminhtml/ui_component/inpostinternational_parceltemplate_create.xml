@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                inpostinternational_parceltemplate_create.inpostinternational_parceltemplate_create_data_source
+            </item>
+            <item name="deps" xsi:type="string">
+                inpostinternational_parceltemplate_create.inpostinternational_parceltemplate_create_data_source
+            </item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">New InPost Parcel template</item>
+        <item name="layout" xsi:type="array">
+            <item name="type" xsi:type="string">tabs</item>
+        </item>
+    </argument>
+
+    <settings>
+        <buttons>
+            <button name="save" class="Smartcore\InPostInternational\Block\Adminhtml\Buttons\Save" />
+            <button name="back" class="Smartcore\InPostInternational\Block\Adminhtml\Buttons\Back" />
+        </buttons>
+        <namespace>inpostinternational_parceltemplate_create</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>inpostinternational_parceltemplate_create.inpostinternational_parceltemplate_create_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="inpostinternational_parceltemplate_create_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">
+                Smartcore\InPostInternational\Ui\DataProvider\ParcelTemplate\CreateDataProvider
+            </argument>
+            <argument name="name" xsi:type="string">inpostinternational_parceltemplate_create_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+                <item name="submit_url" path="*/*/save" xsi:type="url" />
+            </item>
+        </argument>
+    </dataSource>
+
+    <fieldset name="parceltemplate_fieldset" sortOrder="10">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Parcel Template Details</item>
+            </item>
+        </argument>
+
+        <field name="is_default" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_parceltemplate_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Is default</label>
+                <dataScope>is_default</dataScope>
+                <notice translate="true">Setting this field to yes will disable other default parcel template</notice>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+
+        <field name="type" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Parcel type</label>
+                <dataScope>type</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Smartcore\InPostInternational\Model\Config\Source\ParcelType"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+        <field name="label" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_parceltemplate_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Parcel template label</label>
+                <dataScope>label</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+
+        <field name="length" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_parceltemplate_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Length</label>
+                <dataScope>length</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+
+        <field name="width" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_parceltemplate_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Width</label>
+                <dataScope>width</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+
+        <field name="height" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_parceltemplate_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Height</label>
+                <dataScope>height</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+
+        <field name="dimension_unit" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Dimension unit</label>
+                <dataScope>dimension_unit</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Smartcore\InPostInternational\Model\Config\Source\DimensionUnit"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+        <field name="weight" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_parceltemplate_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Weight</label>
+                <dataScope>weight</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+
+        <field name="weight_unit" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Weight unit</label>
+                <dataScope>weight_unit</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Smartcore\InPostInternational\Model\Config\Source\ParcelWeightUnit"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+        <field name="comment" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_parceltemplate_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Parcel comment</label>
+                <dataScope>comment</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                </validation>
+            </settings>
+        </field>
+
+        <field name="barcode" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_parceltemplate_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Parcel barcode</label>
+                <dataScope>barcode</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                </validation>
+            </settings>
+        </field>
+
+    </fieldset>
+</form>

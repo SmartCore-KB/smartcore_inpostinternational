@@ -13,36 +13,55 @@ class CountrySettings
             'languageCode' => 'it_IT',
             'phonePrefix' => '+39',
             'currency' => 'EUR',
+            'canShipTo' => true
         ],
         'FR' => [
             'languageCode' => 'fr_FR',
             'phonePrefix' => '+33',
             'currency' => 'EUR',
+            'canShipTo' => true
         ],
         'LU' => [
             'languageCode' => 'fr_LU',
             'phonePrefix' => '+352',
             'currency' => 'EUR',
+            'canShipTo' => true
         ],
         'BE' => [
             'languageCode' => 'nl_BE',
             'phonePrefix' => '+32',
             'currency' => 'EUR',
+            'canShipTo' => true
         ],
         'NL' => [
             'languageCode' => 'nl_NL',
             'phonePrefix' => '+31',
             'currency' => 'EUR',
+            'canShipTo' => true
         ],
         'ES' => [
             'languageCode' => 'es_ES',
             'phonePrefix' => '+34',
             'currency' => 'EUR',
+            'canShipTo' => true
         ],
         'PT' => [
             'languageCode' => 'pt_PT',
             'phonePrefix' => '+351',
             'currency' => 'EUR',
+            'canShipTo' => true
+        ],
+        'PL' => [
+            'languageCode' => 'pl_PL',
+            'phonePrefix' => '+48',
+            'currency' => 'PLN',
+            'canShipTo' => false
+        ],
+        'GB' => [
+            'languageCode' => 'en_GB',
+            'phonePrefix' => '+44',
+            'currency' => 'GBP',
+            'canShipTo' => false
         ],
     ];
 
@@ -64,6 +83,16 @@ class CountrySettings
     public function getAllCountrySettings(): ?array
     {
         return $this->countrySettings ?? null;
+    }
+
+    /**
+     * Get all country settings
+     *
+     * @return array|array[]
+     */
+    public function getCountryCanShipToSettings(): array
+    {
+        return array_filter($this->countrySettings, fn ($country) => $country['canShipTo']);
     }
 
     /**

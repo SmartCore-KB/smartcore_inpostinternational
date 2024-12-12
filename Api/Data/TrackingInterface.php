@@ -64,5 +64,5 @@ interface TrackingInterface
      * @param string|null $estDeliveryDate
      * @return $this
      */
-    public function setEstimatedDeliveryDate(?string $estDeliveryDate): static;
+    public function setEstimatedDeliveryDate(?string $estDeliveryDate): self;
 }

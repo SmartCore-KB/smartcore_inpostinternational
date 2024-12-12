@@ -44,8 +44,6 @@ class AccessTokenService
      *
      * @return string
      * @throws TokenSaveException
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function getAccessToken(): string
     {
