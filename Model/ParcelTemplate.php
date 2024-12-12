@@ -27,7 +27,7 @@ class ParcelTemplate extends AbstractModel implements ParcelTemplateInterface
      */
     public function getEntityId(): ?int
     {
-        return $this->_getData('entity_id');
+        return $this->_getData(self::ENTITY_ID);
     }
 
     /**
@@ -38,7 +38,7 @@ class ParcelTemplate extends AbstractModel implements ParcelTemplateInterface
      */
     public function setEntityId($entityId): static
     {
-        return $this->setData('entity_id', $entityId);
+        return $this->setData(self::ENTITY_ID, $entityId);
     }
 
     /**

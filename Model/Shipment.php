@@ -13,198 +13,6 @@ use Smartcore\InPostInternational\Model\ResourceModel\Shipment as ShipmentResour
  */
 class Shipment extends AbstractModel implements ShipmentInterface
 {
-    /**
-     * @var int|null
-     */
-    protected ?int $orderId = null;
-    /**
-     * @var string
-     */
-    protected string $shipmentType;
-    /**
-     * @var string|null
-     */
-    protected ?string $labelFormat = null;
-    /**
-     * @var string|null
-     */
-    protected ?string $senderCompanyName = null;
-    /**
-     * @var string
-     */
-    protected string $senderFirstName;
-    /**
-     * @var string
-     */
-    protected string $senderLastName;
-    /**
-     * @var string
-     */
-    protected string $senderEmail;
-    /**
-     * @var string
-     */
-    protected string $senderPhonePrefix;
-    /**
-     * @var string
-     */
-    protected string $senderPhoneNumber;
-    /**
-     * @var string|null
-     */
-    protected ?string $senderLanguageCode = null;
-    /**
-     * @var string|null
-     */
-    protected ?string $recipientCompanyName = null;
-    /**
-     * @var string
-     */
-    protected string $recipientFirstName;
-    /**
-     * @var string
-     */
-    protected string $recipientLastName;
-    /**
-     * @var string
-     */
-    protected string $recipientEmail;
-    /**
-     * @var string
-     */
-    protected string $recipientPhonePrefix;
-    /**
-     * @var string
-     */
-    protected string $recipientPhoneNumber;
-    /**
-     * @var string|null
-     */
-    protected ?string $recipientLanguageCode = null;
-    /**
-     * @var string
-     */
-    protected string $originHouseNumber;
-    /**
-     * @var string|null
-     */
-    protected ?string $originFlatNumber = null;
-    /**
-     * @var string
-     */
-    protected string $originStreet;
-    /**
-     * @var string
-     */
-    protected string $originCity;
-    /**
-     * @var string
-     */
-    protected string $originPostalCode;
-    /**
-     * @var string
-     */
-    protected string $originCountryCode;
-    /**
-     * @var string
-     */
-    protected string $destinationCountryCode;
-    /**
-     * @var string
-     */
-    protected string $destinationPointName;
-    /**
-     * @var string
-     */
-    protected string $priority;
-    /**
-     * @var float|null
-     */
-    protected ?float $insuranceValue = null;
-    /**
-     * @var string
-     */
-    protected string $insuranceCurrency;
-    /**
-     * @var string|null
-     */
-    protected ?string $references;
-    /**
-     * @var string
-     */
-    protected string $parcelType;
-    /**
-     * @var float
-     */
-    protected float $parcelLength;
-    /**
-     * @var float
-     */
-    protected float $parcelWidth;
-    /**
-     * @var float
-     */
-    protected float $parcelHeight;
-    /**
-     * @var string
-     */
-    protected string $parcelDimensionsUnit;
-    /**
-     * @var float
-     */
-    protected float $parcelWeight;
-    /**
-     * @var string
-     */
-    protected string $parcelWeightUnit;
-    /**
-     * @var string
-     */
-    protected string $parcelLabelComment;
-    /**
-     * @var string
-     */
-    protected string $parcelLabelBarcode;
-    /**
-     * @var string|null
-     */
-    protected ?string $labelUrl = null;
-    /**
-     * @var string|null
-     */
-    protected ?string $uuid = null;
-    /**
-     * @var string|null
-     */
-    protected ?string $trackingNumber = null;
-    /**
-     * @var string|null
-     */
-    protected ?string $parcelUuid = null;
-    /**
-     * @var string|null
-     */
-    protected ?string $parcelNumbers = null;
-    /**
-     * @var string|null
-     */
-    protected ?string $routingDeliveryArea = null;
-    /**
-     * @var string|null
-     */
-    protected ?string $routingDeliveryDepotNumber = null;
-    /**
-     * @var string
-     */
-    protected string $createdAt;
-    /**
-     * @var string
-     */
-    protected string $updatedAt;
-    /**
-     * @var string|null
-     */
-    private ?string $parcelStatus;
 
     /**
      * Shipment constructor.
@@ -223,7 +31,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getOrderId(): ?int
     {
-        return $this->orderId;
+        return $this->getData(self::ORDER_ID);
     }
 
     /**
@@ -234,8 +42,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setOrderId(?int $orderId): self
     {
-        $this->orderId = $orderId;
-        return $this;
+        return $this->setData(self::ORDER_ID, $orderId);
     }
 
     /**
@@ -245,7 +52,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getShipmentType(): string
     {
-        return $this->shipmentType;
+        return $this->getData(self::SHIPMENT_TYPE);
     }
 
     /**
@@ -256,8 +63,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setShipmentType(string $shipmentType): self
     {
-        $this->shipmentType = $shipmentType;
-        return $this;
+        return $this->setData(self::SHIPMENT_TYPE, $shipmentType);
     }
 
     /**
@@ -267,7 +73,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getLabelFormat(): ?string
     {
-        return $this->labelFormat;
+        return $this->getData(self::LABEL_FORMAT);
     }
 
     /**
@@ -278,8 +84,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setLabelFormat(?string $labelFormat): self
     {
-        $this->labelFormat = $labelFormat;
-        return $this;
+        return $this->setData(self::LABEL_FORMAT, $labelFormat);
     }
 
     /**
@@ -289,7 +94,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getSenderCompanyName(): ?string
     {
-        return $this->senderCompanyName;
+        return $this->getData(self::SENDER_COMPANY_NAME);
     }
 
     /**
@@ -300,8 +105,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setSenderCompanyName(?string $senderCompanyName): self
     {
-        $this->senderCompanyName = $senderCompanyName;
-        return $this;
+        return $this->setData(self::SENDER_COMPANY_NAME, $senderCompanyName);
     }
 
     /**
@@ -311,7 +115,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getSenderFirstName(): string
     {
-        return $this->senderFirstName;
+        return $this->getData(self::SENDER_FIRST_NAME);
     }
 
     /**
@@ -322,8 +126,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setSenderFirstName(string $senderFirstName): self
     {
-        $this->senderFirstName = $senderFirstName;
-        return $this;
+        return $this->setData(self::SENDER_FIRST_NAME, $senderFirstName);
     }
 
     /**
@@ -333,7 +136,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getSenderLastName(): string
     {
-        return $this->senderLastName;
+        return $this->getData(self::SENDER_LAST_NAME);
     }
 
     /**
@@ -344,8 +147,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setSenderLastName(string $senderLastName): self
     {
-        $this->senderLastName = $senderLastName;
-        return $this;
+        return $this->setData(self::SENDER_LAST_NAME, $senderLastName);
     }
 
     /**
@@ -355,7 +157,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getSenderEmail(): string
     {
-        return $this->senderEmail;
+        return $this->getData(self::SENDER_EMAIL);
     }
 
     /**
@@ -366,8 +168,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setSenderEmail(string $senderEmail): self
     {
-        $this->senderEmail = $senderEmail;
-        return $this;
+        return $this->setData(self::SENDER_EMAIL, $senderEmail);
     }
 
     /**
@@ -377,7 +178,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getSenderPhonePrefix(): string
     {
-        return $this->senderPhonePrefix;
+        return $this->getData(self::SENDER_PHONE_PREFIX);
     }
 
     /**
@@ -388,8 +189,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setSenderPhonePrefix(string $senderPhonePrefix): self
     {
-        $this->senderPhonePrefix = $senderPhonePrefix;
-        return $this;
+        return $this->setData(self::SENDER_PHONE_PREFIX, $senderPhonePrefix);
     }
 
     /**
@@ -399,7 +199,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getSenderPhoneNumber(): string
     {
-        return $this->senderPhoneNumber;
+        return $this->getData(self::SENDER_PHONE_NUMBER);
     }
 
     /**
@@ -410,8 +210,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setSenderPhoneNumber(string $senderPhoneNumber): self
     {
-        $this->senderPhoneNumber = $senderPhoneNumber;
-        return $this;
+        return $this->setData(self::SENDER_PHONE_NUMBER, $senderPhoneNumber);
     }
 
     /**
@@ -421,7 +220,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getSenderLanguageCode(): ?string
     {
-        return $this->senderLanguageCode;
+        return $this->getData(self::SENDER_LANGUAGE_CODE);
     }
 
     /**
@@ -432,8 +231,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setSenderLanguageCode(?string $senderLanguageCode): self
     {
-        $this->senderLanguageCode = $senderLanguageCode;
-        return $this;
+        return $this->setData(self::SENDER_LANGUAGE_CODE, $senderLanguageCode);
     }
 
     /**
@@ -443,7 +241,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getRecipientCompanyName(): ?string
     {
-        return $this->recipientCompanyName;
+        return $this->getData(self::RECIPIENT_COMPANY_NAME);
     }
 
     /**
@@ -454,8 +252,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setRecipientCompanyName(?string $recipientCompanyName): self
     {
-        $this->recipientCompanyName = $recipientCompanyName;
-        return $this;
+        return $this->setData(self::RECIPIENT_COMPANY_NAME, $recipientCompanyName);
     }
 
     /**
@@ -465,7 +262,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getRecipientFirstName(): string
     {
-        return $this->recipientFirstName;
+        return $this->getData(self::RECIPIENT_FIRST_NAME);
     }
 
     /**
@@ -476,8 +273,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setRecipientFirstName(string $recipientFirstName): self
     {
-        $this->recipientFirstName = $recipientFirstName;
-        return $this;
+        return $this->setData(self::RECIPIENT_FIRST_NAME, $recipientFirstName);
     }
 
     /**
@@ -487,7 +283,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getRecipientLastName(): string
     {
-        return $this->recipientLastName;
+        return $this->getData(self::RECIPIENT_LAST_NAME);
     }
 
     /**
@@ -498,8 +294,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setRecipientLastName(string $recipientLastName): self
     {
-        $this->recipientLastName = $recipientLastName;
-        return $this;
+        return $this->setData(self::RECIPIENT_LAST_NAME, $recipientLastName);
     }
 
     /**
@@ -509,7 +304,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getRecipientEmail(): string
     {
-        return $this->recipientEmail;
+        return $this->getData(self::RECIPIENT_EMAIL);
     }
 
     /**
@@ -520,8 +315,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setRecipientEmail(string $recipientEmail): self
     {
-        $this->recipientEmail = $recipientEmail;
-        return $this;
+        return $this->setData(self::RECIPIENT_EMAIL, $recipientEmail);
     }
 
     /**
@@ -531,7 +325,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getRecipientPhonePrefix(): string
     {
-        return $this->recipientPhonePrefix;
+        return $this->getData(self::RECIPIENT_PHONE_PREFIX);
     }
 
     /**
@@ -542,8 +336,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setRecipientPhonePrefix(string $recipientPhonePrefix): self
     {
-        $this->recipientPhonePrefix = $recipientPhonePrefix;
-        return $this;
+        return $this->setData(self::RECIPIENT_PHONE_PREFIX, $recipientPhonePrefix);
     }
 
     /**
@@ -553,7 +346,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getRecipientPhoneNumber(): string
     {
-        return $this->recipientPhoneNumber;
+        return $this->getData(self::RECIPIENT_PHONE_NUMBER);
     }
 
     /**
@@ -564,8 +357,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setRecipientPhoneNumber(string $recipientPhoneNumber): self
     {
-        $this->recipientPhoneNumber = $recipientPhoneNumber;
-        return $this;
+        return $this->setData(self::RECIPIENT_PHONE_NUMBER, $recipientPhoneNumber);
     }
 
     /**
@@ -575,7 +367,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getRecipientLanguageCode(): ?string
     {
-        return $this->recipientLanguageCode;
+        return $this->getData(self::RECIPIENT_LANGUAGE_CODE);
     }
 
     /**
@@ -586,8 +378,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setRecipientLanguageCode(?string $recipientLangCode): self
     {
-        $this->recipientLanguageCode = $recipientLangCode;
-        return $this;
+        return $this->setData(self::RECIPIENT_LANGUAGE_CODE, $recipientLangCode);
     }
 
     /**
@@ -597,7 +388,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getOriginHouseNumber(): string
     {
-        return $this->originHouseNumber;
+        return $this->getData(self::ORIGIN_HOUSE_NUMBER);
     }
 
     /**
@@ -608,8 +399,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setOriginHouseNumber(string $originHouseNumber): self
     {
-        $this->originHouseNumber = $originHouseNumber;
-        return $this;
+        return $this->setData(self::ORIGIN_HOUSE_NUMBER, $originHouseNumber);
     }
 
     /**
@@ -619,7 +409,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getOriginFlatNumber(): ?string
     {
-        return $this->originFlatNumber;
+        return $this->getData(self::ORIGIN_FLAT_NUMBER);
     }
 
     /**
@@ -630,8 +420,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setOriginFlatNumber(?string $originFlatNumber): self
     {
-        $this->originFlatNumber = $originFlatNumber;
-        return $this;
+        return $this->setData(self::ORIGIN_FLAT_NUMBER, $originFlatNumber);
     }
 
     /**
@@ -641,7 +430,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getOriginStreet(): string
     {
-        return $this->originStreet;
+        return $this->getData(self::ORIGIN_STREET);
     }
 
     /**
@@ -652,8 +441,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setOriginStreet(string $originStreet): self
     {
-        $this->originStreet = $originStreet;
-        return $this;
+        return $this->setData(self::ORIGIN_STREET, $originStreet);
     }
 
     /**
@@ -663,7 +451,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getOriginCity(): string
     {
-        return $this->originCity;
+        return $this->getData(self::ORIGIN_CITY);
     }
 
     /**
@@ -674,8 +462,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setOriginCity(string $originCity): self
     {
-        $this->originCity = $originCity;
-        return $this;
+        return $this->setData(self::ORIGIN_CITY, $originCity);
     }
 
     /**
@@ -685,7 +472,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getOriginPostalCode(): string
     {
-        return $this->originPostalCode;
+        return $this->getData(self::ORIGIN_POSTAL_CODE);
     }
 
     /**
@@ -696,8 +483,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setOriginPostalCode(string $originPostalCode): self
     {
-        $this->originPostalCode = $originPostalCode;
-        return $this;
+        return $this->setData(self::ORIGIN_POSTAL_CODE, $originPostalCode);
     }
 
     /**
@@ -707,7 +493,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getOriginCountryCode(): string
     {
-        return $this->originCountryCode;
+        return $this->getData(self::ORIGIN_COUNTRY_CODE);
     }
 
     /**
@@ -718,8 +504,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setOriginCountryCode(string $originCountryCode): self
     {
-        $this->originCountryCode = $originCountryCode;
-        return $this;
+        return $this->setData(self::ORIGIN_COUNTRY_CODE, $originCountryCode);
     }
 
     /**
@@ -729,7 +514,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getDestinationCountryCode(): string
     {
-        return $this->destinationCountryCode;
+        return $this->getData(self::DESTINATION_COUNTRY_CODE);
     }
 
     /**
@@ -740,8 +525,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setDestinationCountryCode(string $destCountryCode): self
     {
-        $this->destinationCountryCode = $destCountryCode;
-        return $this;
+        return $this->setData(self::DESTINATION_COUNTRY_CODE, $destCountryCode);
     }
 
     /**
@@ -751,7 +535,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getDestinationPointName(): string
     {
-        return $this->destinationPointName;
+        return $this->getData(self::DESTINATION_POINT_NAME);
     }
 
     /**
@@ -762,8 +546,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setDestinationPointName(string $destinationPointName): self
     {
-        $this->destinationPointName = $destinationPointName;
-        return $this;
+        return $this->setData(self::DESTINATION_POINT_NAME, $destinationPointName);
     }
 
     /**
@@ -773,7 +556,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getPriority(): string
     {
-        return $this->priority;
+        return $this->getData(self::PRIORITY);
     }
 
     /**
@@ -784,8 +567,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setPriority(string $priority): self
     {
-        $this->priority = $priority;
-        return $this;
+        return $this->setData(self::PRIORITY, $priority);
     }
 
     /**
@@ -795,7 +577,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getInsuranceValue(): ?float
     {
-        return $this->insuranceValue;
+        return $this->getData(self::INSURANCE_VALUE);
     }
 
     /**
@@ -806,8 +588,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setInsuranceValue(?float $insuranceValue): self
     {
-        $this->insuranceValue = $insuranceValue;
-        return $this;
+        return $this->setData(self::INSURANCE_VALUE, $insuranceValue);
     }
 
     /**
@@ -817,7 +598,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getInsuranceCurrency(): string
     {
-        return $this->insuranceCurrency;
+        return $this->getData(self::INSURANCE_CURRENCY);
     }
 
     /**
@@ -828,8 +609,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setInsuranceCurrency(string $insuranceCurrency): self
     {
-        $this->insuranceCurrency = $insuranceCurrency;
-        return $this;
+        return $this->setData(self::INSURANCE_CURRENCY, $insuranceCurrency);
     }
 
     /**
@@ -839,7 +619,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getReferences(): ?string
     {
-        return $this->references;
+        return $this->getData(self::REFERENCES);
     }
 
     /**
@@ -850,8 +630,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setReferences(?string $references): self
     {
-        $this->references = $references;
-        return $this;
+        return $this->setData(self::REFERENCES, $references);
     }
 
     /**
@@ -861,7 +640,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelType(): string
     {
-        return $this->parcelType;
+        return $this->getData(self::PARCEL_TYPE);
     }
 
     /**
@@ -872,8 +651,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelType(string $parcelType): self
     {
-        $this->parcelType = $parcelType;
-        return $this;
+        return $this->setData(self::PARCEL_TYPE, $parcelType);
     }
 
     /**
@@ -883,7 +661,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelLength(): float
     {
-        return $this->parcelLength;
+        return $this->getData(self::PARCEL_LENGTH);
     }
 
     /**
@@ -894,8 +672,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelLength(float $parcelLength): self
     {
-        $this->parcelLength = $parcelLength;
-        return $this;
+        return $this->setData(self::PARCEL_LENGTH, $parcelLength);
     }
 
     /**
@@ -905,7 +682,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelWidth(): float
     {
-        return $this->parcelWidth;
+        return $this->getData(self::PARCEL_WIDTH);
     }
 
     /**
@@ -916,8 +693,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelWidth(float $parcelWidth): self
     {
-        $this->parcelWidth = $parcelWidth;
-        return $this;
+        return $this->setData(self::PARCEL_WIDTH, $parcelWidth);
     }
 
     /**
@@ -927,7 +703,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelHeight(): float
     {
-        return $this->parcelHeight;
+        return $this->getData(self::PARCEL_HEIGHT);
     }
 
     /**
@@ -938,8 +714,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelHeight(float $parcelHeight): self
     {
-        $this->parcelHeight = $parcelHeight;
-        return $this;
+        return $this->setData(self::PARCEL_HEIGHT, $parcelHeight);
     }
 
     /**
@@ -949,7 +724,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelDimensionsUnit(): string
     {
-        return $this->parcelDimensionsUnit;
+        return $this->getData(self::PARCEL_DIMENSIONS_UNIT);
     }
 
     /**
@@ -960,8 +735,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelDimensionsUnit(string $parcelDimensionsUnit): self
     {
-        $this->parcelDimensionsUnit = $parcelDimensionsUnit;
-        return $this;
+        return $this->setData(self::PARCEL_DIMENSIONS_UNIT, $parcelDimensionsUnit);
     }
 
     /**
@@ -971,7 +745,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelWeight(): float
     {
-        return $this->parcelWeight;
+        return $this->getData(self::PARCEL_WEIGHT);
     }
 
     /**
@@ -982,8 +756,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelWeight(float $parcelWeight): self
     {
-        $this->parcelWeight = $parcelWeight;
-        return $this;
+        return $this->setData(self::PARCEL_WEIGHT, $parcelWeight);
     }
 
     /**
@@ -993,7 +766,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelWeightUnit(): string
     {
-        return $this->parcelWeightUnit;
+        return $this->getData(self::PARCEL_WEIGHT_UNIT);
     }
 
     /**
@@ -1004,8 +777,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelWeightUnit(string $parcelWeightUnit): self
     {
-        $this->parcelWeightUnit = $parcelWeightUnit;
-        return $this;
+        return $this->setData(self::PARCEL_WEIGHT_UNIT, $parcelWeightUnit);
     }
 
     /**
@@ -1015,7 +787,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelLabelComment(): string
     {
-        return $this->parcelLabelComment;
+        return $this->getData(self::PARCEL_LABEL_COMMENT);
     }
 
     /**
@@ -1026,8 +798,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelLabelComment(string $parcelLabelComment): self
     {
-        $this->parcelLabelComment = $parcelLabelComment;
-        return $this;
+        return $this->setData(self::PARCEL_LABEL_COMMENT, $parcelLabelComment);
     }
 
     /**
@@ -1037,7 +808,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelLabelBarcode(): string
     {
-        return $this->parcelLabelBarcode;
+        return $this->getData(self::PARCEL_LABEL_BARCODE);
     }
 
     /**
@@ -1048,8 +819,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelLabelBarcode(string $parcelLabelBarcode): self
     {
-        $this->parcelLabelBarcode = $parcelLabelBarcode;
-        return $this;
+        return $this->setData(self::PARCEL_LABEL_BARCODE, $parcelLabelBarcode);
     }
 
     /**
@@ -1059,7 +829,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getLabelUrl(): ?string
     {
-        return $this->labelUrl;
+        return $this->getData(self::LABEL_URL);
     }
 
     /**
@@ -1070,8 +840,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setLabelUrl(?string $labelUrl): self
     {
-        $this->labelUrl = $labelUrl;
-        return $this;
+        return $this->setData(self::LABEL_URL, $labelUrl);
     }
 
     /**
@@ -1081,7 +850,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getUuid(): ?string
     {
-        return $this->uuid;
+        return $this->getData(self::UUID);
     }
 
     /**
@@ -1092,8 +861,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setUuid(?string $uuid): self
     {
-        $this->uuid = $uuid;
-        return $this;
+        return $this->setData(self::UUID, $uuid);
     }
 
     /**
@@ -1103,7 +871,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getTrackingNumber(): ?string
     {
-        return $this->trackingNumber;
+        return $this->getData(self::TRACKING_NUMBER);
     }
 
     /**
@@ -1114,8 +882,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setTrackingNumber(?string $trackingNumber): self
     {
-        $this->trackingNumber = $trackingNumber;
-        return $this;
+        return $this->setData(self::TRACKING_NUMBER, $trackingNumber);
     }
 
     /**
@@ -1125,7 +892,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelUuid(): ?string
     {
-        return $this->parcelUuid;
+        return $this->getData(self::PARCEL_UUID);
     }
 
     /**
@@ -1136,8 +903,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelUuid(?string $parcelUuid): self
     {
-        $this->parcelUuid = $parcelUuid;
-        return $this;
+        return $this->setData(self::PARCEL_UUID, $parcelUuid);
     }
 
     /**
@@ -1147,7 +913,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelNumbers(): ?string
     {
-        return $this->parcelNumbers;
+        return $this->getData(self::PARCEL_NUMBERS);
     }
 
     /**
@@ -1158,8 +924,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelNumbers(?string $parcelNumbers): self
     {
-        $this->parcelNumbers = $parcelNumbers;
-        return $this;
+        return $this->setData(self::PARCEL_NUMBERS, $parcelNumbers);
     }
 
     /**
@@ -1169,7 +934,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getRoutingDeliveryArea(): ?string
     {
-        return $this->routingDeliveryArea;
+        return $this->getData(self::ROUTING_DELIVERY_AREA);
     }
 
     /**
@@ -1180,8 +945,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setRoutingDeliveryArea(?string $routingDeliveryArea): self
     {
-        $this->routingDeliveryArea = $routingDeliveryArea;
-        return $this;
+        return $this->setData(self::ROUTING_DELIVERY_AREA, $routingDeliveryArea);
     }
 
     /**
@@ -1191,7 +955,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getRoutingDeliveryDepotNumber(): ?string
     {
-        return $this->routingDeliveryDepotNumber;
+        return $this->getData(self::ROUTING_DELIVERY_DEPOT_NUMBER);
     }
 
     /**
@@ -1202,8 +966,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setRoutingDeliveryDepotNumber(?string $deliveryDepotNumber): self
     {
-        $this->routingDeliveryDepotNumber = $deliveryDepotNumber;
-        return $this;
+        return $this->setData(self::ROUTING_DELIVERY_DEPOT_NUMBER, $deliveryDepotNumber);
     }
 
     /**
@@ -1213,7 +976,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getCreatedAt(): string
     {
-        return $this->createdAt;
+        return $this->getData(self::CREATED_AT);
     }
 
     /**
@@ -1224,8 +987,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setCreatedAt(string $createdAt): self
     {
-        $this->createdAt = $createdAt;
-        return $this;
+        return $this->setData(self::CREATED_AT, $createdAt);
     }
 
     /**
@@ -1235,7 +997,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getUpdatedAt(): string
     {
-        return $this->updatedAt;
+        return $this->getData(self::UPDATED_AT);
     }
 
     /**
@@ -1246,8 +1008,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setUpdatedAt(string $updatedAt): self
     {
-        $this->updatedAt = $updatedAt;
-        return $this;
+        return $this->setData(self::UPDATED_AT, $updatedAt);
     }
 
     /**
@@ -1257,7 +1018,7 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function getParcelStatus(): ?string
     {
-        return $this->parcelStatus;
+        return $this->getData(self::PARCEL_STATUS);
     }
 
     /**
@@ -1268,7 +1029,6 @@ class Shipment extends AbstractModel implements ShipmentInterface
      */
     public function setParcelStatus(?string $parcelStatus): self
     {
-        $this->parcelStatus = $parcelStatus;
-        return $this;
+        return $this->setData(self::PARCEL_STATUS, $parcelStatus);
     }
 }

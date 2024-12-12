@@ -80,7 +80,7 @@
         <field name="type" formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
+                    <item name="source" xsi:type="string">inpostinternational_parceltemplate_create</item>
                 </item>
             </argument>
             <settings>
@@ -170,7 +170,7 @@
         <field name="dimension_unit" formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
+                    <item name="source" xsi:type="string">inpostinternational_parceltemplate_create</item>
                 </item>
             </argument>
             <settings>
@@ -208,7 +208,7 @@
         <field name="weight_unit" formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
+                    <item name="source" xsi:type="string">inpostinternational_parceltemplate_create</item>
                 </item>
             </argument>
             <settings>

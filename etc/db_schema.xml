@@ -36,8 +36,8 @@
         </constraint>
     </table>
 
-    <table name="inpostinternational_shipments" resource="default" engine="innodb" comment="InPost Shipments">
-        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+    <table name="inpostinternational_shipment" resource="default" engine="innodb" comment="InPost Shipment">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="ID"/>
         <column xsi:type="int" name="order_id" unsigned="true" nullable="true" comment="Order ID"/>
         <column xsi:type="varchar" name="shipment_type" nullable="false" length="50" comment="Shipment Type"/>
 
@@ -97,7 +97,7 @@
         <column xsi:type="timestamp" name="updated_at" nullable="false" on_update="true" default="CURRENT_TIMESTAMP" comment="Updated At"/>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">
-            <column name="id"/>
+            <column name="entity_id"/>
         </constraint>
         <constraint xsi:type="foreign" referenceId="FK_INPOSTINTERNATIONAL_SHIPMENTS_ORDER_ID" table="inpostinternational_shipments" column="order_id"
                     referenceTable="sales_order" referenceColumn="entity_id"/>

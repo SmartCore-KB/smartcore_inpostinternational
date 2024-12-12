@@ -75,7 +75,7 @@ class ShipmentProcessor
             /** @var ShipmentTypeInterface $shipmentType */
             $shipmentType = $this->shipmentTypeFactory->create($shipmentSendingType);
             $shipmentType->setLabelFormat($shipmentFieldsetData['label_format']);
-            $shipmentType->setShipment($this->createShipment($shipmentFieldsetData));
+            $shipmentType->setShipment($this->createShipmentDto($shipmentFieldsetData));
 
             $apiResponse =  $this->apiService->createShipment($shipmentType);
             $this->processApiResponse($shipmentType, $apiResponse, $formData);
@@ -125,7 +125,7 @@ class ShipmentProcessor
      * @param array $shipmentFieldsetData
      * @return ShipmentDto
      */
-    private function createShipment(array $shipmentFieldsetData): ShipmentDto
+    private function createShipmentDto(array $shipmentFieldsetData): ShipmentDto
     {
         $shipment = new ShipmentDto();
         $shipment->setSender($this->createSender())

@@ -6,7 +6,55 @@ namespace Smartcore\InPostInternational\Api\Data;
 
 interface ShipmentInterface
 {
-    public const string ENTITY_ID = 'entity_id';
+    public const ENTITY_ID = 'entity_id';
+    public const ORDER_ID = 'order_id';
+    public const SHIPMENT_TYPE = 'shipment_type';
+    public const LABEL_FORMAT = 'label_format';
+    public const SENDER_COMPANY_NAME = 'sender_company_name';
+    public const SENDER_FIRST_NAME = 'sender_first_name';
+    public const SENDER_LAST_NAME = 'sender_last_name';
+    public const SENDER_EMAIL = 'sender_email';
+    public const SENDER_PHONE_PREFIX = 'sender_phone_prefix';
+    public const SENDER_PHONE_NUMBER = 'sender_phone_number';
+    public const SENDER_LANGUAGE_CODE = 'sender_language_code';
+    public const RECIPIENT_COMPANY_NAME = 'recipient_company_name';
+    public const RECIPIENT_FIRST_NAME = 'recipient_first_name';
+    public const RECIPIENT_LAST_NAME = 'recipient_last_name';
+    public const RECIPIENT_EMAIL = 'recipient_email';
+    public const RECIPIENT_PHONE_PREFIX = 'recipient_phone_prefix';
+    public const RECIPIENT_PHONE_NUMBER = 'recipient_phone_number';
+    public const RECIPIENT_LANGUAGE_CODE = 'recipient_language_code';
+    public const ORIGIN_HOUSE_NUMBER = 'origin_house_number';
+    public const ORIGIN_FLAT_NUMBER = 'origin_flat_number';
+    public const ORIGIN_STREET = 'origin_street';
+    public const ORIGIN_CITY = 'origin_city';
+    public const ORIGIN_POSTAL_CODE = 'origin_postal_code';
+    public const ORIGIN_COUNTRY_CODE = 'origin_country_code';
+    public const DESTINATION_COUNTRY_CODE = 'destination_country_code';
+    public const DESTINATION_POINT_NAME = 'destination_point_name';
+    public const PRIORITY = 'priority';
+    public const INSURANCE_VALUE = 'insurance_value';
+    public const INSURANCE_CURRENCY = 'insurance_currency';
+    public const REFERENCES = 'references';
+    public const PARCEL_TYPE = 'parcel_type';
+    public const PARCEL_LENGTH = 'parcel_length';
+    public const PARCEL_WIDTH = 'parcel_width';
+    public const PARCEL_HEIGHT = 'parcel_height';
+    public const PARCEL_DIMENSIONS_UNIT = 'parcel_dimensions_unit';
+    public const PARCEL_WEIGHT = 'parcel_weight';
+    public const PARCEL_WEIGHT_UNIT = 'parcel_weight_unit';
+    public const PARCEL_LABEL_COMMENT = 'parcel_label_comment';
+    public const PARCEL_LABEL_BARCODE = 'parcel_label_barcode';
+    public const LABEL_URL = 'label_url';
+    public const UUID = 'uuid';
+    public const TRACKING_NUMBER = 'tracking_number';
+    public const PARCEL_UUID = 'parcel_uuid';
+    public const PARCEL_NUMBERS = 'parcel_numbers';
+    public const PARCEL_STATUS = 'parcel_status';
+    public const ROUTING_DELIVERY_AREA = 'routing_delivery_area';
+    public const ROUTING_DELIVERY_DEPOT_NUMBER = 'routing_delivery_depot_number';
+    public const CREATED_AT = 'created_at';
+    public const UPDATED_AT = 'updated_at';
 
     /**
      * Get the order ID
