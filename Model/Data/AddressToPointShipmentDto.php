@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model\Data;
 
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
 use Smartcore\InPostInternational\Model\Shipment as ShipmentModel;
 use Smartcore\InPostInternational\Model\ShipmentFactory;
 
@@ -11,26 +15,24 @@ class AddressToPointShipmentDto extends AbstractDto implements ShipmentTypeInter
 {
 
     /**
-     * Format of the shipment label (e.g., PDF, ZPL)
-     *
-     * @var string
-     */
-    public string $labelFormat;
-
-    /**
-     * Shipment details for address-to-point delivery
-     *
-     * @var ShipmentDto
-     */
-    public ShipmentDto $shipment;
-
-    /**
      * AddressToPointShipmentDto constructor.
      *
      * @param ShipmentFactory $shipmentFactory
+     * @param Context $context
+     * @param Registry $registry
+     * @param AbstractResource|null $resource
+     * @param AbstractDb|null $resourceCollection
+     * @param array $data
      */
-    public function __construct(private readonly ShipmentFactory $shipmentFactory)
-    {
+    public function __construct(
+        private readonly ShipmentFactory $shipmentFactory,
+        Context                  $context,
+        Registry                 $registry,
+        ?AbstractResource        $resource = null,
+        ?AbstractDb              $resourceCollection = null,
+        array                            $data = []
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -63,6 +65,7 @@ class AddressToPointShipmentDto extends AbstractDto implements ShipmentTypeInter
         /** @var ShipmentModel $shipmentDbModel */
         $shipmentDbModel = $this->shipmentFactory->create();
         $shipmentDbModel
+            ->setLabelFormat($this->getLabelFormat())
             ->setShipmentType($this->getEndpoint())
             ->setSenderCompanyName($sender->getCompanyName())
             ->setSenderFirstName($sender->getFirstName())
@@ -117,18 +120,19 @@ class AddressToPointShipmentDto extends AbstractDto implements ShipmentTypeInter
      */
     public function getLabelFormat(): string
     {
-        return $this->labelFormat;
+        return $this->getData(self::LABEL_FORMAT);
     }
 
     /**
      * Set the label format for the shipment
      *
      * @param string $labelFormat
-     * @return void
+     * @return $this
      */
-    public function setLabelFormat(string $labelFormat): void
+    public function setLabelFormat(string $labelFormat): self
     {
-        $this->labelFormat = $labelFormat;
+        $this->setData(self::LABEL_FORMAT, $labelFormat);
+        return $this;
     }
 
     /**
@@ -138,17 +142,18 @@ class AddressToPointShipmentDto extends AbstractDto implements ShipmentTypeInter
      */
     public function getShipment(): ShipmentDto
     {
-        return $this->shipment;
+        return $this->getData(self::SHIPMENT);
     }
 
     /**
      * Set the shipment details for address-to-point delivery
      *
      * @param ShipmentDto $shipment
-     * @return void
+     * @return $this
      */
-    public function setShipment(ShipmentDto $shipment): void
+    public function setShipment(ShipmentDto $shipment): self
     {
-        $this->shipment = $shipment;
+        $this->setData(self::SHIPMENT, $shipment);
+        return $this;
     }
 }

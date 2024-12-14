@@ -5,22 +5,19 @@ declare(strict_types=1);
 namespace Smartcore\InPostInternational\Model\Data;
 
 use InvalidArgumentException;
-use Smartcore\InPostInternational\Model\ShipmentFactory;
 
 class ShipmentTypeFactory
 {
-    private const array SHIPMENT_TYPE_CLASS_MAP = [
-        'address-to-point' => AddressToPointShipmentDto::class,
-        'point-to-point' => PointToPointShipmentDto::class,
-    ];
 
     /**
      * ShipmentTypeFactory constructor.
      *
-     * @param ShipmentFactory $shipmentFactory
+     * @param AddressToPointShipmentDtoFactory $addrToPointFactory
+     * @param PointToPointShipmentDtoFactory $pointToPointFactory
      */
     public function __construct(
-        private readonly ShipmentFactory $shipmentFactory
+        private readonly AddressToPointShipmentDtoFactory $addrToPointFactory,
+        private readonly PointToPointShipmentDtoFactory   $pointToPointFactory
     ) {
     }
 
@@ -34,12 +31,15 @@ class ShipmentTypeFactory
      */
     public function create(string $shipmentType, array $data = []): ShipmentTypeInterface
     {
-        if (!isset(self::SHIPMENT_TYPE_CLASS_MAP[$shipmentType])) {
+        $factoryMap = [
+            'address-to-point' => $this->addrToPointFactory,
+            'point-to-point' => $this->pointToPointFactory,
+        ];
+
+        if (!isset($factoryMap[$shipmentType])) {
             throw new InvalidArgumentException("Invalid shipment type: $shipmentType");
         }
 
-        $className = self::SHIPMENT_TYPE_CLASS_MAP[$shipmentType];
-
-        return new $className($this->shipmentFactory, ...$data);
+        return $factoryMap[$shipmentType]->create($data);
     }
 }

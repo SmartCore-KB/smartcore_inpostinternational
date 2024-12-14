@@ -30,7 +30,7 @@ class Index extends Action
     }
 
     /**
-     * Parcel Template List
+     * Pickup Template List
      *
      * @return ResponseInterface|ResultInterface|Page
      */

@@ -6,6 +6,9 @@ use Smartcore\InPostInternational\Model\Shipment;
 
 interface ShipmentTypeInterface
 {
+    public const string LABEL_FORMAT = 'labelFormat';
+    public const string SHIPMENT = 'shipment';
+
     /**
      * Get API endpoint for shipment type
      *
@@ -21,9 +24,10 @@ interface ShipmentTypeInterface
     public function toDbModel(): Shipment;
 
     /**
-     * Convert object to array
+     * Convert array of object data with to array with keys requested in $keys array
      *
-     * @return array<mixed>
+     * @param array $keys array of required keys
+     * @return array
      */
-    public function toArray(): array;
+    public function toArray(array $keys = []);
 }

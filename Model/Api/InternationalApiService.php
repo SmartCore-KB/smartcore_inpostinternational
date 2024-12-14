@@ -62,7 +62,7 @@ class InternationalApiService
      * @return array
      * @throws Exception
      */
-    public function createShipment(ShipmentTypeInterface $shipment): array
+    public function createApiShipment(ShipmentTypeInterface $shipment): array
     {
         $shipmentData = $shipment->toArray();
         return $this->sendRequest(

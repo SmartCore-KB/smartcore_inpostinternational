@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model\Data;
 
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
 use Smartcore\InPostInternational\Model\Shipment as ShipmentModel;
 use Smartcore\InPostInternational\Model\ShipmentFactory;
 
@@ -27,9 +31,21 @@ class PointToPointShipmentDto extends AbstractDto implements ShipmentTypeInterfa
      * PointToPointShipmentDto constructor.
      *
      * @param ShipmentFactory $shipmentFactory
+     * @param Context $context
+     * @param Registry $registry
+     * @param AbstractResource|null $resource
+     * @param AbstractDb|null $resourceCollection
+     * @param array $data
      */
-    public function __construct(private readonly ShipmentFactory $shipmentFactory)
-    {
+    public function __construct(
+        private readonly ShipmentFactory $shipmentFactory,
+        Context                  $context,
+        Registry                 $registry,
+        ?AbstractResource        $resource = null,
+        ?AbstractDb              $resourceCollection = null,
+        array                    $data = []
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -63,6 +79,7 @@ class PointToPointShipmentDto extends AbstractDto implements ShipmentTypeInterfa
         /** @var ShipmentModel $shipmentDbModel */
         $shipmentDbModel = $this->shipmentFactory->create();
         $shipmentDbModel
+            ->setLabelFormat($this->getLabelFormat())
             ->setShipmentType($this->getEndpoint())
             ->setSenderCompanyName($sender->getCompanyName())
             ->setSenderFirstName($sender->getFirstName())

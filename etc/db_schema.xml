@@ -40,7 +40,7 @@
         <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="ID"/>
         <column xsi:type="int" name="order_id" unsigned="true" nullable="true" comment="Order ID"/>
         <column xsi:type="varchar" name="shipment_type" nullable="false" length="50" comment="Shipment Type"/>
-
+        <!-- Label format -->
         <column xsi:type="varchar" name="labelFormat" nullable="true" length="10" comment="Label format"/>
         <!-- Sender -->
         <column xsi:type="varchar" name="sender_company_name" nullable="true" length="255" comment="Sender company name"/>
