@@ -345,9 +345,9 @@ class ShipmentProcessor
         array $apiResponse,
         array $formData
     ): Shipment {
-        $parcelNumbers = $formData['parcel']['parcelNumbers'] ?? null;
-        if ($formData['parcel']['trackingNumber'] ?? null) {
-            $parcelNumbers['trackingNumber'] = $formData['parcel']['trackingNumber'];
+        $parcelNumbers = $apiResponse['parcel']['parcelNumbers'] ?? null;
+        if ($apiResponse['parcel']['trackingNumber'] ?? null) {
+            $parcelNumbers['trackingNumber'] = $apiResponse['parcel']['trackingNumber'];
         }
         $orderId = isset($formData['shipment_fieldset']['order_id'])
             ? (int) $formData['shipment_fieldset']['order_id']
@@ -358,7 +358,7 @@ class ShipmentProcessor
             ->setUuid($apiResponse['uuid'] ?? null)
             ->setTrackingNumber($apiResponse['trackingNumber'] ?? null)
             ->setParcelUuid($apiResponse['parcel']['uuid'] ?? null)
-            ->setParcelNumbers($parcelNumbers)
+            ->setParcelNumbers(json_encode($parcelNumbers))
             ->setRoutingDeliveryArea($apiResponse['routing']['deliverArea'] ?? null)
             ->setRoutingDeliveryDepotNumber(
                 $apiResponse['routing']['deliveryDepotNumber']
