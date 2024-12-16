@@ -8,31 +8,36 @@ use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
+use Smartcore\InPostInternational\Model\PickupAddressRepository;
 use Smartcore\InPostInternational\Model\Shipment as ShipmentModel;
 use Smartcore\InPostInternational\Model\ShipmentFactory;
 
-class AddressToPointShipmentDto extends AbstractDto implements ShipmentTypeInterface
+class AddressToPointShipmentDto extends ShipmentTypeDto implements ShipmentTypeInterface
 {
+    public const string ADDRESS_TO_POINT = 'address-to-point';
+    public const string LABEL = 'From address (courier pickup)';
 
     /**
      * AddressToPointShipmentDto constructor.
      *
      * @param ShipmentFactory $shipmentFactory
+     * @param AbstractDtoBuilder $abstractDtoBuilder
+     * @param PickupAddressRepository $pickupAddrRepository
      * @param Context $context
      * @param Registry $registry
      * @param AbstractResource|null $resource
      * @param AbstractDb|null $resourceCollection
-     * @param array $data
      */
     public function __construct(
-        private readonly ShipmentFactory $shipmentFactory,
+        readonly ShipmentFactory $shipmentFactory,
+        private readonly AbstractDtoBuilder       $abstractDtoBuilder,
+        private readonly PickupAddressRepository  $pickupAddrRepository,
         Context                  $context,
         Registry                 $registry,
         ?AbstractResource        $resource = null,
-        ?AbstractDb              $resourceCollection = null,
-        array                            $data = []
+        ?AbstractDb              $resourceCollection = null
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($shipmentFactory, $context, $registry, $resource, $resourceCollection);
     }
 
     /**
@@ -42,7 +47,17 @@ class AddressToPointShipmentDto extends AbstractDto implements ShipmentTypeInter
      */
     public function getEndpoint(): string
     {
-        return 'address-to-point';
+        return self::ADDRESS_TO_POINT;
+    }
+
+    /**
+     * Get the label for the shipment type
+     *
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return self::LABEL;
     }
 
     /**
@@ -52,65 +67,43 @@ class AddressToPointShipmentDto extends AbstractDto implements ShipmentTypeInter
      */
     public function toDbModel(): ShipmentModel
     {
+        $shipmentDbModel = parent::toDbModel();
         $shipment = $this->getShipment();
-        $sender = $shipment->getSender();
-        $recipient = $shipment->getRecipient();
         $originAddress = $shipment->getOrigin()->getAddress();
-        $destination = $shipment->getDestination();
-        $insurance = $shipment->getValueAddedServices()->getInsurance();
-        $customReferences = json_encode($shipment->getReferences()?->getCustom());
-        $parcel = $shipment->getParcel();
-        $dimensions = $parcel->getDimensions();
 
-        /** @var ShipmentModel $shipmentDbModel */
-        $shipmentDbModel = $this->shipmentFactory->create();
-        $shipmentDbModel
-            ->setLabelFormat($this->getLabelFormat())
-            ->setShipmentType($this->getEndpoint())
-            ->setSenderCompanyName($sender->getCompanyName())
-            ->setSenderFirstName($sender->getFirstName())
-            ->setSenderLastName($sender->getLastName())
-            ->setSenderEmail($sender->getEmail())
-            ->setSenderPhonePrefix($sender->getPhone()->getPrefix())
-            ->setSenderPhoneNumber($sender->getPhone()->getNumber())
-            ->setSenderLanguageCode($sender->getLanguageCode())
-
-            ->setRecipientFirstName($recipient->getFirstName())
-            ->setRecipientLastName($recipient->getLastName())
-            ->setRecipientCompanyName($recipient->getCompanyName())
-            ->setRecipientEmail($recipient->getEmail())
-            ->setRecipientPhonePrefix($recipient->getPhone()->getPrefix())
-            ->setRecipientPhoneNumber($recipient->getPhone()->getNumber())
-            ->setRecipientLanguageCode($recipient->getLanguageCode())
-
-            ->setOriginHouseNumber($originAddress->getHouseNumber())
+        $shipmentDbModel->setOriginHouseNumber($originAddress->getHouseNumber())
             ->setOriginFlatNumber($originAddress->getFlatNumber())
             ->setOriginStreet($originAddress->getStreet())
             ->setOriginCity($originAddress->getCity())
             ->setOriginPostalCode($originAddress->getPostalCode())
-            ->setOriginCountryCode($originAddress->getCountryCode())
-
-            ->setDestinationCountryCode($destination->getCountryCode())
-            ->setDestinationPointName($destination->getPointName())
-
-            ->setPriority($shipment->getPriority())
-
-            ->setInsuranceValue($insurance->getValue())
-            ->setInsuranceCurrency($insurance->getCurrency())
-
-            ->setReferences($customReferences)
-
-            ->setParcelType($parcel->getType())
-            ->setParcelLength($dimensions->getLength())
-            ->setParcelWidth($dimensions->getWidth())
-            ->setParcelHeight($dimensions->getHeight())
-            ->setParcelDimensionsUnit($dimensions->getUnit())
-            ->setParcelWeight($parcel->getWeight()->getAmount())
-            ->setParcelWeightUnit($parcel->getWeight()->getUnit())
-            ->setParcelLabelComment($parcel->getLabel()->getComment())
-            ->setParcelLabelBarcode($parcel->getLabel()->getBarcode());
+            ->setOriginCountryCode($originAddress->getCountryCode());
 
         return $shipmentDbModel;
+    }
+
+    /**
+     * Create origin object
+     *
+     * @param array<string,mixed> $shipmentFieldsetData
+     * @return OriginDto
+     */
+    public function createOrigin(array $shipmentFieldsetData): OriginDto
+    {
+        $pickupAddress = $this->pickupAddrRepository->load((int) $shipmentFieldsetData['origin']);
+
+        /** @var AddressDto $address */
+        $address = $this->abstractDtoBuilder->buildDtoInstance(AddressDto::class);
+        $address->setHouseNumber($pickupAddress->getHouseNumber())
+            ->setFlatNumber($pickupAddress->getFlatNumber())
+            ->setStreet($pickupAddress->getStreet())
+            ->setCity($pickupAddress->getCity())
+            ->setPostalCode($pickupAddress->getPostalCode())
+            ->setCountryCode($pickupAddress->getCountryCode());
+
+        /** @var OriginDto $origin */
+        $origin = $this->abstractDtoBuilder->buildDtoInstance(OriginDto::class);
+        $origin->setAddress($address);
+        return $origin;
     }
 
     /**

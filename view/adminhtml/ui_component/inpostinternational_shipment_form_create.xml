@@ -125,7 +125,7 @@
             <formElements>
                 <select>
                     <settings>
-                        <options class="Smartcore\InPostInternational\Model\Config\Source\ShipmentType"/>
+                        <options class="Smartcore\InPostInternational\Model\Config\Source\ShipmentTypesList"/>
                     </settings>
                 </select>
             </formElements>
@@ -166,26 +166,6 @@
                 <select>
                     <settings>
                         <options class="Smartcore\InPostInternational\Model\Config\Source\Priority"/>
-                    </settings>
-                </select>
-            </formElements>
-        </field>
-
-        <field name="shipment_type" formElement="select">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
-                </item>
-            </argument>
-            <settings>
-                <dataType>text</dataType>
-                <label translate="true">Way of sending</label>
-                <dataScope>shipment_type</dataScope>
-            </settings>
-            <formElements>
-                <select>
-                    <settings>
-                        <options class="Smartcore\InPostInternational\Model\Config\Source\ShipmentType"/>
                     </settings>
                 </select>
             </formElements>

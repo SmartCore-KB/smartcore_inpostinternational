@@ -16,30 +16,30 @@ class AddressDto extends AbstractDto
     /**
      * Postal code of the address
      *
-     * @var string
+     * @var string|null
      */
-    public string $postalCode;
+    public ?string $postalCode;
 
     /**
      * City of the address
      *
-     * @var string
+     * @var string|null
      */
-    public string $city;
+    public ?string $city;
 
     /**
      * Street name of the address
      *
-     * @var string
+     * @var string|null
      */
-    public string $street;
+    public ?string $street;
 
     /**
      * House number of the address
      *
-     * @var string
+     * @var string|null
      */
-    public string $houseNumber;
+    public ?string $houseNumber;
 
     /**
      * Flat or apartment number of the address (optional)
@@ -73,9 +73,9 @@ class AddressDto extends AbstractDto
     /**
      * Get the postal code of the address
      *
-     * @return string
+     * @return string|null
      */
-    public function getPostalCode(): string
+    public function getPostalCode(): ?string
     {
         return $this->postalCode;
     }
@@ -83,10 +83,10 @@ class AddressDto extends AbstractDto
     /**
      * Set the postal code of the address
      *
-     * @param string $postalCode
+     * @param string|null $postalCode
      * @return $this
      */
-    public function setPostalCode(string $postalCode): static
+    public function setPostalCode(?string $postalCode): static
     {
         $this->postalCode = $postalCode;
         return $this;
@@ -95,9 +95,9 @@ class AddressDto extends AbstractDto
     /**
      * Get the city of the address
      *
-     * @return string
+     * @return string|null
      */
-    public function getCity(): string
+    public function getCity(): ?string
     {
         return $this->city;
     }
@@ -105,10 +105,10 @@ class AddressDto extends AbstractDto
     /**
      * Set the city of the address
      *
-     * @param string $city
+     * @param string|null $city
      * @return $this
      */
-    public function setCity(string $city): static
+    public function setCity(?string $city): static
     {
         $this->city = $city;
         return $this;
@@ -117,9 +117,9 @@ class AddressDto extends AbstractDto
     /**
      * Get the street name of the address
      *
-     * @return string
+     * @return string|null
      */
-    public function getStreet(): string
+    public function getStreet(): ?string
     {
         return $this->street;
     }
@@ -127,10 +127,10 @@ class AddressDto extends AbstractDto
     /**
      * Set the street name of the address
      *
-     * @param string $street
+     * @param string|null $street
      * @return $this
      */
-    public function setStreet(string $street): static
+    public function setStreet(?string $street): static
     {
         $this->street = $street;
         return $this;
@@ -139,9 +139,9 @@ class AddressDto extends AbstractDto
     /**
      * Get the house number of the address
      *
-     * @return string
+     * @return string|null
      */
-    public function getHouseNumber(): string
+    public function getHouseNumber(): ?string
     {
         return $this->houseNumber;
     }
@@ -149,10 +149,10 @@ class AddressDto extends AbstractDto
     /**
      * Set the house number of the address
      *
-     * @param string $houseNumber
+     * @param string|null $houseNumber
      * @return $this
      */
-    public function setHouseNumber(string $houseNumber): static
+    public function setHouseNumber(?string $houseNumber): static
     {
         $this->houseNumber = $houseNumber;
         return $this;

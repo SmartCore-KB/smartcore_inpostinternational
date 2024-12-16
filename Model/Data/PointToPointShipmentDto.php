@@ -8,44 +8,36 @@ use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
+use Smartcore\InPostInternational\Model\ConfigProvider;
 use Smartcore\InPostInternational\Model\Shipment as ShipmentModel;
 use Smartcore\InPostInternational\Model\ShipmentFactory;
 
-class PointToPointShipmentDto extends AbstractDto implements ShipmentTypeInterface
+class PointToPointShipmentDto extends ShipmentTypeDto implements ShipmentTypeInterface
 {
-    /**
-     * Format of the shipment label (e.g., PDF, ZPL)
-     *
-     * @var string
-     */
-    public string $labelFormat;
-
-    /**
-     * Shipment details for address-to-point delivery
-     *
-     * @var ShipmentDto
-     */
-    public ShipmentDto $shipment;
+    public const string POINT_TO_POINT = 'point-to-point';
+    public const string LABEL = 'From point (Locker, Pick-up Drop-off Point, other)';
 
     /**
      * PointToPointShipmentDto constructor.
      *
      * @param ShipmentFactory $shipmentFactory
+     * @param AbstractDtoBuilder $abstractDtoBuilder
+     * @param ConfigProvider $configProvider
      * @param Context $context
      * @param Registry $registry
      * @param AbstractResource|null $resource
      * @param AbstractDb|null $resourceCollection
-     * @param array $data
      */
     public function __construct(
-        private readonly ShipmentFactory $shipmentFactory,
+        readonly ShipmentFactory $shipmentFactory,
+        private readonly AbstractDtoBuilder       $abstractDtoBuilder,
+        private readonly ConfigProvider           $configProvider,
         Context                  $context,
         Registry                 $registry,
         ?AbstractResource        $resource = null,
-        ?AbstractDb              $resourceCollection = null,
-        array                    $data = []
+        ?AbstractDb              $resourceCollection = null
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($shipmentFactory, $context, $registry, $resource, $resourceCollection);
     }
 
     /**
@@ -55,7 +47,17 @@ class PointToPointShipmentDto extends AbstractDto implements ShipmentTypeInterfa
      */
     public function getEndpoint(): string
     {
-        return 'point-to-point';
+        return self::POINT_TO_POINT;
+    }
+
+    /**
+     * Get the label for the shipment type
+     *
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return self::LABEL;
     }
 
     /**
@@ -65,65 +67,30 @@ class PointToPointShipmentDto extends AbstractDto implements ShipmentTypeInterfa
      */
     public function toDbModel(): ShipmentModel
     {
-        // @TODO To verify. This is a copy of the AddressToPointShipmentDto::toDbModel() method
+        $shipmentDbModel = parent::toDbModel();
         $shipment = $this->getShipment();
-        $sender = $shipment->getSender();
-        $recipient = $shipment->getRecipient();
-        $originAddress = $shipment->getOrigin()->getAddress();
-        $destination = $shipment->getDestination();
-        $insurance = $shipment->getValueAddedServices()->getInsurance();
-        $customReferences = json_encode($shipment->getReferences()?->getCustom());
-        $parcel = $shipment->getParcel();
-        $dimensions = $parcel->getDimensions();
+        $origin = $shipment->getOrigin();
 
-        /** @var ShipmentModel $shipmentDbModel */
-        $shipmentDbModel = $this->shipmentFactory->create();
-        $shipmentDbModel
-            ->setLabelFormat($this->getLabelFormat())
-            ->setShipmentType($this->getEndpoint())
-            ->setSenderCompanyName($sender->getCompanyName())
-            ->setSenderFirstName($sender->getFirstName())
-            ->setSenderLastName($sender->getLastName())
-            ->setSenderEmail($sender->getEmail())
-            ->setSenderPhonePrefix($sender->getPhone()->getPrefix())
-            ->setSenderPhoneNumber($sender->getPhone()->getNumber())
-            ->setSenderLanguageCode($sender->getLanguageCode())
-
-            ->setRecipientFirstName($recipient->getFirstName())
-            ->setRecipientLastName($recipient->getLastName())
-            ->setRecipientCompanyName($recipient->getCompanyName())
-            ->setRecipientEmail($recipient->getEmail())
-            ->setRecipientPhonePrefix($recipient->getPhone()->getPrefix())
-            ->setRecipientPhoneNumber($recipient->getPhone()->getNumber())
-            ->setRecipientLanguageCode($recipient->getLanguageCode())
-
-            ->setOriginHouseNumber($originAddress->getHouseNumber())
-            ->setOriginFlatNumber($originAddress->getFlatNumber())
-            ->setOriginStreet($originAddress->getStreet())
-            ->setOriginCity($originAddress->getCity())
-            ->setOriginPostalCode($originAddress->getPostalCode())
-            ->setOriginCountryCode($originAddress->getCountryCode())
-
-            ->setDestinationCountryCode($destination->getCountryCode())
-            ->setDestinationPointName($destination->getPointName())
-
-            ->setPriority($shipment->getPriority())
-
-            ->setInsuranceValue($insurance->getValue())
-            ->setInsuranceCurrency($insurance->getCurrency())
-
-            ->setReferences($customReferences)
-            ->setParcelType($parcel->getType())
-            ->setParcelLength($dimensions->getLength())
-            ->setParcelWidth($dimensions->getWidth())
-            ->setParcelHeight($dimensions->getHeight())
-            ->setParcelDimensionsUnit($dimensions->getUnit())
-            ->setParcelWeight($parcel->getWeight()->getAmount())
-            ->setParcelWeightUnit($parcel->getWeight()->getUnit())
-            ->setParcelLabelComment($parcel->getLabel()->getComment())
-            ->setParcelLabelBarcode($parcel->getLabel()->getBarcode());
+        $shipmentDbModel->setOriginCountryCode($origin->getCountryCode())
+            ->setOriginShippingMethods(json_encode($origin->getShippingMethods()));
 
         return $shipmentDbModel;
+    }
+
+    /**
+     * Create origin object
+     *
+     * @param array<string,mixed> $shipmentFieldsetData
+     * @return OriginDto
+     */
+    public function createOrigin(array $shipmentFieldsetData): OriginDto
+    {
+        $senderSettings = $this->configProvider->getSenderSettings();
+        /** @var OriginDto $origin */
+        $origin = $this->abstractDtoBuilder->buildDtoInstance(OriginDto::class);
+        $origin->setCountryCode($senderSettings['origin_country_code'])
+            ->setShippingMethods(['APM', 'PUDO', 'HUB']);
+        return $origin;
     }
 
     /**
@@ -133,18 +100,19 @@ class PointToPointShipmentDto extends AbstractDto implements ShipmentTypeInterfa
      */
     public function getLabelFormat(): string
     {
-        return $this->labelFormat;
+        return $this->getData(self::LABEL_FORMAT);
     }
 
     /**
      * Set the label format for the shipment
      *
      * @param string $labelFormat
-     * @return void
+     * @return $this
      */
-    public function setLabelFormat(string $labelFormat): void
+    public function setLabelFormat(string $labelFormat): self
     {
-        $this->labelFormat = $labelFormat;
+        $this->setData(self::LABEL_FORMAT, $labelFormat);
+        return $this;
     }
 
     /**
@@ -154,17 +122,18 @@ class PointToPointShipmentDto extends AbstractDto implements ShipmentTypeInterfa
      */
     public function getShipment(): ShipmentDto
     {
-        return $this->shipment;
+        return $this->getData(self::SHIPMENT);
     }
 
     /**
      * Set the shipment details for address-to-point delivery
      *
      * @param ShipmentDto $shipment
-     * @return void
+     * @return $this
      */
-    public function setShipment(ShipmentDto $shipment): void
+    public function setShipment(ShipmentDto $shipment): self
     {
-        $this->shipment = $shipment;
+        $this->setData(self::SHIPMENT, $shipment);
+        return $this;
     }
 }

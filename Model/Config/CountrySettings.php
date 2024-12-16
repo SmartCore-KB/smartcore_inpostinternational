@@ -13,55 +13,64 @@ class CountrySettings
             'languageCode' => 'it_IT',
             'phonePrefix' => '+39',
             'currency' => 'EUR',
-            'canShipTo' => true
+            'canShipTo' => true,
+            'canShipFrom' => false
         ],
         'FR' => [
             'languageCode' => 'fr_FR',
             'phonePrefix' => '+33',
             'currency' => 'EUR',
-            'canShipTo' => true
+            'canShipTo' => true,
+            'canShipFrom' => false
         ],
         'LU' => [
             'languageCode' => 'fr_LU',
             'phonePrefix' => '+352',
             'currency' => 'EUR',
-            'canShipTo' => true
+            'canShipTo' => true,
+            'canShipFrom' => false
         ],
         'BE' => [
             'languageCode' => 'nl_BE',
             'phonePrefix' => '+32',
             'currency' => 'EUR',
-            'canShipTo' => true
+            'canShipTo' => true,
+            'canShipFrom' => false
         ],
         'NL' => [
             'languageCode' => 'nl_NL',
             'phonePrefix' => '+31',
             'currency' => 'EUR',
-            'canShipTo' => true
+            'canShipTo' => true,
+            'canShipFrom' => false
         ],
         'ES' => [
             'languageCode' => 'es_ES',
             'phonePrefix' => '+34',
             'currency' => 'EUR',
-            'canShipTo' => true
+            'canShipTo' => true,
+            'canShipFrom' => false
         ],
         'PT' => [
             'languageCode' => 'pt_PT',
             'phonePrefix' => '+351',
             'currency' => 'EUR',
-            'canShipTo' => true
+            'canShipTo' => true,
+            'canShipFrom' => false
         ],
         'PL' => [
             'languageCode' => 'pl_PL',
             'phonePrefix' => '+48',
             'currency' => 'PLN',
-            'canShipTo' => false
+            'canShipTo' => false,
+            'canShipFrom' => true
         ],
         'GB' => [
             'languageCode' => 'en_GB',
             'phonePrefix' => '+44',
             'currency' => 'GBP',
-            'canShipTo' => false
+            'canShipTo' => false,
+            'canShipFrom' => false
         ],
     ];
 
@@ -86,13 +95,23 @@ class CountrySettings
     }
 
     /**
-     * Get all country settings
+     * Get countries that can be shipped to
      *
      * @return array|array[]
      */
     public function getCountryCanShipToSettings(): array
     {
         return array_filter($this->countrySettings, fn ($country) => $country['canShipTo']);
+    }
+
+    /**
+     * Get countries that can be shipped from
+     *
+     * @return array|array[]
+     */
+    public function getCountryCanShipFromSettings(): array
+    {
+        return array_filter($this->countrySettings, fn ($country) => $country['canShipFrom']);
     }
 
     /**

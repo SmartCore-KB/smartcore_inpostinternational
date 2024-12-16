@@ -17,11 +17,26 @@ interface ShipmentTypeInterface
     public function getEndpoint(): string;
 
     /**
+     * Get the label for the shipment type
+     *
+     * @return string
+     */
+    public function getLabel(): string;
+
+    /**
      * Convert shipment data to database model
      *
      * @return Shipment
      */
     public function toDbModel(): Shipment;
+
+    /**
+     * Create origin object
+     *
+     * @param array<string,mixed> $shipmentFieldsetData
+     * @return OriginDto
+     */
+    public function createOrigin(array $shipmentFieldsetData): OriginDto;
 
     /**
      * Convert array of object data with to array with keys requested in $keys array

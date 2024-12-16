@@ -9,6 +9,7 @@
                 <sender>
                     <shipment_type>address-to-point</shipment_type>
                     <language>pl_PL</language>
+                    <origin_country_code>PL</origin_country_code>
                 </sender>
             </inpostinternational>
         </shipping>

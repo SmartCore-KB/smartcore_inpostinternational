@@ -25,11 +25,10 @@ class ShipmentTypeFactory
      * Create a new shipment instance
      *
      * @param string $shipmentType
-     * @param array $data
      * @return ShipmentTypeInterface
      * @throws InvalidArgumentException
      */
-    public function create(string $shipmentType, array $data = []): ShipmentTypeInterface
+    public function create(string $shipmentType): ShipmentTypeInterface
     {
         $factoryMap = [
             'address-to-point' => $this->addrToPointFactory,
@@ -40,6 +39,6 @@ class ShipmentTypeFactory
             throw new InvalidArgumentException("Invalid shipment type: $shipmentType");
         }
 
-        return $factoryMap[$shipmentType]->create($data);
+        return $factoryMap[$shipmentType]->create();
     }
 }

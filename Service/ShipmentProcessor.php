@@ -13,12 +13,10 @@ use Smartcore\InPostInternational\Model\Api\ErrorProcessor;
 use Smartcore\InPostInternational\Model\Api\InternationalApiService;
 use Smartcore\InPostInternational\Model\ConfigProvider;
 use Smartcore\InPostInternational\Model\Data\AbstractDtoBuilder;
-use Smartcore\InPostInternational\Model\Data\AddressDto;
 use Smartcore\InPostInternational\Model\Data\DestinationDto;
 use Smartcore\InPostInternational\Model\Data\DimensionsDto;
 use Smartcore\InPostInternational\Model\Data\InsuranceDto;
 use Smartcore\InPostInternational\Model\Data\LabelDto;
-use Smartcore\InPostInternational\Model\Data\OriginDto;
 use Smartcore\InPostInternational\Model\Data\ParcelDto;
 use Smartcore\InPostInternational\Model\Data\PhoneDto;
 use Smartcore\InPostInternational\Model\Data\RecipientDto;
@@ -30,7 +28,6 @@ use Smartcore\InPostInternational\Model\Data\ShipmentTypeInterface;
 use Smartcore\InPostInternational\Model\Data\ValueAddedServicesDto;
 use Smartcore\InPostInternational\Model\Data\WeightDto;
 use Smartcore\InPostInternational\Model\ParcelTemplateRepository;
-use Smartcore\InPostInternational\Model\PickupAddressRepository;
 use Smartcore\InPostInternational\Model\Shipment;
 use Smartcore\InPostInternational\Model\ShipmentRepository;
 
@@ -45,22 +42,20 @@ class ShipmentProcessor
      *
      * @param ShipmentTypeFactory $shipmentTypeFactory
      * @param ConfigProvider $configProvider
-     * @param PickupAddressRepository $pickupAddrRepository
      * @param ParcelTemplateRepository $parcelTmplRepository
      * @param InternationalApiService $apiService
      * @param ErrorProcessor $errorProcessor
      * @param ShipmentRepository $shipmentRepository
-     * @param AbstractDtoBuilder $abstractDtoFactory
+     * @param AbstractDtoBuilder $abstractDtoBuilder
      */
     public function __construct(
         private readonly ShipmentTypeFactory      $shipmentTypeFactory,
         private readonly ConfigProvider           $configProvider,
-        private readonly PickupAddressRepository  $pickupAddrRepository,
         private readonly ParcelTemplateRepository $parcelTmplRepository,
         private readonly InternationalApiService  $apiService,
         private readonly ErrorProcessor           $errorProcessor,
         private readonly ShipmentRepository       $shipmentRepository,
-        private readonly AbstractDtoBuilder       $abstractDtoFactory,
+        private readonly AbstractDtoBuilder       $abstractDtoBuilder,
     ) {
     }
 
@@ -78,7 +73,7 @@ class ShipmentProcessor
             /** @var ShipmentTypeInterface $shipmentType */
             $shipmentType = $this->shipmentTypeFactory->create($shipmentSendingType);
             $shipmentType->setLabelFormat($shipmentFieldsetData['label_format']);
-            $shipmentType->setShipment($this->createShipmentDto($shipmentFieldsetData));
+            $shipmentType->setShipment($this->createShipmentDto($shipmentFieldsetData, $shipmentType));
 
             $apiResponse =  $this->apiService->createApiShipment($shipmentType);
             $this->processApiResponse($shipmentType, $apiResponse, $formData);
@@ -126,15 +121,16 @@ class ShipmentProcessor
      * Create shipment object
      *
      * @param array $shipmentFieldsetData
+     * @param ShipmentTypeInterface $shipmentType
      * @return ShipmentDto
      */
-    private function createShipmentDto(array $shipmentFieldsetData): ShipmentDto
+    private function createShipmentDto(array $shipmentFieldsetData, ShipmentTypeInterface $shipmentType): ShipmentDto
     {
         /** @var ShipmentDto $shipment */
-        $shipment = $this->abstractDtoFactory->buildDtoInstance(ShipmentDto::class);
+        $shipment = $this->abstractDtoBuilder->buildDtoInstance(ShipmentDto::class);
         $shipment->setSender($this->createSender())
             ->setRecipient($this->createRecipient($shipmentFieldsetData))
-            ->setOrigin($this->createOrigin($shipmentFieldsetData))
+            ->setOrigin($shipmentType->createOrigin($shipmentFieldsetData))
             ->setDestination($this->createDestination($shipmentFieldsetData))
             ->setPriority($this->createPriority($shipmentFieldsetData))
             ->setValueAddedServices($this->createValueAddedServices($shipmentFieldsetData))
@@ -156,7 +152,7 @@ class ShipmentProcessor
             'number' => $senderSettings['phone_number']
         ];
         /** @var SenderDto $sender */
-        $sender = $this->abstractDtoFactory->buildDtoInstance(SenderDto::class);
+        $sender = $this->abstractDtoBuilder->buildDtoInstance(SenderDto::class);
         $sender->setCompanyName($senderSettings['company_name'])
             ->setFirstName($senderSettings['first_name'])
             ->setLastName($senderSettings['last_name'])
@@ -177,7 +173,7 @@ class ShipmentProcessor
     private function createPhone(array $phoneData): PhoneDto
     {
         /** @var PhoneDto $phone */
-        $phone = $this->abstractDtoFactory->buildDtoInstance(PhoneDto::class);
+        $phone = $this->abstractDtoBuilder->buildDtoInstance(PhoneDto::class);
         return $phone->setPrefix($phoneData['prefix'])
             ->setNumber($phoneData['number']);
     }
@@ -195,7 +191,7 @@ class ShipmentProcessor
             'number' => $shipmentFieldsetData['phone_number']
         ];
         /** @var RecipientDto $recipient */
-        $recipient = $this->abstractDtoFactory->buildDtoInstance(RecipientDto::class);
+        $recipient = $this->abstractDtoBuilder->buildDtoInstance(RecipientDto::class);
         $recipient->setFirstName($shipmentFieldsetData['first_name'])
             ->setLastName($shipmentFieldsetData['last_name'])
             ->setCompanyName($shipmentFieldsetData['company_name'])
@@ -207,31 +203,6 @@ class ShipmentProcessor
     }
 
     /**
-     * Create origin object
-     *
-     * @param array $shipmentFieldsetData
-     * @return OriginDto
-     */
-    private function createOrigin(array $shipmentFieldsetData): OriginDto
-    {
-        $pickupAddress = $this->pickupAddrRepository->load((int) $shipmentFieldsetData['origin']);
-
-        /** @var AddressDto $address */
-        $address = $this->abstractDtoFactory->buildDtoInstance(AddressDto::class);
-        $address->setHouseNumber($pickupAddress->getHouseNumber())
-            ->setFlatNumber($pickupAddress->getFlatNumber())
-            ->setStreet($pickupAddress->getStreet())
-            ->setCity($pickupAddress->getCity())
-            ->setPostalCode($pickupAddress->getPostalCode())
-            ->setCountryCode($pickupAddress->getCountryCode());
-
-        /** @var OriginDto $origin */
-        $origin = $this->abstractDtoFactory->buildDtoInstance(OriginDto::class);
-        $origin->setAddress($address);
-        return $origin;
-    }
-
-    /**
      * Create destination object
      *
      * @param array $shipmentFieldsetData
@@ -240,7 +211,7 @@ class ShipmentProcessor
     private function createDestination(array $shipmentFieldsetData): DestinationDto
     {
         /** @var DestinationDto $destination */
-        $destination = $this->abstractDtoFactory->buildDtoInstance(DestinationDto::class);
+        $destination = $this->abstractDtoBuilder->buildDtoInstance(DestinationDto::class);
         $destination->setCountryCode($shipmentFieldsetData['destination_country'])
             ->setPointName($shipmentFieldsetData['point_name']);
         return $destination;
@@ -266,12 +237,12 @@ class ShipmentProcessor
     private function createValueAddedServices(array $shipmentFieldsetData): ValueAddedServicesDto
     {
         /** @var InsuranceDto $insurance */
-        $insurance = $this->abstractDtoFactory->buildDtoInstance(InsuranceDto::class);
+        $insurance = $this->abstractDtoBuilder->buildDtoInstance(InsuranceDto::class);
         $insurance->setValue((float) $shipmentFieldsetData['insurance_value'])
             ->setCurrency($shipmentFieldsetData['insurance_currency']);
 
         /** @var ValueAddedServicesDto $valueAddedServices */
-        $valueAddedServices = $this->abstractDtoFactory->buildDtoInstance(ValueAddedServicesDto::class);
+        $valueAddedServices = $this->abstractDtoBuilder->buildDtoInstance(ValueAddedServicesDto::class);
         $valueAddedServices->setInsurance($insurance);
 
         return $valueAddedServices;
@@ -289,7 +260,7 @@ class ShipmentProcessor
             return null;
         }
         /** @var ReferencesDto $references */
-        $references = $this->abstractDtoFactory->buildDtoInstance(ReferencesDto::class);
+        $references = $this->abstractDtoBuilder->buildDtoInstance(ReferencesDto::class);
         $references->setCustom($shipmentFieldsetData['custom_reference']);
 
         return $references;
@@ -306,24 +277,24 @@ class ShipmentProcessor
         $parcelTemplate = $this->parcelTmplRepository->load((int) $shipmentFieldsetData['parcel_template']);
 
         /** @var DimensionsDto $dimensions */
-        $dimensions = $this->abstractDtoFactory->buildDtoInstance(DimensionsDto::class);
+        $dimensions = $this->abstractDtoBuilder->buildDtoInstance(DimensionsDto::class);
         $dimensions->setLength($parcelTemplate->getLength())
             ->setWidth($parcelTemplate->getWidth())
             ->setHeight($parcelTemplate->getHeight())
             ->setUnit($parcelTemplate->getDimensionUnit());
 
         /** @var WeightDto $weight */
-        $weight = $this->abstractDtoFactory->buildDtoInstance(WeightDto::class);
+        $weight = $this->abstractDtoBuilder->buildDtoInstance(WeightDto::class);
         $weight->setAmount($parcelTemplate->getWeight())
             ->setUnit($parcelTemplate->getWeightUnit());
 
         /** @var LabelDto $label */
-        $label = $this->abstractDtoFactory->buildDtoInstance(LabelDto::class);
+        $label = $this->abstractDtoBuilder->buildDtoInstance(LabelDto::class);
         $label->setComment($parcelTemplate->getComment())
             ->setBarcode($parcelTemplate->getBarcode());
 
         /** @var ParcelDto $parcel */
-        $parcel = $this->abstractDtoFactory->buildDtoInstance(ParcelDto::class);
+        $parcel = $this->abstractDtoBuilder->buildDtoInstance(ParcelDto::class);
         $parcel->setType($parcelTemplate->getType())
             ->setDimensions($dimensions)
             ->setWeight($weight)

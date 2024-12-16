@@ -508,6 +508,27 @@ class Shipment extends AbstractModel implements ShipmentInterface
     }
 
     /**
+     * Get the shipping methods available for the origin
+     *
+     * @return string|null
+     */
+    public function getOriginShippingMethods(): ?string
+    {
+        return $this->getData(self::ORIGIN_SHIPPING_METHODS);
+    }
+
+    /**
+     * Set the shipping methods available for the origin
+     *
+     * @param string|null $originShippingMethods
+     * @return $this
+     */
+    public function setOriginShippingMethods(?string $originShippingMethods): self
+    {
+        return $this->setData(self::ORIGIN_SHIPPING_METHODS, $originShippingMethods);
+    }
+
+    /**
      * Get the ISO country code of the destination
      *
      * @return string

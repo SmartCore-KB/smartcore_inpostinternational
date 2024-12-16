@@ -30,6 +30,7 @@ interface ShipmentInterface
     public const ORIGIN_CITY = 'origin_city';
     public const ORIGIN_POSTAL_CODE = 'origin_postal_code';
     public const ORIGIN_COUNTRY_CODE = 'origin_country_code';
+    public const ORIGIN_SHIPPING_METHODS = 'origin_shipping_methods';
     public const DESTINATION_COUNTRY_CODE = 'destination_country_code';
     public const DESTINATION_POINT_NAME = 'destination_point_name';
     public const PRIORITY = 'priority';

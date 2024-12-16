@@ -8,6 +8,10 @@ use InvalidArgumentException;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
 
+/**
+ * This class is designed to create instances of DTOs that extend the AbstractDto class.
+ * It is specifically used for creating DTO instances that do not extend ShipmentTypeDto.
+ */
 class AbstractDtoBuilder
 {
     /**
@@ -18,7 +22,7 @@ class AbstractDtoBuilder
      */
     public function __construct(
         private readonly Context $context,
-        private readonly Registry $registry
+        private readonly Registry $registry,
     ) {
     }
 
@@ -34,12 +38,13 @@ class AbstractDtoBuilder
         if (!is_subclass_of($className, AbstractDto::class)) {
             throw new InvalidArgumentException("Class $className must extend AbstractDto");
         }
+        if (is_subclass_of($className, ShipmentTypeDto::class)) {
+            throw new InvalidArgumentException("Class $className must not extend ShipmentTypeDto");
+        }
 
         return new $className(
             $this->context,
-            $this->registry,
-            null,
-            null
+            $this->registry
         );
     }
 }

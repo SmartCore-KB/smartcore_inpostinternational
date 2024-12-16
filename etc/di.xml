@@ -4,4 +4,14 @@
                 type="Smartcore\InPostInternational\Model\ParcelTemplateRepository" />
     <preference for="Smartcore\InPostInternational\Api\PickupAddressRepositoryInterface"
                 type="Smartcore\InPostInternational\Model\PickupAddressRepository" />
+
+    <type name="Smartcore\InPostInternational\Model\Config\Source\ShipmentTypesList">
+        <arguments>
+            <argument name="shipmentTypes" xsi:type="array">
+                <item name="addressToPoint" xsi:type="object">Smartcore\InPostInternational\Model\Data\AddressToPointShipmentDto</item>
+                <item name="pointToPoint" xsi:type="object">Smartcore\InPostInternational\Model\Data\PointToPointShipmentDto</item>
+            </argument>
+        </arguments>
+    </type>
+
 </config>
