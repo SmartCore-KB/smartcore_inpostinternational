@@ -73,7 +73,7 @@ use Smartcore\InPostInternational\Block\Adminhtml\Order\View\InpostOrderView;
                 </table>
             <?php endif ?>
             <?php $selectedMethod = $block->getSelectedMethod() ?? '';?>
-            <form action="<?= $escaper->escapeUrl($block->getUrl('inpostinternational/shipments/create')) ?>"
+            <form action="<?= $escaper->escapeUrl($block->getUrl('inpostinternational/shipment/create')) ?>"
                   class="inpost-shipments-form">
                 <div class="control" style="float: left;margin-right: 15px">
                     <input type="hidden" name="order_id"

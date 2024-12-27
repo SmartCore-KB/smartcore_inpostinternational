@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                inpostinternational_shipment_index.inpostinternational_shipment_index_data_source
+            </item>
+        </item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="add" class="Smartcore\InPostInternational\Ui\Component\Listing\Button\AddShipmentButton"/>
+        </buttons>
+        <spinner>inpostinternational_shipment_columns</spinner>
+        <deps>
+            <dep>inpostinternational_shipment_index.inpostinternational_shipment_index_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="inpostinternational_shipment_index_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">entity_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Smartcore_InPostInternational::parcel_template</aclResource>
+        <dataProvider class="Smartcore\InPostInternational\Ui\DataProvider\Shipment\ListingDataProvider"
+                      name="inpostinternational_shipment_index_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="templates" xsi:type="array">
+                        <item name="filters" xsi:type="array">
+                            <item name="select" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </filters>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="inpostinternational_shipment_columns">
+        <column name="entity_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>desc</sorting>
+                <resizeDefaultWidth>25</resizeDefaultWidth>
+            </settings>
+        </column>
+        <column name="order_id" class="Smartcore\InPostInternational\Ui\Component\Listing\Column\Order">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Order ID</label>
+                <resizeDefaultWidth>25</resizeDefaultWidth>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+        <column name="recipient" class="Smartcore\InPostInternational\Ui\Component\Listing\Column\Recipient">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Recipient</label>
+                <resizeDefaultWidth>70</resizeDefaultWidth>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+        <column name="destination" class="Smartcore\InPostInternational\Ui\Component\Listing\Column\Destination">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Destination</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+        <column name="parcel" class="Smartcore\InPostInternational\Ui\Component\Listing\Column\Parcel">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Parcel</label>
+                <resizeDefaultWidth>120</resizeDefaultWidth>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+        <column name="tracking" class="Smartcore\InPostInternational\Ui\Component\Listing\Column\Tracking">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Tracking Number</label>
+                <resizeDefaultWidth>120</resizeDefaultWidth>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Created At</label>
+                <resizeDefaultWidth>150</resizeDefaultWidth>
+            </settings>
+        </column>
+        <actionsColumn name="actions"
+                       class="Smartcore\InPostInternational\Ui\Component\Listing\Column\ShipmentActions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="viewUrlPath" xsi:type="string">*/*/edit</item>
+                    <item name="urlEntityParamName" xsi:type="string">entity_id</item>
+                </item>
+            </argument>
+            <settings>
+                <indexField>entity_id</indexField>
+                <resizeEnabled>false</resizeEnabled>
+                <resizeDefaultWidth>107</resizeDefaultWidth>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

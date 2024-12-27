@@ -6,7 +6,7 @@ use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
 
-class PickupAddressActions extends Column
+class ShipmentActions extends Column
 {
     /**
      * @var UrlInterface
@@ -14,7 +14,7 @@ class PickupAddressActions extends Column
     protected $urlBuilder;
 
     /**
-     * PickupAddressActions constructor.
+     * ParcelTemplateActions constructor.
      *
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
@@ -43,26 +43,17 @@ class PickupAddressActions extends Column
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
-                $item[$this->getData('name')] = [
-                    'edit' => [
-                        'href' => $this->urlBuilder->getUrl(
-                            'inpostinternational/pickupaddress/edit',
-                            ['id' => $item['entity_id']]
-                        ),
-                        'label' => __('Edit')
-                    ],
-                    'delete' => [
-                        'href' => $this->urlBuilder->getUrl(
-                            'inpostinternational/pickupaddress/delete',
-                            ['id' => $item['entity_id']]
-                        ),
-                        'label' => __('Delete'),
-                        'confirm' => [
-                            'title' => __('Delete pickup address'),
-                            'message' => __('Are you sure you want to delete this pickup address?')
+                if (isset($item['label_url'])) {
+                    $item[$this->getData('name')] = [
+                        'label' => [
+                            'href' => $this->urlBuilder->getUrl(
+                                'inpostinternational/shipment/label',
+                                ['id' => $item['entity_id']]
+                            ),
+                            'label' => __('Label')
                         ]
-                    ]
-                ];
+                    ];
+                }
             }
         }
         return $dataSource;

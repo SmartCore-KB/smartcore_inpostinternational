@@ -6,15 +6,21 @@ namespace Smartcore\InPostInternational\Model\Api;
 
 use Exception;
 use InvalidArgumentException;
+use Magento\Framework\Encryption\UrlCoder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json;
+use Smartcore\InPostInternational\Api\Data\ShipmentInterface;
 use Smartcore\InPostInternational\Exception\ApiException;
+use Smartcore\InPostInternational\Exception\LabelException;
 use Smartcore\InPostInternational\Exception\TokenSaveException;
 use Smartcore\InPostInternational\Model\Config\Source\Mode;
 use Smartcore\InPostInternational\Model\ConfigProvider;
 use Smartcore\InPostInternational\Model\Data\ShipmentTypeInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class InternationalApiService
 {
     public const string API_PROD_BASE_URL = 'https://api.inpost-group.com/';
@@ -33,12 +39,14 @@ class InternationalApiService
      * @param Curl $curl
      * @param Json $json
      * @param AccessTokenService $accessTokenService
+     * @param UrlCoder $urlCoder
      */
     public function __construct(
         private readonly ConfigProvider     $configProvider,
         private readonly Curl               $curl,
         private readonly Json               $json,
-        private readonly AccessTokenService $accessTokenService
+        private readonly AccessTokenService $accessTokenService,
+        private readonly UrlCoder           $urlCoder
     ) {
         $this->setApiBaseUrl();
     }
@@ -70,6 +78,31 @@ class InternationalApiService
             sprintf('shipments/%s', $shipment->getEndpoint()),
             $shipmentData
         );
+    }
+
+    /**
+     * Get shipment label using InPost API
+     *
+     * @param ShipmentInterface $shipment
+     * @return string
+     * @throws Exception
+     */
+    public function getLabel(ShipmentInterface $shipment): string
+    {
+        $labelRequest = $this->sendRequest(
+            'GET',
+            $shipment->getLabelUrl()
+        );
+        $pdfContent = false;
+        if (isset($labelRequest['label']['content'])) {
+            $pdfContent = $this->urlCoder->decode($labelRequest['label']['content']);
+        }
+
+        if ($pdfContent === false) {
+            throw new LabelException(__('Unable to decode the label data.')->getText());
+        }
+
+        return $pdfContent;
     }
 
     /**
@@ -198,6 +231,9 @@ class InternationalApiService
      */
     private function buildUrl(string $endpoint): string
     {
+        if (filter_var($endpoint, FILTER_VALIDATE_URL)) {
+            return $endpoint;
+        }
         return rtrim($this->getApiBaseUrl(), '/') . '/' . ltrim($endpoint, '/');
     }
 

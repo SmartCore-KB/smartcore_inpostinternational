@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Smartcore\InPostInternational\Controller\Adminhtml\Shipments;
+namespace Smartcore\InPostInternational\Controller\Adminhtml\Shipment;
 
 use Exception;
 use Magento\Backend\App\Action;

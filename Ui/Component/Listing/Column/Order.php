@@ -1,12 +1,15 @@
 <?php
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Ui\Component\Listing\Column;
 
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Ui\Component\Listing\Columns\Column;
 
-class PickupAddressActions extends Column
+class Order extends Column
 {
     /**
      * @var UrlInterface
@@ -14,11 +17,15 @@ class PickupAddressActions extends Column
     protected $urlBuilder;
 
     /**
-     * PickupAddressActions constructor.
-     *
+     * @var OrderRepositoryInterface
+     */
+    protected $orderRepository;
+
+    /**
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
      * @param UrlInterface $urlBuilder
+     * @param OrderRepositoryInterface $orderRepository
      * @param array $components
      * @param array $data
      */
@@ -26,10 +33,12 @@ class PickupAddressActions extends Column
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
         UrlInterface $urlBuilder,
+        OrderRepositoryInterface $orderRepository,
         array $components = [],
         array $data = []
     ) {
         $this->urlBuilder = $urlBuilder;
+        $this->orderRepository = $orderRepository;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
@@ -43,28 +52,22 @@ class PickupAddressActions extends Column
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
-                $item[$this->getData('name')] = [
-                    'edit' => [
-                        'href' => $this->urlBuilder->getUrl(
-                            'inpostinternational/pickupaddress/edit',
-                            ['id' => $item['entity_id']]
-                        ),
-                        'label' => __('Edit')
-                    ],
-                    'delete' => [
-                        'href' => $this->urlBuilder->getUrl(
-                            'inpostinternational/pickupaddress/delete',
-                            ['id' => $item['entity_id']]
-                        ),
-                        'label' => __('Delete'),
-                        'confirm' => [
-                            'title' => __('Delete pickup address'),
-                            'message' => __('Are you sure you want to delete this pickup address?')
-                        ]
-                    ]
-                ];
+                if (isset($item['order_id'])) {
+                    try {
+                        $order = $this->orderRepository->get($item['order_id']);
+                        $incrementId = $order->getIncrementId();
+                        $html = '<a target="blank" href="' . $this->urlBuilder->getUrl(
+                            'sales/order/view',
+                            ['order_id' => $item['order_id']]
+                        ) . '">#' . $incrementId . '</a>';
+                        $item[$this->getData('name')] = $html;
+                    } catch (\Exception $e) {
+                        $item[$this->getData('name')] = __('N/A');
+                    }
+                }
             }
         }
+
         return $dataSource;
     }
 }

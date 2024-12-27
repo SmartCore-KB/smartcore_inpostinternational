@@ -113,6 +113,7 @@ class CreateDataProvider extends DataProvider
                     'order_increment_id' => $order->getIncrementId(),
                     'order_details' => sprintf('%s - %s %s', $order->getIncrementId(), $grandTotal, $currencyCode),
                     'destination_country' => $countryId,
+                    'point_name' => $order->getInpostinternationalLockerId(),
                     'first_name' => $order->getCustomerFirstname(),
                     'last_name' => $order->getCustomerLastname(),
                     'company_name' => $shippingAddress->getCompany(),

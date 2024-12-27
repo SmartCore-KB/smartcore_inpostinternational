@@ -187,6 +187,16 @@ class ConfigProvider
     }
 
     /**
+     * Get InPost tracking link
+     *
+     * @return string
+     */
+    public function getInPostTrackingLink(): string
+    {
+        return (string) $this->doGetShippingConfig('tracking_link');
+    }
+
+    /**
      * Save code verifier
      *
      * @param string $codeVerifier

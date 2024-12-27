@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Smartcore\InPostInternational\Controller\Adminhtml\Shipments;
+namespace Smartcore\InPostInternational\Controller\Adminhtml\Shipment;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -51,6 +51,6 @@ class Create extends Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Smartcore_InPostInternational::shipments_create');
+        return $this->_authorization->isAllowed('Smartcore_InPostInternational::shipment_create');
     }
 }
