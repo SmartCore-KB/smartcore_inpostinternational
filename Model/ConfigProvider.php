@@ -197,6 +197,36 @@ class ConfigProvider
     }
 
     /**
+     * Get InPost auto insurance setting
+     *
+     * @return string
+     */
+    public function getAutoInsuranceSetting(): string
+    {
+        return (string) $this->doGetShippingConfig('auto_insurance');
+    }
+
+    /**
+     * Get InPost fixed insurance value
+     *
+     * @return string
+     */
+    public function getInsuranceValue(): string
+    {
+        return (string) $this->doGetShippingConfig('auto_insurance_value');
+    }
+
+    /**
+     * Get InPost max insurance value
+     *
+     * @return string
+     */
+    public function getInsuranceMaxValue(): string
+    {
+        return (string) $this->doGetShippingConfig('max_insurance_value');
+    }
+
+    /**
      * Save code verifier
      *
      * @param string $codeVerifier

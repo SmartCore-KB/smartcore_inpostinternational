@@ -13,11 +13,15 @@ use Magento\Framework\Session\SessionManagerInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 use Magento\Sales\Model\Order;
 use Smartcore\InPostInternational\Model\Config\CountrySettings;
+use Smartcore\InPostInternational\Model\Config\Source\AutoInsurance;
 use Smartcore\InPostInternational\Model\ConfigProvider;
 use Smartcore\InPostInternational\Model\Order\Processor as OrderProcessor;
 use Smartcore\InPostInternational\Model\ParcelTemplateRepository;
 use Smartcore\InPostInternational\Model\PickupAddressRepository;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CreateDataProvider extends DataProvider
 {
 
@@ -108,6 +112,14 @@ class CreateDataProvider extends DataProvider
                 $grandTotal = $this->priceCurrency->convertAndRound($order->getGrandTotal());
                 $currencyCode = $order->getOrderCurrencyCode();
 
+                $autoInsuranceSetting = (int)$this->configProvider->getAutoInsuranceSetting();
+                $insuranceValue = match ($autoInsuranceSetting) {
+                    AutoInsurance::AUTO_INSURANCE_ORDER => $grandTotal,
+                    AutoInsurance::AUTO_INSURANCE_FIXED => $this->configProvider->getInsuranceValue(),
+                    default => 0,
+                };
+                $insuranceValue = (float) min($insuranceValue, $this->configProvider->getInsuranceMaxValue());
+
                 $orderData = [
                     'order_id' => $orderId,
                     'order_increment_id' => $order->getIncrementId(),
@@ -124,7 +136,7 @@ class CreateDataProvider extends DataProvider
                         $countryId
                     ),
                     'language_code' => $this->countrySettings->getLanguageCode($countryId),
-                    'insurance_value' => $grandTotal,
+                    'insurance_value' => $insuranceValue,
                     'insurance_currency' => $currencyCode,
                 ];
 
