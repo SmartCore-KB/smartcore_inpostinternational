@@ -68,6 +68,7 @@ class InternationalApiService
      *
      * @param ShipmentTypeInterface $shipment
      * @return array
+     * @throws TokenSaveException
      * @throws Exception
      */
     public function createApiShipment(ShipmentTypeInterface $shipment): array
@@ -99,7 +100,7 @@ class InternationalApiService
         }
 
         if ($pdfContent === false) {
-            throw new LabelException(__('Unable to decode the label data.')->getText());
+            throw new LabelException(__('Unable to decode the label data.')->render());
         }
 
         return $pdfContent;
@@ -167,56 +168,56 @@ class InternationalApiService
                 throw new LocalizedException(__('No changes in the HTTP request'));
             case 400:
                 throw new ApiException(
-                    __('Bad Request: %1', $response['message'] ?? 'Invalid JSON data')->getText(),
+                    __('Bad Request: %1', $response['message'] ?? 'Invalid JSON data')->render(),
                     $response,
                     $statusCode
                 );
             case 401:
                 throw new ApiException(
-                    __('Unauthorized: Authentication required')->getText(),
+                    __('Unauthorized: Authentication required')->render(),
                     $response,
                     $statusCode
                 );
             case 403:
                 throw new ApiException(
-                    __('Forbidden: Insufficient permissions')->getText(),
+                    __('Forbidden: Insufficient permissions')->render(),
                     $response,
                     $statusCode
                 );
             case 404:
                 throw new ApiException(
-                    __('Resource not found')->getText(),
+                    __('Resource not found')->render(),
                     $response,
                     $statusCode
                 );
             case 406:
             case 415:
                 throw new ApiException(
-                    __('Unsupported media type or data format')->getText(),
+                    __('Unsupported media type or data format')->render(),
                     $response,
                     $statusCode
                 );
             case 422:
                 throw new ApiException(
-                    __('Validation error: %1', $response['message'] ?? 'Invalid field values')->getText(),
+                    __('Validation error: %1', $response['message'] ?? 'Invalid field values')->render(),
                     $response,
                     $statusCode
                 );
             case 429:
                 throw new ApiException(
-                    __('Too many requests: Rate limit exceeded')->getText(),
+                    __('Too many requests: Rate limit exceeded')->render(),
                     $response,
                     $statusCode
                 );
             case 503:
                 throw new ApiException(
-                    __('Service temporarily unavailable')->getText(),
+                    __('Service temporarily unavailable')->render(),
                     $response,
                     $statusCode
                 );
             default:
                 throw new ApiException(
-                    __('Unexpected API response: %1', $statusCode)->getText(),
+                    __('Unexpected API response: %1', $statusCode)->render(),
                     $response,
                     $statusCode
                 );

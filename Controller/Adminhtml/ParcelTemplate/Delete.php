@@ -40,7 +40,7 @@ class Delete extends Action
             $model = $this->parcelTmplRepository->load($modelId);
             try {
                 $this->parcelTmplRepository->delete($model);
-                $this->messageManager->addSuccessMessage(__('Parcel template has been deleted.')->getText());
+                $this->messageManager->addSuccessMessage(__('Parcel template has been deleted.')->render());
                 return $resultRedirect->setPath('*/*/');
             } catch (Exception $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());

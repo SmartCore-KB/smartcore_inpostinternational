@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Model\Config;
 
 use Magento\Framework\Locale\TranslatedLists;

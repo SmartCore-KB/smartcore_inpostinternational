@@ -15,7 +15,7 @@ class LabelFormat implements OptionSourceInterface
     public function toOptionArray() : array
     {
         return [
-            ['value' => 'PDF_URL', 'label' => __('Url to PDF')->getText()]
+            ['value' => 'PDF_URL', 'label' => __('Url to PDF')->render()]
         ];
     }
 }

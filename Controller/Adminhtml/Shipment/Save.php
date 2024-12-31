@@ -38,7 +38,7 @@ class Save extends Action
         try {
             $formData = $this->getRequest()->getPostValue();
             $this->shipmentProcessor->process($formData);
-            $this->messageManager->addSuccessMessage(__('Shipment has been successfully created.')->getText());
+            $this->messageManager->addSuccessMessage(__('Shipment has been successfully created.')->render());
 
             return $this->resultRedirectFactory->create()->setPath('*/*/index');
         } catch (Exception $e) {
@@ -48,7 +48,7 @@ class Save extends Action
             $this->_getSession()->setFormData($formData);
             return $this->resultRedirectFactory->create()->setPath(
                 '*/*/create',
-                ['order_id' => $formData['shipment_fieldset']['order_id']]
+                ['order_id' => $formData[ShipmentProcessor::SHIPMENT_FIELDSET]['order_id']]
             );
         }
     }

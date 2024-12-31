@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Controller\Adminhtml\ParcelTemplate;
 
 use Magento\Backend\App\Action;
@@ -48,7 +51,7 @@ class Save extends Action
 
             try {
                 $this->parcelTmplRepository->save($model);
-                $this->messageManager->addSuccessMessage(__('Parcel template has been saved.'));
+                $this->messageManager->addSuccessMessage(__('Parcel template has been saved.')->render());
                 return $resultRedirect->setPath('*/*/');
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());

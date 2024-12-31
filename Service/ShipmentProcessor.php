@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
 use Smartcore\InPostInternational\Exception\ApiException;
+use Smartcore\InPostInternational\Exception\TokenSaveException;
 use Smartcore\InPostInternational\Model\Api\ErrorProcessor;
 use Smartcore\InPostInternational\Model\Api\InternationalApiService;
 use Smartcore\InPostInternational\Model\ConfigProvider;
@@ -30,12 +31,14 @@ use Smartcore\InPostInternational\Model\Data\WeightDto;
 use Smartcore\InPostInternational\Model\ParcelTemplateRepository;
 use Smartcore\InPostInternational\Model\Shipment;
 use Smartcore\InPostInternational\Model\ShipmentRepository;
+use Smartcore\InPostInternational\Ui\DataProvider\Shipment\CreateDataProvider;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ShipmentProcessor
 {
+    public const string SHIPMENT_FIELDSET = 'shipment_fieldset';
 
     /**
      * ShipmentProcessor constructor.
@@ -47,6 +50,7 @@ class ShipmentProcessor
      * @param ErrorProcessor $errorProcessor
      * @param ShipmentRepository $shipmentRepository
      * @param AbstractDtoBuilder $abstractDtoBuilder
+     * @param CreateDataProvider $createDataProvider
      */
     public function __construct(
         private readonly ShipmentTypeFactory      $shipmentTypeFactory,
@@ -56,6 +60,7 @@ class ShipmentProcessor
         private readonly ErrorProcessor           $errorProcessor,
         private readonly ShipmentRepository       $shipmentRepository,
         private readonly AbstractDtoBuilder       $abstractDtoBuilder,
+        private readonly CreateDataProvider       $createDataProvider
     ) {
     }
 
@@ -64,11 +69,12 @@ class ShipmentProcessor
      *
      * @param array<mixed> $formData
      * @throws LocalizedException
+     * @throws TokenSaveException
      */
     public function process(array $formData): void
     {
         try {
-            $shipmentFieldsetData = $formData['shipment_fieldset'];
+            $shipmentFieldsetData = $formData[self::SHIPMENT_FIELDSET];
             $shipmentSendingType = $shipmentFieldsetData['shipment_type'] ?? null;
             /** @var ShipmentTypeInterface $shipmentType */
             $shipmentType = $this->shipmentTypeFactory->create($shipmentSendingType);
@@ -77,17 +83,34 @@ class ShipmentProcessor
 
             $apiResponse =  $this->apiService->createApiShipment($shipmentType);
             $this->processApiResponse($shipmentType, $apiResponse, $formData);
+        } catch (TokenSaveException $e) {
+            throw new TokenSaveException($e->getMessage());
         } catch (ApiException $e) {
             $orderId = $shipmentFieldsetData['order_increment_id'] ?? null;
             $errors = $this->errorProcessor->processErrors($e->getResponse());
             array_unshift($errors, ($orderId)
-                ? __(sprintf('Shipment creation for order %s failed because of error(s):', $orderId))
+                ? sprintf(__('Shipment creation for order %s failed because of error(s):')->render(), $orderId)
                 : __('Shipment creation failed.'));
+
             $errorMsg = implode("<br/>", $errors);
             throw new LocalizedException(__($errorMsg));
         } catch (Exception $e) {
             throw new LocalizedException(__($e->getMessage()));
         }
+    }
+
+    /**
+     * Create shipment for order
+     *
+     * @param int $orderId
+     * @return void
+     * @throws LocalizedException
+     * @throws TokenSaveException
+     */
+    public function createInPostShipmentForOrder(int $orderId): void
+    {
+        $orderShipmentData = $this->createDataProvider->prepareDataForOrderId($orderId);
+        $this->process($orderShipmentData);
     }
 
     /**
@@ -112,7 +135,7 @@ class ShipmentProcessor
             throw new LocalizedException(__('Shipment with the same UUID already exists.'));
         } catch (LocalizedException $e) {
             throw new LocalizedException(
-                __(sprintf('Shipment save failed because of error: %s.', $e->getMessage()))
+                __('Shipment save failed because of error: %1.', $e->getMessage())
             );
         }
     }
@@ -320,8 +343,8 @@ class ShipmentProcessor
         if ($apiResponse['parcel']['trackingNumber'] ?? null) {
             $parcelNumbers['trackingNumber'] = $apiResponse['parcel']['trackingNumber'];
         }
-        $orderId = isset($formData['shipment_fieldset']['order_id'])
-            ? (int) $formData['shipment_fieldset']['order_id']
+        $orderId = isset($formData[self::SHIPMENT_FIELDSET]['order_id'])
+            ? (int) $formData[self::SHIPMENT_FIELDSET]['order_id']
             : null;
         $shipmentDbModel
             ->setOrderId($orderId)

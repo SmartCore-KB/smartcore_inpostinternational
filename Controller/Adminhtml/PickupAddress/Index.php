@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Controller\Adminhtml\PickupAddress;
 
 use Magento\Backend\App\Action;
@@ -37,7 +40,7 @@ class Index extends Action
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->prepend(__('InPost International Pickup address'));
+        $resultPage->getConfig()->getTitle()->prepend(__('InPost International Pickup address')->render());
         return $resultPage;
     }
 

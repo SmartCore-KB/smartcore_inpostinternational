@@ -14,7 +14,7 @@ class Priority implements OptionSourceInterface
     public function toOptionArray() : array
     {
         return [
-            ['value' => 'STANDARD', 'label' => __('Standard')->getText()]
+            ['value' => 'STANDARD', 'label' => __('Standard')->render()]
         ];
     }
 }

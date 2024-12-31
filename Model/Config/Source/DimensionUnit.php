@@ -15,7 +15,7 @@ class DimensionUnit implements OptionSourceInterface
     public function toOptionArray(): array
     {
         return [[
-            'value' => 'CM', 'label' => __('Centimeters')->getText(),
+            'value' => 'CM', 'label' => __('Centimeters')->render(),
         ]];
     }
 }

@@ -39,7 +39,7 @@ class Create extends Action
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->prepend(__('Create Pickup address')->getText());
+        $resultPage->getConfig()->getTitle()->prepend(__('Create Pickup address')->render());
 
         return $resultPage;
     }

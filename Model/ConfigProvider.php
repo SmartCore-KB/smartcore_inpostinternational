@@ -15,7 +15,11 @@ use Magento\Framework\FlagManager;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+use Smartcore\InPostInternational\Model\Carrier\InpostCourier;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ConfigProvider
 {
     public const string SHIPPING_CONFIG_PATH = 'shipping/inpostinternational/';
@@ -36,6 +40,7 @@ class ConfigProvider
      * @param FlagManager $flagManager
      * @param RequestInterface $request
      * @param LoggerInterface $logger
+     * @param InpostCourier $inpostCourier
      */
     public function __construct(
         private readonly ScopeConfigInterface   $scopeConfig,
@@ -46,6 +51,7 @@ class ConfigProvider
         private readonly FlagManager            $flagManager,
         private readonly RequestInterface       $request,
         private readonly LoggerInterface        $logger,
+        private readonly InpostCourier          $inpostCourier,
     ) {
     }
 
@@ -98,17 +104,17 @@ class ConfigProvider
      */
     public function getRawAccessToken(): ?string
     {
-        return $this->doGetShippingConfig(self::ACCESS_TOKEN);
+        return $this->flagManager->getFlagData(self::ACCESS_TOKEN);
     }
 
     /**
      * Get client secret
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getAccessTokenExpiresAt(): ?string
+    public function getAccessTokenExpiresAt(): ?int
     {
-        return $this->doGetShippingConfig(self::ACCESS_TOKEN_EXPIRES_AT);
+        return $this->flagManager->getFlagData(self::ACCESS_TOKEN_EXPIRES_AT);
     }
 
     /**
@@ -227,6 +233,16 @@ class ConfigProvider
     }
 
     /**
+     * Get InPost auto inpostshipment create setting
+     *
+     * @return bool
+     */
+    public function isAutoInpostshipmentCreateEnabled(): bool
+    {
+        return (bool) $this->doGetShippingConfig('auto_inpostshipment_create');
+    }
+
+    /**
      * Save code verifier
      *
      * @param string $codeVerifier
@@ -244,12 +260,10 @@ class ConfigProvider
      *
      * @param mixed $accessToken
      * @return void
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function saveAccessToken(mixed $accessToken): void
     {
-        $this->saveShippingConfig(self::ACCESS_TOKEN, $accessToken);
+        $this->flagManager->saveFlag(self::ACCESS_TOKEN, $accessToken);
     }
 
     /**
@@ -257,12 +271,10 @@ class ConfigProvider
      *
      * @param int $exp
      * @return void
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function saveAccessTokenExpiresAt(int $exp): void
     {
-        $this->saveShippingConfig(self::ACCESS_TOKEN_EXPIRES_AT, $exp);
+        $this->flagManager->saveFlag(self::ACCESS_TOKEN_EXPIRES_AT, $exp);
     }
 
     /**
@@ -276,6 +288,18 @@ class ConfigProvider
     public function saveRefreshToken(mixed $refreshToken): void
     {
         $this->saveShippingConfig(self::REFRESH_TOKEN, $refreshToken);
+    }
+
+    /**
+     * Check if shipping method is InPost International
+     *
+     * @param string $shippingMethod
+     * @return bool
+     */
+    public function isInpostShippingMethod(string $shippingMethod): bool
+    {
+        // @TODO Not really like it
+        return str_contains($shippingMethod, array_key_first($this->inpostCourier->getAllowedMethods()));
     }
 
     /**

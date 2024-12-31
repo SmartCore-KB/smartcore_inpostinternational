@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Model\ResourceModel;
 
 use Magento\Framework\Exception\AlreadyExistsException;

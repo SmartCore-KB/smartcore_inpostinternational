@@ -39,7 +39,7 @@ class Edit extends Action
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->prepend(__('Edit Pickup address')->getText());
+        $resultPage->getConfig()->getTitle()->prepend(__('Edit Pickup address')->render());
 
         return $resultPage;
     }

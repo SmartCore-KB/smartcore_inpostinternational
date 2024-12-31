@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Ui\DataProvider\Shipment;
 
 use Magento\Ui\DataProvider\AbstractDataProvider;

@@ -23,14 +23,14 @@ class Parcel extends Column
                 $barcode = $item['parcel_label_barcode'] ? $item['parcel_label_barcode'] . '<br/>' : '';
                 $insurance = $item['insurance_value']
                     ? $item['insurance_value'] . ' ' . $item['insurance_currency']
-                    : __('No')->getText();
+                    : __('No')->render();
                 $item[$this->getData('name')] = round((float)$item['parcel_width'], 2) . $dimUnit
                     . ' x ' . round((float)$item['parcel_length']) . $dimUnit
                     . ' x ' . round((float)$item['parcel_height']) . $dimUnit . '<br/>'
                     . round((float)$item['parcel_weight']) . strtolower($item['parcel_weight_unit']) . '<br/>'
                     . $comment
                     . $barcode
-                    . __('Insurance: ')->getText() . $insurance;
+                    . __('Insurance: ')->render() . $insurance;
             }
         }
 

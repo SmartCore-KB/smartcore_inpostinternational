@@ -25,7 +25,8 @@ class ErrorProcessor
     public function processErrors(array $apiResponse): array
     {
         if (!isset($apiResponse['errors']) || !is_array($apiResponse['errors'])) {
-            return [$apiResponse['detail'] ?? __('Unknown error occurred')->getText()];
+            return [$apiResponse['detail']
+                ?? sprintf(__('Unknown error occurred! %s')->render(), json_encode($apiResponse))];
         }
 
         $messages = [];
@@ -49,7 +50,7 @@ class ErrorProcessor
     {
         $fieldName = implode(' - ', array_map('ucfirst', explode('.', $field)));
 
-        $template = $this->errorMessages[$error] ?? __('Field error %s: %s')->getText();
+        $template = $this->errorMessages[$error] ?? __('Field error %s: %s')->render();
 
         return sprintf($template, $fieldName, $error);
     }

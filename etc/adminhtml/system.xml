@@ -130,6 +130,10 @@
                     <label>Weight unit</label>
                     <source_model>Smartcore\InPostInternational\Model\Config\Source\WeightUnit</source_model>
                 </field>
+                <field id="auto_inpostshipment_create" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Automatically create InPost shipment after order placement</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="auto_insurance" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" canRestore="1">
                     <label>Automatically set insurance to InPost shipments</label>
                     <source_model>Smartcore\InPostInternational\Model\Config\Source\AutoInsurance</source_model>

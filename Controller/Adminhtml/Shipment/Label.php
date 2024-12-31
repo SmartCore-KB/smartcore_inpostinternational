@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Controller\Adminhtml\Shipment;
 
 use Exception;
@@ -53,17 +56,19 @@ class Label extends Action
         $shipmentId = $this->getRequest()->getParam('id');
 
         try {
-            $shipment = $this->shipmentRepository->load($shipmentId);
+            $shipment = $this->shipmentRepository->load((int) $shipmentId);
             $labelUrl = $shipment->getLabelUrl();
 
             if (!$labelUrl) {
-                throw new LabelException(__('Label URL not found for this shipment.'));
+                throw new LabelException(__('Label URL not found for this shipment.')->render());
             }
 
             try {
                 $content = $this->apiService->getLabel($shipment);
             } catch (Exception $e) {
-                throw new LabelException(__('Unable to download the label: %1', $e->getMessage()));
+                throw new LabelException(
+                    sprintf(__('Unable to download the label: %s')->render(), $e->getMessage())
+                );
             }
 
             $fileName = 'label_' . $shipmentId . '.pdf';

@@ -8,16 +8,21 @@ use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\ReportingInterface;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Framework\Session\SessionManagerInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 use Magento\Sales\Model\Order;
 use Smartcore\InPostInternational\Model\Config\CountrySettings;
 use Smartcore\InPostInternational\Model\Config\Source\AutoInsurance;
+use Smartcore\InPostInternational\Model\Config\Source\Currency;
+use Smartcore\InPostInternational\Model\Config\Source\LabelFormat;
+use Smartcore\InPostInternational\Model\Config\Source\Priority;
 use Smartcore\InPostInternational\Model\ConfigProvider;
 use Smartcore\InPostInternational\Model\Order\Processor as OrderProcessor;
 use Smartcore\InPostInternational\Model\ParcelTemplateRepository;
 use Smartcore\InPostInternational\Model\PickupAddressRepository;
+use Smartcore\InPostInternational\Service\ShipmentProcessor;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -47,6 +52,9 @@ class CreateDataProvider extends DataProvider
      * @param PickupAddressRepository $pickupAddrRepository
      * @param ConfigProvider $configProvider
      * @param SessionManagerInterface $sessionManager
+     * @param LabelFormat $labelFormat
+     * @param Priority $priority
+     * @param Currency $currency
      * @param array $meta
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -66,6 +74,9 @@ class CreateDataProvider extends DataProvider
         private PickupAddressRepository  $pickupAddrRepository,
         private ConfigProvider           $configProvider,
         private SessionManagerInterface  $sessionManager,
+        private LabelFormat              $labelFormat,
+        private Priority                 $priority,
+        private Currency                 $currency,
         array                            $meta = [],
         array                            $data = []
     ) {
@@ -94,7 +105,7 @@ class CreateDataProvider extends DataProvider
         $pickupAddrDefaultId = $this->pickupAddrRepository->getDefaultId();
 
         $defaultData = [
-            'shipment_fieldset' => [
+            ShipmentProcessor::SHIPMENT_FIELDSET => [
                 'shipment_type' => $this->configProvider->getShipmentType(),
                 'parcel_template' => $parcelTmplDefaultId,
                 'origin' => $pickupAddrDefaultId
@@ -110,7 +121,7 @@ class CreateDataProvider extends DataProvider
                 $shippingAddress = $order->getShippingAddress();
                 $countryId = $shippingAddress->getCountryId();
                 $grandTotal = $this->priceCurrency->convertAndRound($order->getGrandTotal());
-                $currencyCode = $order->getOrderCurrencyCode();
+                $currencyCode = $this->currency->toOptionArray()[0]['value'];
 
                 $autoInsuranceSetting = (int)$this->configProvider->getAutoInsuranceSetting();
                 $insuranceValue = match ($autoInsuranceSetting) {
@@ -141,15 +152,42 @@ class CreateDataProvider extends DataProvider
                 ];
 
                 return [
-                    $orderId => ['shipment_fieldset' => array_merge(
-                        $defaultData['shipment_fieldset'],
+                    $orderId => [ShipmentProcessor::SHIPMENT_FIELDSET => array_merge(
+                        $defaultData[ShipmentProcessor::SHIPMENT_FIELDSET],
                         $orderData,
-                        $sessionData['shipment_fieldset'] ?? []
+                        $sessionData[ShipmentProcessor::SHIPMENT_FIELDSET] ?? []
                     )]
                 ];
             }
         }
 
         return [null => array_merge($defaultData, $sessionData ?? [])];
+    }
+
+    /**
+     * Prepare data for order ID
+     *
+     * @param int $orderId
+     * @return array|array[]
+     * @throws LocalizedException
+     */
+    public function prepareDataForOrderId(int $orderId): array
+    {
+        $this->request->setParams(['order_id' => $orderId]);
+        $preparedData = $this->getData();
+        $preparedData = reset($preparedData);
+        if (!isset($preparedData[ShipmentProcessor::SHIPMENT_FIELDSET]['label_format'])) {
+            $preparedData[ShipmentProcessor::SHIPMENT_FIELDSET]['label_format'] =
+                $this->labelFormat->toOptionArray()[0]['value'];
+        }
+        if (!isset($preparedData[ShipmentProcessor::SHIPMENT_FIELDSET]['priority'])) {
+            $preparedData[ShipmentProcessor::SHIPMENT_FIELDSET]['priority'] =
+                $this->priority->toOptionArray()[0]['value'];
+        }
+        if ($preparedData[ShipmentProcessor::SHIPMENT_FIELDSET]['point_name'] == null) {
+            throw new LocalizedException(__('Destination point name is missing in order.'));
+        }
+
+        return $preparedData;
     }
 }

@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Smartcore\InPostInternational\Model\Api;
 
 use Exception;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\HTTP\Client\Curl;
+use Magento\Framework\HTTP\Client\CurlFactory;
 use Smartcore\InPostInternational\Exception\AccessTokenValidationException;
 use Smartcore\InPostInternational\Exception\TokenSaveException;
 use Smartcore\InPostInternational\Model\Api\Validators\TokenValidator;
@@ -26,7 +24,7 @@ class AccessTokenService
      * @param WellKnownService $wellKnownService
      * @param JwksService $jwksService
      * @param JwtService $jwtService
-     * @param Curl $curl
+     * @param CurlFactory $curlFactory
      * @param TokenValidator $tokenValidator
      */
     public function __construct(
@@ -34,7 +32,7 @@ class AccessTokenService
         private readonly WellKnownService $wellKnownService,
         private readonly JwksService      $jwksService,
         private readonly JwtService       $jwtService,
-        private readonly Curl             $curl,
+        private readonly CurlFactory      $curlFactory,
         private readonly TokenValidator   $tokenValidator,
     ) {
     }
@@ -49,6 +47,7 @@ class AccessTokenService
     {
         $accessToken = $this->configProvider->getRawAccessToken();
         $accessTokenExpiresAt = $this->configProvider->getAccessTokenExpiresAt();
+
         if (time() + self::ACCESS_TOKEN_EXPIRING_AT_THRESHOLD > $accessTokenExpiresAt) {
             try {
                 $accessToken = $this->refreshAccessToken();
@@ -70,8 +69,6 @@ class AccessTokenService
      *
      * @param string $accessToken
      * @throws AccessTokenValidationException
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function saveAccessToken(string $accessToken): void
     {
@@ -110,10 +107,9 @@ class AccessTokenService
      * Request for access token refresh
      *
      * @return string
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
+     * @throws TokenSaveException
      */
-    public function refreshAccessToken(): string
+    private function refreshAccessToken(): string
     {
         $params = [
             'client_id' => $this->configProvider->getClientId(),
@@ -121,8 +117,31 @@ class AccessTokenService
             'grant_type' => 'refresh_token',
             'refresh_token' => $this->configProvider->getRawRefreshToken()
         ];
-        $this->curl->post($this->wellKnownService->getTokenEndpoint(), $params);
-        $result = json_decode($this->curl->getBody());
-        return $result?->access_token;
+
+        $curl = $this->curlFactory->create();
+        $curl->addHeader("Content-Type", "application/x-www-form-urlencoded");
+        $curl->post($this->wellKnownService->getTokenEndpoint(), http_build_query($params));
+        $result = json_decode($curl->getBody());
+
+        if (property_exists($result, 'error')) {
+            throw new TokenSaveException(
+                sprintf(
+                    'Error during access token refresh: "%s". Full response: "%s"',
+                    $result->error_description ?? '',
+                    $curl->getBody()
+                )
+            );
+        }
+
+        if ($result === null || !property_exists($result, 'access_token')) {
+            throw new TokenSaveException(
+                sprintf(
+                    'Failed to refresh access token. Response is empty or does not contain access_token. "%s"',
+                    $curl->getBody()
+                )
+            );
+        }
+
+        return $result?->access_token ?? '';
     }
 }

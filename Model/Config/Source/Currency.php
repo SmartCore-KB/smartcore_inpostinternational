@@ -14,7 +14,7 @@ class Currency implements OptionSourceInterface
     public function toOptionArray() : array
     {
         return [
-            ['value' => 'EUR', 'label' => __('EUR')->getText()]
+            ['value' => 'EUR', 'label' => __('EUR')->render()]
         ];
     }
 }

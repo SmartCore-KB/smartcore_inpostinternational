@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Smartcore\InPostInternational\Controller\Adminhtml\Shipment;
 
 use Magento\Backend\App\Action;
@@ -37,7 +40,7 @@ class Index extends Action
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->prepend(__('InPost International Shipments'));
+        $resultPage->getConfig()->getTitle()->prepend(__('InPost International Shipments')->render());
         return $resultPage;
     }
 

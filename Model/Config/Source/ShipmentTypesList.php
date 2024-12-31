@@ -32,7 +32,7 @@ class ShipmentTypesList implements OptionSourceInterface
             /** @var ShipmentTypeInterface $shipmentType */
             $options[] = [
                 'value' => $shipmentType->getEndpoint(),
-                'label' => __($shipmentType->getLabel())->getText(),
+                'label' => __($shipmentType->getLabel())->render(),
             ];
         }
 

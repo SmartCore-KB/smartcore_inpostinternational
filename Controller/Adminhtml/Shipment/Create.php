@@ -39,7 +39,7 @@ class Create extends Action
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->set(__('New InPost International Shipment')->getText());
+        $resultPage->getConfig()->getTitle()->set(__('New InPost International Shipment')->render());
 
         return $resultPage;
     }

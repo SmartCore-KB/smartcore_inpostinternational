@@ -40,7 +40,7 @@ class Delete extends Action
             $model = $this->pickupAddrRepository->load($modelId);
             try {
                 $this->pickupAddrRepository->delete($model);
-                $this->messageManager->addSuccessMessage(__('Pickup address has been deleted.')->getText());
+                $this->messageManager->addSuccessMessage(__('Pickup address has been deleted.')->render());
                 return $resultRedirect->setPath('*/*/');
             } catch (Exception $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());

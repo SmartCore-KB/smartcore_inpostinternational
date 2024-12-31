@@ -25,6 +25,11 @@ class InpostCourier extends AbstractCarrier implements CarrierInterface
     protected $_code = 'inpostinternationalcourier';
 
     /**
+     * @var string
+     */
+    protected string $_method = 'courier';
+
+    /**
      * Constructor
      *
      * @param ScopeConfigInterface $scopeConfig
@@ -86,7 +91,7 @@ class InpostCourier extends AbstractCarrier implements CarrierInterface
         $method->setCarrier($this->_code);
         $method->setCarrierTitle($this->getConfigData('title'));
 
-        $method->setMethod('courier');
+        $method->setMethod($this->_method);
         $method->setMethodTitle($this->getConfigData('name'));
 
         $method->setPrice('0.00');
