@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model;
 
+use DateTime;
 use Magento\Framework\Model\AbstractModel;
 use Smartcore\InPostInternational\Api\Data\ShipmentInterface;
 use Smartcore\InPostInternational\Model\ResourceModel\Shipment as ShipmentResourceModel;
@@ -1046,10 +1047,23 @@ class Shipment extends AbstractModel implements ShipmentInterface
      * Set the parcel status
      *
      * @param string|null $parcelStatus
-     * @return self
+     * @return $this
      */
     public function setParcelStatus(?string $parcelStatus): self
     {
         return $this->setData(self::PARCEL_STATUS, $parcelStatus);
+    }
+
+    /**
+     * Get the parcel status date
+     *
+     * @return $this
+     */
+    public function beforeSave(): self
+    {
+        if ($this->hasDataChanges()) {
+            $this->setUpdatedAt((new DateTime())->format('Y-m-d H:i:s'));
+        }
+        return parent::beforeSave();
     }
 }

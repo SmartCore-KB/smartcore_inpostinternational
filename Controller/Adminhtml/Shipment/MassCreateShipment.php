@@ -50,13 +50,13 @@ class MassCreateShipment extends Action
                 $this->shipmentProcessor->createInPostShipmentForOrder((int) $order->getId());
                 $shipmentsCreated++;
             } catch (LocalizedException $e) {
-                $this->messageManager->addErrorMessage(
-                    __(
+                $this->messageManager->addComplexErrorMessage('inpostinternationalApiMessage', [
+                    'message' => __(
                         'Error during InPost International shipment creation for order ID %1: %2',
                         $order->getIncrementId(),
                         $e->getMessage()
                     )->render()
-                );
+                ]);
             }
         }
 

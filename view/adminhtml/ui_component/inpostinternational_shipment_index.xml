@@ -99,12 +99,20 @@
                 <bodyTmpl>ui/grid/cells/html</bodyTmpl>
             </settings>
         </column>
-        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date">
+        <column name="parcel_status">
             <settings>
-                <filter>dateRange</filter>
-                <dataType>date</dataType>
-                <label translate="true">Created At</label>
-                <resizeDefaultWidth>150</resizeDefaultWidth>
+                <filter>text</filter>
+                <label translate="true">Status</label>
+                <resizeDefaultWidth>120</resizeDefaultWidth>
+            </settings>
+        </column>
+        <column name="created_updated_at"
+                class="Smartcore\InPostInternational\Ui\Component\Listing\Column\CreatedUpdatedAt">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Created At / Updated At</label>
+                <resizeDefaultWidth>120</resizeDefaultWidth>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
             </settings>
         </column>
         <actionsColumn name="actions"

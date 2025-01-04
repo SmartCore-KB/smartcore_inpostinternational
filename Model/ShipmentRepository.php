@@ -73,11 +73,17 @@ class ShipmentRepository implements ShipmentRepositoryInterface
     /**
      * Get list of shipments
      *
+     * @param string|null $updatedSince
      * @return array<mixed>
      */
-    public function getList(): array
+    public function getList(?string $updatedSince = null): array
     {
         $collection = $this->collectionFactory->create();
+
+        if ($updatedSince) {
+            $collection->addFieldToFilter('updated_at', ['gteq' => $updatedSince]);
+        }
+
         return $collection->getItems();
     }
 }

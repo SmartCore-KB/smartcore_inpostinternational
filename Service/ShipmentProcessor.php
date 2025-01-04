@@ -114,6 +114,23 @@ class ShipmentProcessor
     }
 
     /**
+     * Update shipment from API
+     *
+     * @param Shipment $shipmentDbModel
+     * @throws AlreadyExistsException
+     * @throws LocalizedException
+     * @throws TokenSaveException
+     */
+    public function updateInPostShipmentFromApi(Shipment $shipmentDbModel): void
+    {
+        $apiShipment = $this->apiService->getApiShipment($shipmentDbModel);
+        if ($apiShipment['status'] !== $shipmentDbModel->getParcelStatus()) {
+            $shipmentDbModel->setParcelStatus($apiShipment['status']);
+            $this->shipmentRepository->save($shipmentDbModel);
+        }
+    }
+
+    /**
      * Process API response
      *
      * @param ShipmentTypeInterface $shipmentDto

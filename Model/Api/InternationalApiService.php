@@ -107,6 +107,22 @@ class InternationalApiService
     }
 
     /**
+     * Get shipment using InPost API
+     *
+     * @param ShipmentInterface $shipment
+     * @return array
+     * @throws TokenSaveException
+     * @throws Exception
+     */
+    public function getApiShipment(ShipmentInterface $shipment): array
+    {
+        return $this->sendRequest(
+            'GET',
+            sprintf('shipments/%s', $shipment->getUuid())
+        );
+    }
+
+    /**
      * Send HTTP request to the InPost API
      *
      * @param string $method
