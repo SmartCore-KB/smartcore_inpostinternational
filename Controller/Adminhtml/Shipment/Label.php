@@ -86,4 +86,14 @@ class Label extends Action
             return $this->_redirect('*/*/index');
         }
     }
+
+    /**
+     * Check if user has permissions to visit the controller
+     *
+     * @return bool
+     */
+    protected function _isAllowed(): bool
+    {
+        return $this->_authorization->isAllowed('Smartcore_InPostInternational::shipments_index');
+    }
 }

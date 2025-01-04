@@ -12,6 +12,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Framework\Session\SessionManagerInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order;
 use Smartcore\InPostInternational\Model\Config\CountrySettings;
 use Smartcore\InPostInternational\Model\Config\Source\AutoInsurance;
@@ -19,7 +20,6 @@ use Smartcore\InPostInternational\Model\Config\Source\Currency;
 use Smartcore\InPostInternational\Model\Config\Source\LabelFormat;
 use Smartcore\InPostInternational\Model\Config\Source\Priority;
 use Smartcore\InPostInternational\Model\ConfigProvider;
-use Smartcore\InPostInternational\Model\Order\Processor as OrderProcessor;
 use Smartcore\InPostInternational\Model\ParcelTemplateRepository;
 use Smartcore\InPostInternational\Model\PickupAddressRepository;
 use Smartcore\InPostInternational\Service\ShipmentProcessor;
@@ -45,7 +45,6 @@ class CreateDataProvider extends DataProvider
      * @param SearchCriteriaBuilder $searchCritBuilder
      * @param RequestInterface $request
      * @param FilterBuilder $filterBuilder
-     * @param OrderProcessor $orderProcessor
      * @param PriceCurrencyInterface $priceCurrency
      * @param CountrySettings $countrySettings
      * @param ParcelTemplateRepository $parcelTmplRepository
@@ -55,6 +54,7 @@ class CreateDataProvider extends DataProvider
      * @param LabelFormat $labelFormat
      * @param Priority $priority
      * @param Currency $currency
+     * @param OrderRepositoryInterface $orderRepository
      * @param array $meta
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -67,7 +67,6 @@ class CreateDataProvider extends DataProvider
         SearchCriteriaBuilder            $searchCritBuilder,
         RequestInterface                 $request,
         FilterBuilder                    $filterBuilder,
-        private readonly OrderProcessor  $orderProcessor,
         private PriceCurrencyInterface   $priceCurrency,
         private CountrySettings          $countrySettings,
         private ParcelTemplateRepository $parcelTmplRepository,
@@ -77,6 +76,7 @@ class CreateDataProvider extends DataProvider
         private LabelFormat              $labelFormat,
         private Priority                 $priority,
         private Currency                 $currency,
+        private OrderRepositoryInterface $orderRepository,
         array                            $meta = [],
         array                            $data = []
     ) {
@@ -115,8 +115,8 @@ class CreateDataProvider extends DataProvider
         $sessionData = $this->sessionManager->getFormData(true);
 
         if ($orderId) {
-            $order = $this->orderProcessor->getOrder($orderId);
-            if ($order) {
+            $order = $this->orderRepository->get($orderId);
+            if ($order->getId()) {
                 /** @var Order $order */
                 $shippingAddress = $order->getShippingAddress();
                 $countryId = $shippingAddress->getCountryId();

@@ -9,9 +9,9 @@ class AbstractPartyDto extends AbstractDto
     /**
      * Company name of the party
      *
-     * @var string
+     * @var string|null
      */
-    public string $companyName;
+    public ?string $companyName;
 
     /**
      * First name of the party
@@ -51,9 +51,9 @@ class AbstractPartyDto extends AbstractDto
     /**
      * Get the company name of the party
      *
-     * @return string
+     * @return string|null
      */
-    public function getCompanyName(): string
+    public function getCompanyName(): ?string
     {
         return $this->companyName;
     }
@@ -61,10 +61,10 @@ class AbstractPartyDto extends AbstractDto
     /**
      * Set the company name of the party
      *
-     * @param string $companyName
+     * @param string|null $companyName
      * @return $this
      */
-    public function setCompanyName(string $companyName): static
+    public function setCompanyName(?string $companyName): static
     {
         $this->companyName = $companyName;
         return $this;

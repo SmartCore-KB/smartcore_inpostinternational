@@ -49,4 +49,14 @@ class Delete extends Action
 
         return $resultRedirect->setPath('*/*/');
     }
+
+    /**
+     * Check if user has permissions to visit the controller
+     *
+     * @return bool
+     */
+    protected function _isAllowed(): bool
+    {
+        return $this->_authorization->isAllowed('Smartcore_InPostInternational::pickupaddress_create');
+    }
 }

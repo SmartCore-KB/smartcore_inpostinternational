@@ -49,7 +49,7 @@ class Edit extends Action
      *
      * @return bool
      */
-    protected function _isAllowed()
+    protected function _isAllowed(): bool
     {
         return $this->_authorization->isAllowed('Smartcore_InPostInternational::parcel_create');
     }

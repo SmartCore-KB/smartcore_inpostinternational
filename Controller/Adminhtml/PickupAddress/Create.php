@@ -49,7 +49,7 @@ class Create extends Action
      *
      * @return bool
      */
-    protected function _isAllowed()
+    protected function _isAllowed(): bool
     {
         return $this->_authorization->isAllowed('Smartcore_InPostInternational::pickupaddress_create');
     }

@@ -52,4 +52,14 @@ class Save extends Action
             );
         }
     }
+
+    /**
+     * Check if user has permissions to visit the controller
+     *
+     * @return bool
+     */
+    protected function _isAllowed(): bool
+    {
+        return $this->_authorization->isAllowed('Smartcore_InPostInternational::shipment_create');
+    }
 }
