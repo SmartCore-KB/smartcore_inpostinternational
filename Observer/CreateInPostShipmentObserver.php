@@ -11,7 +11,7 @@ use Smartcore\InPostInternational\Api\Data\OrderShipmentCreateInterfaceFactory;
 use Smartcore\InPostInternational\Model\ConfigProvider;
 use Smartcore\InPostInternational\Model\Consumer;
 
-class OrderObserver implements ObserverInterface
+class CreateInPostShipmentObserver implements ObserverInterface
 {
     /**
      * OrderObserver constructor.

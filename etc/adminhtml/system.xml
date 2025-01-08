@@ -134,31 +134,39 @@
                     <label>Automatically create InPost shipment after order placement</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="auto_insurance" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" canRestore="1">
+                <field id="auto_shipment_create" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Automatically create an order shipment after creating an InPost shipment</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="change_order_status" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>After creating an InPost shipment change order status</label>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status</source_model>
+                </field>
+                <field id="auto_insurance" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" canRestore="1">
                     <label>Automatically set insurance to InPost shipments</label>
                     <source_model>Smartcore\InPostInternational\Model\Config\Source\AutoInsurance</source_model>
                 </field>
-                <field id="auto_insurance_value" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="auto_insurance_value" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Insurance fixed value</label>
                     <depends>
                         <field id="auto_insurance">2</field>
                     </depends>
                 </field>
-                <field id="well_known_production" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="0"
+                <field id="well_known_production" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="0"
                        showInStore="0">
                     <label>Production well-known url</label>
                     <depends>
                         <field id="mode">production</field>
                     </depends>
                 </field>
-                <field id="well_known_sandbox" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="0"
+                <field id="well_known_sandbox" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="0"
                        showInStore="0">
                     <label>Sandbox well-known url</label>
                     <depends>
                         <field id="mode">sandbox</field>
                     </depends>
                 </field>
-                <group id="sender" translate="label" type="text" showInDefault="1" showInWebsite="1" sortOrder="100">
+                <group id="sender" translate="label" type="text" showInDefault="1" showInWebsite="1" sortOrder="130">
                     <label>Sender data and settings</label>
                     <attribute type="expanded">1</attribute>
                     <field id="shipment_type" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="1">

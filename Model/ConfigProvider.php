@@ -172,6 +172,14 @@ class ConfigProvider
     }
 
     /**
+     * Get shipping method title
+     */
+    public function getShippingMethodTitle()
+    {
+        return $this->doGetCarriersConfig('title');
+    }
+
+    /**
      * Get default shipment type
      *
      * @return string
@@ -240,6 +248,28 @@ class ConfigProvider
     public function isAutoInpostshipmentCreateEnabled(): bool
     {
         return (bool) $this->doGetShippingConfig('auto_inpostshipment_create');
+    }
+
+    /**
+     * Get auto order shipment create setting
+     *
+     * @return bool
+     */
+    public function isAutoOrderShipmentCreateEnabled(): bool
+    {
+        return (bool) $this->doGetShippingConfig('auto_shipment_create');
+    }
+
+    /**
+     * Get InPost auto inpostshipment create setting
+     *
+     * @return string|bool
+     */
+    public function getChangeOrderStatus(): string|bool
+    {
+        return $this->doGetShippingConfig('change_order_status')
+            ? (string) $this->doGetShippingConfig('change_order_status')
+            : false;
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Smartcore\InPostInternational\Service;
 
 use Exception;
 use InvalidArgumentException;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
 use Smartcore\InPostInternational\Exception\ApiException;
@@ -51,6 +52,7 @@ class ShipmentProcessor
      * @param ShipmentRepository $shipmentRepository
      * @param AbstractDtoBuilder $abstractDtoBuilder
      * @param CreateDataProvider $createDataProvider
+     * @param EventManager $eventManager
      */
     public function __construct(
         private readonly ShipmentTypeFactory      $shipmentTypeFactory,
@@ -60,7 +62,8 @@ class ShipmentProcessor
         private readonly ErrorProcessor           $errorProcessor,
         private readonly ShipmentRepository       $shipmentRepository,
         private readonly AbstractDtoBuilder       $abstractDtoBuilder,
-        private readonly CreateDataProvider       $createDataProvider
+        private readonly CreateDataProvider       $createDataProvider,
+        private readonly EventManager             $eventManager
     ) {
     }
 
@@ -146,6 +149,8 @@ class ShipmentProcessor
         $shipment = $shipmentDto->toDbModel();
         $shipment = $this->enrichShipmentWithApiResponse($shipment, $apiResponse, $formData);
 
+        $this->dispatchEvent($shipment);
+
         try {
             $this->shipmentRepository->save($shipment);
         } catch (AlreadyExistsException $e) {
@@ -155,6 +160,28 @@ class ShipmentProcessor
                 __('Shipment save failed because of error: %1.', $e->getMessage())
             );
         }
+    }
+
+    /**
+     * Dispatch events
+     *
+     * @param Shipment $shipment
+     * @return void
+     */
+    private function dispatchEvent(Shipment $shipment): void
+    {
+        if ($shipment->getId()) {
+            $this->eventManager->dispatch(
+                'inpostinternational_shipment_updated',
+                ['inpostInternationalShipment' => $shipment]
+            );
+            return;
+        }
+
+        $this->eventManager->dispatch(
+            'inpostinternational_shipment_created',
+            ['inpostInternationalShipment' => $shipment]
+        );
     }
 
     /**
