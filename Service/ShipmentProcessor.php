@@ -89,11 +89,7 @@ class ShipmentProcessor
         } catch (TokenSaveException $e) {
             throw new TokenSaveException($e->getMessage());
         } catch (ApiException $e) {
-            $orderId = $shipmentFieldsetData['order_increment_id'] ?? null;
             $errors = $this->errorProcessor->processErrors($e->getResponse());
-            array_unshift($errors, ($orderId)
-                ? sprintf(__('Shipment creation for order %s failed because of error(s):')->render(), $orderId)
-                : __('Shipment creation failed.'));
 
             $errorMsg = implode("<br/>", $errors);
             throw new LocalizedException(__($errorMsg));

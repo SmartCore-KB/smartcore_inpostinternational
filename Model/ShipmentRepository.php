@@ -86,4 +86,18 @@ class ShipmentRepository implements ShipmentRepositoryInterface
 
         return $collection->getItems();
     }
+
+    /**
+     * Get list of shipments by order ID
+     *
+     * @param string $orderId
+     * @return array<mixed>
+     */
+    public function getListByOrderId(string $orderId): array
+    {
+        $collection = $this->collectionFactory->create();
+        $collection->addFieldToFilter('order_id', $orderId);
+
+        return $collection->getItems();
+    }
 }

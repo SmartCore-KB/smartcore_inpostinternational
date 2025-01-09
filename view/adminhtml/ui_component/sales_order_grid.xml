@@ -11,6 +11,15 @@
                     </item>
                 </argument>
             </action>
+            <action name="inpostinternational_get_inpostshipment_labels">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">inpostinternational_get_inpostshipment_labels</item>
+                        <item name="label" xsi:type="string" translate="true">Get InPost International shipment labels</item>
+                        <item name="url" xsi:type="url" path="inpostinternational/shipment/massGetInPostShipmentLabels"/>
+                    </item>
+                </argument>
+            </action>
         </massaction>
     </listingToolbar>
 </listing>

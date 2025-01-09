@@ -40,7 +40,7 @@ class MassCreateShipment extends Action
      * @throws TokenSaveException
      * @throws LocalizedException
      */
-    public function execute()
+    public function execute(): Redirect
     {
         $collection = $this->filter->getCollection($this->collectionFactory->create());
         $shipmentsCreated = 0;
@@ -61,7 +61,7 @@ class MassCreateShipment extends Action
         }
 
         $this->messageManager->addSuccessMessage(
-            __('%1 InPost International shipments created.', $shipmentsCreated)->render()
+            __('%1 InPost International shipment(s) created.', $shipmentsCreated)->render()
         );
 
         /** @var Redirect $resultRedirect */
