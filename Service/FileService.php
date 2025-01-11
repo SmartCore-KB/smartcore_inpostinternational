@@ -43,8 +43,8 @@ class FileService
             throw new LocalizedException(__('Cannot create a ZIP file.'));
         }
 
-        foreach ($files as $index => $fileContent) {
-            $zip->addFromString(sprintf('label-%d.pdf', $index + 1), $fileContent);
+        foreach ($files as $labelFileName => $fileContent) {
+            $zip->addFromString($labelFileName, $fileContent);
         }
         $zip->close();
 
@@ -61,5 +61,17 @@ class FileService
     public function createDateTimeFilename(string $prefix, string $extension): string
     {
         return sprintf($prefix . '-%s.' . $extension, $this->dateTime->date('Y-m-d_H-i-s'));
+    }
+
+    /**
+     * Get a label filename
+     *
+     * @param string $incrementId
+     * @param string $shipmentId
+     * @return string
+     */
+    public function getLabelFilename(string $incrementId, string $shipmentId): string
+    {
+        return sprintf('label-%s-%s.pdf', $incrementId, $shipmentId);
     }
 }

@@ -10,9 +10,11 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Sales\Model\OrderRepository;
 use Smartcore\InPostInternational\Exception\LabelException;
 use Smartcore\InPostInternational\Model\Api\InternationalApiService;
 use Smartcore\InPostInternational\Model\ShipmentRepository;
+use Smartcore\InPostInternational\Service\FileService;
 
 class Label extends Action
 {
@@ -20,12 +22,12 @@ class Label extends Action
     /**
      * @var FileFactory
      */
-    protected $fileFactory;
+    protected FileFactory $fileFactory;
 
     /**
      * @var ShipmentRepository
      */
-    protected $shipmentRepository;
+    protected ShipmentRepository $shipmentRepository;
 
     /**
      * Label constructor.
@@ -34,12 +36,16 @@ class Label extends Action
      * @param FileFactory $fileFactory
      * @param ShipmentRepository $shipmentRepository
      * @param InternationalApiService $apiService
+     * @param FileService $fileService
+     * @param OrderRepository $orderRepository
      */
     public function __construct(
         Context $context,
         FileFactory $fileFactory,
         ShipmentRepository $shipmentRepository,
         private readonly InternationalApiService  $apiService,
+        private readonly FileService             $fileService,
+        private readonly OrderRepository         $orderRepository,
     ) {
         parent::__construct($context);
         $this->fileFactory = $fileFactory;
@@ -71,7 +77,8 @@ class Label extends Action
                 );
             }
 
-            $fileName = 'label_' . $shipmentId . '.pdf';
+            $order = $this->orderRepository->get($shipment->getOrderId());
+            $fileName = $this->fileService->getLabelFilename($order->getIncrementId(), $shipment->getId());
 
             // @phpstan-ignore-next-line
             return $this->fileFactory->create(
