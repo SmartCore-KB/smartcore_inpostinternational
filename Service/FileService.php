@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Service;
 
+use Exception;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\DateTime\DateTime;
+use Magento\Sales\Model\OrderRepository;
+use Psr\Log\LoggerInterface as PsrLoggerInterface;
+use Smartcore\InPostInternational\Model\Shipment;
 use ZipArchive;
 
 class FileService
@@ -18,10 +22,14 @@ class FileService
      *
      * @param DirectoryList $directoryList
      * @param DateTime $dateTime
+     * @param OrderRepository $orderRepository
+     * @param PsrLoggerInterface $logger
      */
     public function __construct(
         private readonly DirectoryList           $directoryList,
-        private readonly DateTime                $dateTime
+        private readonly DateTime                $dateTime,
+        private readonly OrderRepository         $orderRepository,
+        private readonly PsrLoggerInterface      $logger,
     ) {
     }
 
@@ -66,12 +74,20 @@ class FileService
     /**
      * Get a label filename
      *
-     * @param string $incrementId
-     * @param string $shipmentId
+     * @param Shipment $shipment
      * @return string
      */
-    public function getLabelFilename(string $incrementId, string $shipmentId): string
+    public function getLabelFilename(Shipment $shipment): string
     {
-        return sprintf('label-%s-%s.pdf', $incrementId, $shipmentId);
+        $incrementId = '';
+        if ($shipment->getOrderId()) {
+            try {
+                $order = $this->orderRepository->get($shipment->getOrderId());
+                $incrementId = $order->getId() ? $order->getIncrementId() : '';
+            } catch (Exception $e) {
+                $this->logger->error($e->getMessage());
+            }
+        }
+        return sprintf('label-%s-%s.pdf', $incrementId, $shipment->getId());
     }
 }

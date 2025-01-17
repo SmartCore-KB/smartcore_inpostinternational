@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="Smartcore_InPostInternational::inpost"
+        <add id="Smartcore_InPostInternational::inpostinternational"
              title="InPost International"
              translate="title"
              module="Smartcore_InPostInternational"
              sortOrder="100"
              parent="Magento_Sales::sales"
-             resource="Smartcore_InPostInternational::inpost"
+             resource="Smartcore_InPostInternational::inpostinternational"
         />
         <add id="Smartcore_InPostInternational::shipments_index"
              title="Shipment List"
              translate="title"
              module="Smartcore_InPostInternational"
              sortOrder="20"
-             parent="Smartcore_InPostInternational::inpost"
+             parent="Smartcore_InPostInternational::inpostinternational"
              action="inpostinternational/shipment/index"
              resource="Smartcore_InPostInternational::shipments_index"
         />
@@ -23,7 +23,7 @@
              translate="title"
              module="Smartcore_InPostInternational"
              sortOrder="40"
-             parent="Smartcore_InPostInternational::inpost"
+             parent="Smartcore_InPostInternational::inpostinternational"
              action="inpostinternational/parceltemplate/index"
              resource="Smartcore_InPostInternational::parceltemplate_index"
         />
@@ -32,15 +32,23 @@
              translate="title"
              module="Smartcore_InPostInternational"
              sortOrder="50"
-             parent="Smartcore_InPostInternational::inpost"
+             parent="Smartcore_InPostInternational::inpostinternational"
              action="inpostinternational/pickupaddress/index"
              resource="Smartcore_InPostInternational::pickupaddress_index"
         />
+        <add id="Smartcore_InPostInternational::weightprice_index"
+             title="Weight-based prices"
+             translate="title"
+             module="Smartcore_InPostInternational"
+             sortOrder="60"
+             parent="Smartcore_InPostInternational::inpostinternational"
+             action="inpostinternational/weightprice/index"
+             resource="Smartcore_InPostInternational::weightprice_index"/>
         <add id="Smartcore_InPostInternational::carrier_configuration"
              title="Carrier configuration"
              module="Smartcore_InPostInternational"
              sortOrder="500"
-             parent="Smartcore_InPostInternational::inpost"
+             parent="Smartcore_InPostInternational::inpostinternational"
              action="adminhtml/system_config/edit/section/carriers"
              resource="Smartcore_InPostInternational::configuration"
         />
@@ -48,7 +56,7 @@
              title="Module configuration"
              module="Smartcore_InPostInternational"
              sortOrder="510"
-             parent="Smartcore_InPostInternational::inpost"
+             parent="Smartcore_InPostInternational::inpostinternational"
              action="adminhtml/system_config/edit/section/shipping"
              resource="Smartcore_InPostInternational::configuration"
         />

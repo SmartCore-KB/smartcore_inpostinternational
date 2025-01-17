@@ -48,7 +48,7 @@
     <fieldset name="parceltemplate_fieldset" sortOrder="10">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
-                <item name="label" xsi:type="string" translate="true">Parcel Template Details</item>
+                <item name="label" xsi:type="string" translate="true">Parcel Template details</item>
             </item>
         </argument>
 

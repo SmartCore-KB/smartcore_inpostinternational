@@ -9,5 +9,7 @@ parameters:
        - '#Call to an undefined method [a-zA-Z0-9\\_]+::(get|set|uns|has|calc|unset)[A-Z]#'
     bootstrapFiles:
         # - ../../../../vendor/bitexpert/phpstan-magento/bootstrap.php
+    scanDirectories:
+        - ../../../../vendor/magento
 includes:
     # - ../../../../vendor/bitexpert/phpstan-magento/extension.neon

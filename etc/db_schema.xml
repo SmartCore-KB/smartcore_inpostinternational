@@ -107,6 +107,16 @@
         </index>
     </table>
 
+    <table name="inpostinternational_weight_price" resource="default" engine="innodb" comment="InPost Weight-based prices">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="decimal" name="weight_from" scale="2" precision="12" unsigned="true" nullable="false" comment="Weight From"/>
+        <column xsi:type="decimal" name="weight_to" scale="2" precision="12" unsigned="true" nullable="true" comment="Weight To"/>
+        <column xsi:type="decimal" name="price" scale="2" precision="12" unsigned="true" nullable="false" comment="Price"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
     <table name="quote" resource="default" engine="innodb">
         <column name="inpostinternational_locker_id" xsi:type="varchar" length="16" />
     </table>

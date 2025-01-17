@@ -9,7 +9,7 @@ use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
 
-class PickupAddressActions extends Column
+class WeightPriceActions extends Column
 {
     /**
      * @var UrlInterface
@@ -17,7 +17,7 @@ class PickupAddressActions extends Column
     protected $urlBuilder;
 
     /**
-     * PickupAddressActions constructor.
+     * WeightPriceActions constructor.
      *
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
@@ -49,20 +49,20 @@ class PickupAddressActions extends Column
                 $item[$this->getData('name')] = [
                     'edit' => [
                         'href' => $this->urlBuilder->getUrl(
-                            'inpostinternational/pickupaddress/edit',
+                            'inpostinternational/weightprice/edit',
                             ['id' => $item['entity_id']]
                         ),
                         'hidden' => true
                     ],
                     'delete' => [
                         'href' => $this->urlBuilder->getUrl(
-                            'inpostinternational/pickupaddress/delete',
+                            'inpostinternational/weightprice/delete',
                             ['id' => $item['entity_id']]
                         ),
                         'label' => __('Delete'),
                         'confirm' => [
-                            'title' => __('Delete pickup address'),
-                            'message' => __('Are you sure you want to delete this pickup address?')
+                            'title' => __('Delete price'),
+                            'message' => __('Are you sure you want to delete this weight-based price?')
                         ]
                     ]
                 ];

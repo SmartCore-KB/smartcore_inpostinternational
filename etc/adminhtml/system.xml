@@ -19,6 +19,16 @@
                        showInStore="1" canRestore="1">
                     <label>Method name</label>
                 </field>
+                <field id="price_calculation_type" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Price Calculation Type</label>
+                    <source_model>Smartcore\InPostInternational\Model\Config\Source\PriceCalculationType</source_model>
+                </field>
+                <field id="weight_attribute" translate="label" type="text" sortOrder="36" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Weight Attribute Code</label>
+                    <depends>
+                        <field id="price_calculation_type">weight</field>
+                    </depends>
+                </field>
                 <field id="price" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1"
                        showInStore="1" canRestore="1">
                     <label>Price</label>

@@ -45,6 +45,9 @@ class ChangeOrderStatusObserver extends AbstractOrderObserver implements Observe
         $inpostShipment = $observer->getData('inpostInternationalShipment');
         try {
             $order = $this->getOrder($inpostShipment);
+            if (!$order) {
+                return;
+            }
             $order->setStatus($status);
             $this->orderRepository->save($order);
         } catch (\Exception $e) {

@@ -32,13 +32,16 @@ abstract class AbstractOrderObserver
      * Get order from observer
      *
      * @param Shipment $inpostShipment
-     * @return Order
+     * @return Order|null
      * @throws InputException
      * @throws NoSuchEntityException
      */
-    protected function getOrder(Shipment $inpostShipment): Order
+    protected function getOrder(Shipment $inpostShipment): ?Order
     {
         $orderId = $inpostShipment->getOrderId();
+        if (!$orderId) {
+            return null;
+        }
         try {
             /** @var Order $order */
             $order = $this->orderRepository->get($orderId);

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                inpostinternational_weightprice_create.inpostinternational_weightprice_create_data_source
+            </item>
+            <item name="deps" xsi:type="string">
+                inpostinternational_weightprice_create.inpostinternational_weightprice_create_data_source
+            </item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">New InPost International weight-based price</item>
+        <item name="layout" xsi:type="array">
+            <item name="type" xsi:type="string">tabs</item>
+        </item>
+    </argument>
+
+    <settings>
+        <buttons>
+            <button name="save" class="Smartcore\InPostInternational\Block\Adminhtml\Buttons\Save" />
+            <button name="back" class="Smartcore\InPostInternational\Block\Adminhtml\Buttons\Back" />
+        </buttons>
+        <namespace>inpostinternational_weightprice_create</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>inpostinternational_weightprice_create.inpostinternational_weightprice_create_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="inpostinternational_weightprice_create_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">
+                Smartcore\InPostInternational\Ui\DataProvider\WeightPrice\CreateDataProvider
+            </argument>
+            <argument name="name" xsi:type="string">inpostinternational_weightprice_create_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+                <item name="submit_url" path="*/*/save" xsi:type="url" />
+            </item>
+        </argument>
+    </dataSource>
+
+    <fieldset name="weightprice_fieldset" sortOrder="10">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Weight-based price details</item>
+            </item>
+        </argument>
+
+        <field name="entity_id" formElement="hidden">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_weightprice_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">ID</label>
+                <dataScope>entity_id</dataScope>
+            </settings>
+        </field>
+
+        <field name="weight_from" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_weightprice_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Weight from</label>
+                <dataScope>weight_from</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-zero-or-greater" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+
+        <field name="weight_to" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_weightprice_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Weight to</label>
+                <dataScope>weight_to</dataScope>
+                <validation>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-zero-or-greater" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+
+        <field name="price" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_weightprice_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Price</label>
+                <dataScope>price</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-zero-or-greater" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+
+    </fieldset>
+</form>

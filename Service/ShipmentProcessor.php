@@ -384,6 +384,7 @@ class ShipmentProcessor
             $parcelNumbers['trackingNumber'] = $apiResponse['parcel']['trackingNumber'];
         }
         $orderId = isset($formData[self::SHIPMENT_FIELDSET]['order_id'])
+            && $formData[self::SHIPMENT_FIELDSET]['order_id']
             ? (int) $formData[self::SHIPMENT_FIELDSET]['order_id']
             : null;
         $shipmentDbModel

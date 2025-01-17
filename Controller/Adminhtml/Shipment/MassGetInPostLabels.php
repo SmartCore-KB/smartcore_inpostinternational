@@ -12,7 +12,6 @@ use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Magento\Ui\Component\MassAction\Filter;
 use Smartcore\InPostInternational\Exception\LabelException;
@@ -38,7 +37,6 @@ abstract class MassGetInPostLabels extends Action
      * @param InternationalApiService $apiService
      * @param CollectionFactory $orderCollFactory
      * @param ShipmentCollectionFactory $shipmentCollFactory
-     * @param OrderRepository $orderRepository
      */
     public function __construct(
         Context                                      $context,
@@ -49,7 +47,6 @@ abstract class MassGetInPostLabels extends Action
         protected readonly InternationalApiService   $apiService,
         protected readonly CollectionFactory         $orderCollFactory,
         protected readonly ShipmentCollectionFactory $shipmentCollFactory,
-        private readonly OrderRepository             $orderRepository,
     ) {
         parent::__construct($context);
     }
@@ -99,8 +96,7 @@ abstract class MassGetInPostLabels extends Action
             }
 
             $content = $this->apiService->getLabel($shipment);
-            $order = $this->orderRepository->get($shipment->getOrderId());
-            $fileName = $this->fileService->getLabelFilename($order->getIncrementId(), (string) $shipment->getId());
+            $fileName = $this->fileService->getLabelFilename($shipment);
             $labels[$fileName] = $content;
         }
 

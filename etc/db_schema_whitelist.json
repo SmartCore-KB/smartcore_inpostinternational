@@ -12,10 +12,62 @@
             "receiver_data": true,
             "reference": true,
             "dispatch_order_id": true,
-            "shipping_method": true
+            "shipping_method": true,
+            "order_id": true,
+            "shipment_type": true,
+            "label_format": true,
+            "sender_company_name": true,
+            "sender_first_name": true,
+            "sender_last_name": true,
+            "sender_email": true,
+            "sender_phone_prefix": true,
+            "sender_phone_number": true,
+            "sender_language_code": true,
+            "recipient_company_name": true,
+            "recipient_first_name": true,
+            "recipient_last_name": true,
+            "recipient_email": true,
+            "recipient_phone_prefix": true,
+            "recipient_phone_number": true,
+            "recipient_language_code": true,
+            "origin_house_number": true,
+            "origin_flat_number": true,
+            "origin_street": true,
+            "origin_city": true,
+            "origin_postal_code": true,
+            "origin_country_code": true,
+            "origin_shipping_methods": true,
+            "destination_country_code": true,
+            "destination_point_name": true,
+            "priority": true,
+            "insurance_value": true,
+            "insurance_currency": true,
+            "references": true,
+            "parcel_type": true,
+            "parcel_length": true,
+            "parcel_width": true,
+            "parcel_height": true,
+            "parcel_dimensions_unit": true,
+            "parcel_weight": true,
+            "parcel_weight_unit": true,
+            "parcel_label_comment": true,
+            "parcel_label_barcode": true,
+            "label_url": true,
+            "uuid": true,
+            "parcel_uuid": true,
+            "parcel_numbers": true,
+            "parcel_status": true,
+            "routing_delivery_area": true,
+            "routing_delivery_depot_number": true,
+            "created_at": true,
+            "updated_at": true
         },
         "constraint": {
-            "PRIMARY": true
+            "PRIMARY": true,
+            "INPOSTINTERNATIONAL_SHIPMENT_ORDER_ID_SALES_ORDER_ENTITY_ID": true
+        },
+        "index": {
+            "INPOSTINTERNATIONAL_SHIPMENT_ORDER_ID": true
         }
     },
     "inpostinternational_shipment_order_link": {
@@ -223,6 +275,17 @@
         "constraint": {
             "PRIMARY": true,
             "FK_A7937486B293F8AE7E3A5F02485CCE4C": true
+        }
+    },
+    "inpostinternational_weight_price": {
+        "column": {
+            "entity_id": true,
+            "weight_from": true,
+            "weight_to": true,
+            "price": true
+        },
+        "constraint": {
+            "PRIMARY": true
         }
     }
 }

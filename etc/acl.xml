@@ -12,6 +12,8 @@
                         <resource id="Smartcore_InPostInternational::parceltemplate_index" title="InPost International Parcel template list" sortOrder="13"/>
                         <resource id="Smartcore_InPostInternational::pickupaddress_create" title="InPost International Pickup address create form" sortOrder="14"/>
                         <resource id="Smartcore_InPostInternational::pickupaddress_index" title="InPost International Pickup address list" sortOrder="15"/>
+                        <resource id="Smartcore_InPostInternational::weightprice_create" title="InPost International Weight-based create form" sortOrder="16"/>
+                        <resource id="Smartcore_InPostInternational::weightprice_index" title="InPost International Weight-based price list" sortOrder="17"/>
                     </resource>
                 </resource>
             </resource>

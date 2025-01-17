@@ -52,7 +52,7 @@ class ParcelTemplateActions extends Column
                             'inpostinternational/parceltemplate/edit',
                             ['id' => $item['entity_id']]
                         ),
-                        'label' => __('Edit')
+                        'hidden' => true
                     ],
                     'delete' => [
                         'href' => $this->urlBuilder->getUrl(

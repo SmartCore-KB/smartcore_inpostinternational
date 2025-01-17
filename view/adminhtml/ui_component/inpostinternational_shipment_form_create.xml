@@ -48,7 +48,7 @@
     <fieldset name="shipment_fieldset" sortOrder="10">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
-                <item name="label" xsi:type="string" translate="true">Shipment Details</item>
+                <item name="label" xsi:type="string" translate="true">Shipment details</item>
             </item>
         </argument>
 
@@ -59,7 +59,7 @@
                     <item name="dataScope" xsi:type="string">order_id</item>
                     <item name="formElement" xsi:type="string">hidden</item>
                     <item name="validation" xsi:type="array">
-                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="required-entry" xsi:type="boolean">false</item>
                     </item>
                 </item>
             </argument>
@@ -72,7 +72,7 @@
                     <item name="dataScope" xsi:type="string">order_increment_id</item>
                     <item name="formElement" xsi:type="string">hidden</item>
                     <item name="validation" xsi:type="array">
-                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="required-entry" xsi:type="boolean">false</item>
                     </item>
                 </item>
             </argument>

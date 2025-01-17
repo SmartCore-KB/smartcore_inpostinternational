@@ -20,7 +20,12 @@ class MassGetInPostLabelsFromOrders extends MassGetInPostLabels
         $shipments = [];
 
         foreach ($orderIds as $orderId) {
-            $shipments[] = $this->shipmentRepository->getListByOrderId((string) $orderId);
+            $foundShipments = $this->shipmentRepository->getListByOrderId((string) $orderId);
+            if (count($foundShipments) > 0) {
+                foreach ($foundShipments as $foundShipment) {
+                    $shipments[] = $foundShipment;
+                }
+            }
         }
 
         return $shipments;
