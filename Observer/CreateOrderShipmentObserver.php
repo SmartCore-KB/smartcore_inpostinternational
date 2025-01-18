@@ -10,12 +10,18 @@ use Magento\Framework\Exception\LocalizedException as LocalizedException;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\Sales\Api\Data\ShipmentTrackInterfaceFactory;
 use Magento\Sales\Model\Convert\Order as ConvertOrder;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Shipment;
 use Magento\Sales\Model\Order\ShipmentRepository;
 use Magento\Sales\Model\OrderRepository;
 use Psr\Log\LoggerInterface as PsrLoggerInterface;
 use Smartcore\InPostInternational\Model\Carrier\InpostCourier;
 use Smartcore\InPostInternational\Model\ConfigProvider;
+use Smartcore\InPostInternational\Model\InPostShipment as InpostShipment;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CreateOrderShipmentObserver extends AbstractOrderObserver implements ObserverInterface
 {
     /**
@@ -53,24 +59,55 @@ class CreateOrderShipmentObserver extends AbstractOrderObserver implements Obser
      */
     public function execute(Observer $observer): void
     {
-        $status = $this->configProvider->isAutoOrderShipmentCreateEnabled();
-        if (false === $status) {
-            return;
-        }
-        $inpostShipment = $observer->getData('inpostInternationalShipment');
-        try {
-            $order = $this->getOrder($inpostShipment);
-        } catch (\Exception $e) {
-            $this->logger->error($e);
-            $this->messageManager->addExceptionMessage($e, $e->getMessage());
+        if (!$this->configProvider->isAutoOrderShipmentCreateEnabled()) {
             return;
         }
 
+        /** @var InpostShipment $inpostShipment */
+        $inpostShipment = $observer->getData('inpostInternationalShipment');
+        $order = $this->getOrderOrLogError($inpostShipment);
+        if (!$order) {
+            return;
+        }
+
+        $orderShipment = $this->getOrderShipment($order);
+
+        $this->createTrack($orderShipment, $inpostShipment);
+        $this->setSourceCode($orderShipment);
+        $this->saveOrderAndShipment($order, $orderShipment);
+    }
+
+    /**
+     * Get order or log error
+     *
+     * @param InpostShipment $inpostShipment
+     * @return Order|null
+     */
+    private function getOrderOrLogError(InpostShipment $inpostShipment): ?Order
+    {
+        try {
+            return $this->getOrder($inpostShipment);
+        } catch (\Exception $e) {
+            $this->logger->error($e);
+            $this->messageManager->addExceptionMessage($e, $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Get order shipment
+     *
+     * @param Order $order
+     * @return Shipment
+     * @throws LocalizedException
+     */
+    private function getOrderShipment(Order $order): Shipment
+    {
         $orderShipment = $order->getShipmentsCollection()->getFirstItem();
         if (!$orderShipment->getId()) {
             if (!$order->canShip()) {
                 throw new LocalizedException(
-                    __('You can\'t create an shipment for order %1.', $order->getIncrementId())
+                    __('You can\'t create a shipment for order %1.', $order->getIncrementId())
                 );
             }
             $orderShipment = $this->convertOrder->toShipment($order);
@@ -84,8 +121,18 @@ class CreateOrderShipmentObserver extends AbstractOrderObserver implements Obser
             }
             $orderShipment->register();
         }
+        return $orderShipment;
+    }
 
-        // create track
+    /**
+     * Create track
+     *
+     * @param Shipment $orderShipment
+     * @param InpostShipment $inpostShipment
+     * @return void
+     */
+    private function createTrack(Shipment $orderShipment, InpostShipment $inpostShipment): void
+    {
         $trackTitle = $this->configProvider->getShippingMethodTitle();
         $carrierCode = $this->inpostCourier->getCarrierCode();
         $data = [
@@ -94,21 +141,37 @@ class CreateOrderShipmentObserver extends AbstractOrderObserver implements Obser
             'number' => $inpostShipment->getTrackingNumber()
         ];
         $track = $this->trackFactory->create();
-        // @phpstan-ignore-next-line
         $track->addData($data);
-        // @phpstan-ignore-next-line
         $orderShipment->addTrack($track);
+    }
 
-        // support to MSI
-        // if MSI has been disabled or removed then setSourceCode method does not exists
-        if (method_exists($orderShipment->getExtensionAttributes(), 'setSourceCode')) {
-            $orderShipment->getExtensionAttributes()->setSourceCode('default');
+    /**
+     * Set source code
+     *
+     * @param Shipment $orderShipment
+     * @return void
+     */
+    private function setSourceCode(Shipment $orderShipment): void
+    {
+        /** @phpstan-ignore-next-line */
+        $extensionAttributes = $orderShipment->getExtensionAttributes();
+        if (method_exists($extensionAttributes, 'setSourceCode')) {
+            /** @phpstan-ignore-next-line */
+            $extensionAttributes->setSourceCode('default');
         }
+    }
 
-        // save order and shipment
+    /**
+     * Save order and shipment
+     *
+     * @param Order $order
+     * @param Shipment $orderShipment
+     * @return void
+     */
+    private function saveOrderAndShipment(Order $order, Shipment $orderShipment): void
+    {
         try {
             $this->orderRepository->save($order);
-            // @phpstan-ignore-next-line
             $this->shipmentRepository->save($orderShipment);
         } catch (\Exception $e) {
             $this->logger->error($e);

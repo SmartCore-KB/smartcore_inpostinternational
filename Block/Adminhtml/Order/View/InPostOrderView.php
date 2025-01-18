@@ -9,14 +9,12 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
 use Magento\Sales\Block\Adminhtml\Order\AbstractOrder;
 use Magento\Sales\Helper\Admin;
-//use Magento\Shipping\Helper\Data as ShippingHelper;
-//use Magento\Tax\Helper\Data as TaxHelper;
-use Smartcore\InPostInternational\Api\Data\ShipmentInterface;
+use Smartcore\InPostInternational\Api\Data\InPostShipmentInterface;
 use Smartcore\InPostInternational\Model\Config\Source\ShippingMethods;
 use Smartcore\InPostInternational\Model\ConfigProvider;
-use Smartcore\InPostInternational\Model\Shipment;
+use Smartcore\InPostInternational\Model\InPostShipment;
 
-class InpostOrderView extends AbstractOrder
+class InPostOrderView extends AbstractOrder
 {
     /**
      * @var ShippingMethods
@@ -24,7 +22,7 @@ class InpostOrderView extends AbstractOrder
     protected $shippingMethods;
 
     /**
-     * @var \Smartcore\InPostInternational\Model\Shipment
+     * @var \Smartcore\InPostInternational\Model\InPostShipment
      */
     protected $inpostShipment;
 
@@ -117,10 +115,10 @@ class InpostOrderView extends AbstractOrder
     /**
      * Get the tracking URL for the shipment
      *
-     * @param Shipment $shipment
+     * @param InPostShipment $shipment
      * @return string
      */
-    public function getShippingTrackingUrl(Shipment $shipment): string
+    public function getShippingTrackingUrl(InPostShipment $shipment): string
     {
         $tracking = $shipment->getTrackingNumber();
         return 'https://inpost.pl/sledzenie-przesylek?number=' . $tracking;
@@ -129,10 +127,10 @@ class InpostOrderView extends AbstractOrder
     /**
      * Get the shipping service label for the shipment
      *
-     * @param Shipment $shipment
+     * @param InPostShipment $shipment
      * @return string
      */
-    public function getShippingService(Shipment $shipment): string
+    public function getShippingService(InPostShipment $shipment): string
     {
         return $this->serviceConfig->getServiceLabel($shipment->getShippingMethod())->__toString();
     }
@@ -140,17 +138,17 @@ class InpostOrderView extends AbstractOrder
     /**
      * Get shipping details for the shipment
      *
-     * @param Shipment $shipment
+     * @param InPostShipment $shipment
      * @return array
      */
-    public function getShippingDetails(Shipment $shipment): array
+    public function getShippingDetails(InPostShipment $shipment): array
     {
         $details = [];
-        $details[ShipmentInterface::STATUS] = $this->statusConfig->getStatusLabel($shipment->getStatus());
+        $details[InPostShipmentInterface::STATUS] = $this->statusConfig->getStatusLabel($shipment->getStatus());
         if (strpos($shipment->getService(), 'inpost_locker') !== false) {
-            $details[ShipmentInterface::SHIPMENT_ATTRIBUTES] =
+            $details[InPostShipmentInterface::SHIPMENT_ATTRIBUTES] =
                 $this->sizeConfig->getSizeLabel($shipment->getShipmentsAttributes());
-            $details[ShipmentInterface::TARGET_POINT] = __("Point: ") . $shipment->getTargetPoint();
+            $details[InPostShipmentInterface::TARGET_POINT] = __("Point: ") . $shipment->getTargetPoint();
         }
         return $details;
     }
@@ -158,10 +156,10 @@ class InpostOrderView extends AbstractOrder
     /**
      * Get the label URL for the shipment
      *
-     * @param Shipment $shipment
+     * @param InPostShipment $shipment
      * @return string
      */
-    public function getLabelUrl(Shipment $shipment): string
+    public function getLabelUrl(InPostShipment $shipment): string
     {
         return $this->getUrl(
             'inpostinternational/shipments/printLabel',
@@ -172,10 +170,10 @@ class InpostOrderView extends AbstractOrder
     /**
      * Check if return is possible for the shipment
      *
-     * @param Shipment $shipment
+     * @param InPostShipment $shipment
      * @return bool
      */
-    public function isReturnPossible(Shipment $shipment): bool
+    public function isReturnPossible(InPostShipment $shipment): bool
     {
         if (in_array($shipment->getService(), ['inpost_courier_c2c', 'inpost_courier_c2ccod'])) {
             return false;
@@ -186,10 +184,10 @@ class InpostOrderView extends AbstractOrder
     /**
      * Get the return URL for the shipment
      *
-     * @param Shipment $shipment
+     * @param InPostShipment $shipment
      * @return string
      */
-    public function getReturnUrl(Shipment $shipment): string
+    public function getReturnUrl(InPostShipment $shipment): string
     {
         if ($shipment->getService() != 'inpost_locker_standard') {
             return $this->getUrl(
@@ -204,10 +202,10 @@ class InpostOrderView extends AbstractOrder
     /**
      * Check if the URL should be blank
      *
-     * @param Shipment $shipment
+     * @param InPostShipment $shipment
      * @return bool
      */
-    public function isUrlBlank(Shipment $shipment): bool
+    public function isUrlBlank(InPostShipment $shipment): bool
     {
         if ($shipment->getService() != 'inpost_locker_standard') {
             return false;
