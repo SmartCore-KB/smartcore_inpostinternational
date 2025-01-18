@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Smartcore\InPostInternational\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
-use Smartcore\InPostInternational\Api\Data\ShipmentInterface;
+use Smartcore\InPostInternational\Api\Data\InPostShipmentInterface;
 
-class Shipment extends AbstractDb
+class InPostShipment extends AbstractDb
 {
 
     /**
@@ -15,8 +15,8 @@ class Shipment extends AbstractDb
      *
      * @return void
      */
-    protected function _construct()
+    protected function _construct(): void
     {
-        $this->_init('inpostinternational_shipment', ShipmentInterface::ENTITY_ID);
+        $this->_init('inpostinternational_shipment', InPostShipmentInterface::ENTITY_ID);
     }
 }

@@ -8,9 +8,9 @@ use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
+use Smartcore\InPostInternational\Model\InPostShipment as ShipmentModel;
+use Smartcore\InPostInternational\Model\InPostShipmentFactory;
 use Smartcore\InPostInternational\Model\PickupAddressRepository;
-use Smartcore\InPostInternational\Model\Shipment as ShipmentModel;
-use Smartcore\InPostInternational\Model\ShipmentFactory;
 
 class AddressToPointShipmentDto extends ShipmentTypeDto implements ShipmentTypeInterface
 {
@@ -20,7 +20,7 @@ class AddressToPointShipmentDto extends ShipmentTypeDto implements ShipmentTypeI
     /**
      * AddressToPointShipmentDto constructor.
      *
-     * @param ShipmentFactory $shipmentFactory
+     * @param InPostShipmentFactory $shipmentFactory
      * @param AbstractDtoBuilder $abstractDtoBuilder
      * @param PickupAddressRepository $pickupAddrRepository
      * @param Context $context
@@ -29,7 +29,7 @@ class AddressToPointShipmentDto extends ShipmentTypeDto implements ShipmentTypeI
      * @param AbstractDb|null $resourceCollection
      */
     public function __construct(
-        readonly ShipmentFactory $shipmentFactory,
+        readonly InPostShipmentFactory $shipmentFactory,
         private readonly AbstractDtoBuilder       $abstractDtoBuilder,
         private readonly PickupAddressRepository  $pickupAddrRepository,
         Context                  $context,

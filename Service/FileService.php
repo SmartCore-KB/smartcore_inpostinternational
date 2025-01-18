@@ -11,7 +11,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Sales\Model\OrderRepository;
 use Psr\Log\LoggerInterface as PsrLoggerInterface;
-use Smartcore\InPostInternational\Model\Shipment;
+use Smartcore\InPostInternational\Model\InPostShipment;
 use ZipArchive;
 
 class FileService
@@ -74,10 +74,10 @@ class FileService
     /**
      * Get a label filename
      *
-     * @param Shipment $shipment
+     * @param InPostShipment $shipment
      * @return string
      */
-    public function getLabelFilename(Shipment $shipment): string
+    public function getLabelFilename(InPostShipment $shipment): string
     {
         $incrementId = '';
         if ($shipment->getOrderId()) {

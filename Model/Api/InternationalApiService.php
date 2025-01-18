@@ -10,7 +10,7 @@ use Magento\Framework\Encryption\UrlCoder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json;
-use Smartcore\InPostInternational\Api\Data\ShipmentInterface;
+use Smartcore\InPostInternational\Api\Data\InPostShipmentInterface;
 use Smartcore\InPostInternational\Exception\ApiException;
 use Smartcore\InPostInternational\Exception\LabelException;
 use Smartcore\InPostInternational\Exception\TokenSaveException;
@@ -84,11 +84,11 @@ class InternationalApiService
     /**
      * Get shipment label using InPost API
      *
-     * @param ShipmentInterface $shipment
+     * @param InPostShipmentInterface $shipment
      * @return string
      * @throws Exception
      */
-    public function getLabel(ShipmentInterface $shipment): string
+    public function getLabel(InPostShipmentInterface $shipment): string
     {
         $labelRequest = $this->sendRequest(
             'GET',
@@ -109,12 +109,12 @@ class InternationalApiService
     /**
      * Get shipment using InPost API
      *
-     * @param ShipmentInterface $shipment
+     * @param InPostShipmentInterface $shipment
      * @return array
      * @throws TokenSaveException
      * @throws Exception
      */
-    public function getApiShipment(ShipmentInterface $shipment): array
+    public function getApiShipment(InPostShipmentInterface $shipment): array
     {
         return $this->sendRequest(
             'GET',

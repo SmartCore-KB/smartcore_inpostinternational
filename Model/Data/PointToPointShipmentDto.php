@@ -9,8 +9,8 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
 use Smartcore\InPostInternational\Model\ConfigProvider;
-use Smartcore\InPostInternational\Model\Shipment as ShipmentModel;
-use Smartcore\InPostInternational\Model\ShipmentFactory;
+use Smartcore\InPostInternational\Model\InPostShipment as ShipmentModel;
+use Smartcore\InPostInternational\Model\InPostShipmentFactory;
 
 class PointToPointShipmentDto extends ShipmentTypeDto implements ShipmentTypeInterface
 {
@@ -20,7 +20,7 @@ class PointToPointShipmentDto extends ShipmentTypeDto implements ShipmentTypeInt
     /**
      * PointToPointShipmentDto constructor.
      *
-     * @param ShipmentFactory $shipmentFactory
+     * @param InPostShipmentFactory $shipmentFactory
      * @param AbstractDtoBuilder $abstractDtoBuilder
      * @param ConfigProvider $configProvider
      * @param Context $context
@@ -29,7 +29,7 @@ class PointToPointShipmentDto extends ShipmentTypeDto implements ShipmentTypeInt
      * @param AbstractDb|null $resourceCollection
      */
     public function __construct(
-        readonly ShipmentFactory $shipmentFactory,
+        readonly InPostShipmentFactory $shipmentFactory,
         private readonly AbstractDtoBuilder       $abstractDtoBuilder,
         private readonly ConfigProvider           $configProvider,
         Context                  $context,

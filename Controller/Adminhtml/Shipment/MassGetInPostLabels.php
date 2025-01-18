@@ -16,8 +16,8 @@ use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Magento\Ui\Component\MassAction\Filter;
 use Smartcore\InPostInternational\Exception\LabelException;
 use Smartcore\InPostInternational\Model\Api\InternationalApiService;
-use Smartcore\InPostInternational\Model\ResourceModel\Shipment\CollectionFactory as ShipmentCollectionFactory;
-use Smartcore\InPostInternational\Model\ShipmentRepository;
+use Smartcore\InPostInternational\Model\InPostShipmentRepository;
+use Smartcore\InPostInternational\Model\ResourceModel\InPostShipment\CollectionFactory as ShipmentCollectionFactory;
 use Smartcore\InPostInternational\Service\FileService;
 
 /**
@@ -31,7 +31,7 @@ abstract class MassGetInPostLabels extends Action
      *
      * @param Context $context
      * @param Filter $filter
-     * @param ShipmentRepository $shipmentRepository
+     * @param InPostShipmentRepository $shipmentRepository
      * @param FileFactory $fileFactory
      * @param FileService $fileService
      * @param InternationalApiService $apiService
@@ -41,7 +41,7 @@ abstract class MassGetInPostLabels extends Action
     public function __construct(
         Context                                      $context,
         protected readonly Filter                    $filter,
-        protected readonly ShipmentRepository        $shipmentRepository,
+        protected readonly InPostShipmentRepository  $shipmentRepository,
         protected readonly FileFactory               $fileFactory,
         protected readonly FileService               $fileService,
         protected readonly InternationalApiService   $apiService,

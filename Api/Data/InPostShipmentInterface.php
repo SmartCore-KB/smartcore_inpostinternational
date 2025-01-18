@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Api\Data;
 
-interface ShipmentInterface
+interface InPostShipmentInterface
 {
     public const ENTITY_ID = 'entity_id';
     public const ORDER_ID = 'order_id';

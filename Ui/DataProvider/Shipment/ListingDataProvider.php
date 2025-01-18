@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Smartcore\InPostInternational\Ui\DataProvider\Shipment;
 
 use Magento\Ui\DataProvider\AbstractDataProvider;
-use Smartcore\InPostInternational\Model\ResourceModel\Shipment\CollectionFactory;
+use Smartcore\InPostInternational\Model\ResourceModel\InPostShipment\CollectionFactory;
 
 class ListingDataProvider extends AbstractDataProvider
 {

@@ -12,7 +12,7 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Ui\Component\MassAction\Filter;
-use Smartcore\InPostInternational\Model\ResourceModel\Shipment\CollectionFactory;
+use Smartcore\InPostInternational\Model\ResourceModel\InPostShipment\CollectionFactory;
 
 class MassDelete extends Action
 {

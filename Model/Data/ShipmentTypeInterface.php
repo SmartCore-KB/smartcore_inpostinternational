@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model\Data;
 
-use Smartcore\InPostInternational\Model\Shipment;
+use Smartcore\InPostInternational\Model\InPostShipment;
 
 interface ShipmentTypeInterface
 {
@@ -28,9 +28,9 @@ interface ShipmentTypeInterface
     /**
      * Convert shipment data to database model
      *
-     * @return Shipment
+     * @return InPostShipment
      */
-    public function toDbModel(): Shipment;
+    public function toDbModel(): InPostShipment;
 
     /**
      * Create origin object

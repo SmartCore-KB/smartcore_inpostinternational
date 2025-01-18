@@ -29,9 +29,9 @@ use Smartcore\InPostInternational\Model\Data\ShipmentTypeFactory;
 use Smartcore\InPostInternational\Model\Data\ShipmentTypeInterface;
 use Smartcore\InPostInternational\Model\Data\ValueAddedServicesDto;
 use Smartcore\InPostInternational\Model\Data\WeightDto;
+use Smartcore\InPostInternational\Model\InPostShipment;
+use Smartcore\InPostInternational\Model\InPostShipmentRepository;
 use Smartcore\InPostInternational\Model\ParcelTemplateRepository;
-use Smartcore\InPostInternational\Model\Shipment;
-use Smartcore\InPostInternational\Model\ShipmentRepository;
 use Smartcore\InPostInternational\Ui\DataProvider\Shipment\CreateDataProvider;
 
 /**
@@ -49,7 +49,7 @@ class ShipmentProcessor
      * @param ParcelTemplateRepository $parcelTmplRepository
      * @param InternationalApiService $apiService
      * @param ErrorProcessor $errorProcessor
-     * @param ShipmentRepository $shipmentRepository
+     * @param InPostShipmentRepository $shipmentRepository
      * @param AbstractDtoBuilder $abstractDtoBuilder
      * @param CreateDataProvider $createDataProvider
      * @param EventManager $eventManager
@@ -60,7 +60,7 @@ class ShipmentProcessor
         private readonly ParcelTemplateRepository $parcelTmplRepository,
         private readonly InternationalApiService  $apiService,
         private readonly ErrorProcessor           $errorProcessor,
-        private readonly ShipmentRepository       $shipmentRepository,
+        private readonly InPostShipmentRepository $shipmentRepository,
         private readonly AbstractDtoBuilder       $abstractDtoBuilder,
         private readonly CreateDataProvider       $createDataProvider,
         private readonly EventManager             $eventManager
@@ -115,12 +115,12 @@ class ShipmentProcessor
     /**
      * Update shipment from API
      *
-     * @param Shipment $shipmentDbModel
+     * @param InPostShipment $shipmentDbModel
      * @throws AlreadyExistsException
      * @throws LocalizedException
      * @throws TokenSaveException
      */
-    public function updateInPostShipmentFromApi(Shipment $shipmentDbModel): void
+    public function updateInPostShipmentFromApi(InPostShipment $shipmentDbModel): void
     {
         $apiShipment = $this->apiService->getApiShipment($shipmentDbModel);
         if ($apiShipment['status'] !== $shipmentDbModel->getParcelStatus()) {
@@ -161,10 +161,10 @@ class ShipmentProcessor
     /**
      * Dispatch events
      *
-     * @param Shipment $shipment
+     * @param InPostShipment $shipment
      * @return void
      */
-    private function dispatchEvent(Shipment $shipment): void
+    private function dispatchEvent(InPostShipment $shipment): void
     {
         if ($shipment->getId()) {
             $this->eventManager->dispatch(
@@ -369,16 +369,16 @@ class ShipmentProcessor
     /**
      * Enrich shipment with API response
      *
-     * @param Shipment $shipmentDbModel
+     * @param InPostShipment $shipmentDbModel
      * @param array<mixed> $apiResponse
      * @param array<mixed> $formData
-     * @return Shipment
+     * @return InPostShipment
      */
     private function enrichShipmentWithApiResponse(
-        Shipment $shipmentDbModel,
-        array $apiResponse,
-        array $formData
-    ): Shipment {
+        InPostShipment $shipmentDbModel,
+        array          $apiResponse,
+        array          $formData
+    ): InPostShipment {
         $parcelNumbers = $apiResponse['parcel']['parcelNumbers'] ?? null;
         if ($apiResponse['parcel']['trackingNumber'] ?? null) {
             $parcelNumbers['trackingNumber'] = $apiResponse['parcel']['trackingNumber'];

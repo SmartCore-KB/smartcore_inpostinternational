@@ -9,7 +9,7 @@ use DateTime;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
 use Smartcore\InPostInternational\Exception\TokenSaveException;
-use Smartcore\InPostInternational\Model\ShipmentRepository;
+use Smartcore\InPostInternational\Model\InPostShipmentRepository;
 use Smartcore\InPostInternational\Service\ShipmentProcessor;
 
 class ShipmentsUpdate
@@ -18,12 +18,12 @@ class ShipmentsUpdate
     /**
      * ShipmentsUpdate constructor.
      *
-     * @param ShipmentRepository $shipmentRepository
+     * @param InPostShipmentRepository $shipmentRepository
      * @param ShipmentProcessor $shipmentProcessor
      */
     public function __construct(
-        private readonly ShipmentRepository $shipmentRepository,
-        private readonly ShipmentProcessor $shipmentProcessor
+        private readonly InPostShipmentRepository $shipmentRepository,
+        private readonly ShipmentProcessor        $shipmentProcessor
     ) {
     }
 

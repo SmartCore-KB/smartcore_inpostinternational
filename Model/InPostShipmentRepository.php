@@ -8,24 +8,24 @@ use Exception;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
-use Smartcore\InPostInternational\Api\Data\ShipmentInterface;
+use Smartcore\InPostInternational\Api\Data\InPostShipmentInterface;
 use Smartcore\InPostInternational\Api\ShipmentRepositoryInterface;
-use Smartcore\InPostInternational\Model\ResourceModel\Shipment as ResourceModel;
-use Smartcore\InPostInternational\Model\ResourceModel\Shipment\CollectionFactory;
+use Smartcore\InPostInternational\Model\ResourceModel\InPostShipment as ResourceModel;
+use Smartcore\InPostInternational\Model\ResourceModel\InPostShipment\CollectionFactory;
 
-class ShipmentRepository implements ShipmentRepositoryInterface
+class InPostShipmentRepository implements ShipmentRepositoryInterface
 {
 
     /**
      * ShipmentRepository constructor.
      *
      * @param ResourceModel $resourceModel
-     * @param ShipmentFactory $shipmentFactory
+     * @param InPostShipmentFactory $shipmentFactory
      * @param CollectionFactory $collectionFactory
      */
     public function __construct(
         private readonly ResourceModel     $resourceModel,
-        private readonly ShipmentFactory   $shipmentFactory,
+        private readonly InPostShipmentFactory   $shipmentFactory,
         private readonly CollectionFactory $collectionFactory,
     ) {
     }
@@ -33,12 +33,12 @@ class ShipmentRepository implements ShipmentRepositoryInterface
     /**
      * Shipment save
      *
-     * @param ShipmentInterface&AbstractModel $shipment
-     * @return ShipmentInterface
+     * @param InPostShipmentInterface&AbstractModel $shipment
+     * @return InPostShipmentInterface
      * @throws AlreadyExistsException
      * @throws LocalizedException
      */
-    public function save(ShipmentInterface $shipment): ShipmentInterface
+    public function save(InPostShipmentInterface $shipment): InPostShipmentInterface
     {
         $this->resourceModel->save($shipment);
         return $shipment;
@@ -47,11 +47,11 @@ class ShipmentRepository implements ShipmentRepositoryInterface
     /**
      * Shipment delete
      *
-     * @param ShipmentInterface&AbstractModel $shipment
+     * @param InPostShipmentInterface&AbstractModel $shipment
      * @return $this
      * @throws Exception
      */
-    public function delete(ShipmentInterface $shipment): static
+    public function delete(InPostShipmentInterface $shipment): static
     {
         $this->resourceModel->delete($shipment);
         return $this;
@@ -61,9 +61,9 @@ class ShipmentRepository implements ShipmentRepositoryInterface
      * Load Shipment
      *
      * @param int $modelId
-     * @return ShipmentInterface
+     * @return InPostShipmentInterface
      */
-    public function load(int $modelId): ShipmentInterface
+    public function load(int $modelId): InPostShipmentInterface
     {
         $shipment = $this->shipmentFactory->create();
         $this->resourceModel->load($shipment, $modelId);

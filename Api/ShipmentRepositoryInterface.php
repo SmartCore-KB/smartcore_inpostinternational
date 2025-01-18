@@ -5,31 +5,31 @@ declare(strict_types=1);
 namespace Smartcore\InPostInternational\Api;
 
 use Magento\Framework\Model\AbstractModel;
-use Smartcore\InPostInternational\Api\Data\ShipmentInterface;
+use Smartcore\InPostInternational\Api\Data\InPostShipmentInterface;
 
 interface ShipmentRepositoryInterface
 {
     /**
      * Save Parcel Template
      *
-     * @param ShipmentInterface&AbstractModel $shipment
-     * @return ShipmentInterface
+     * @param InPostShipmentInterface&AbstractModel $shipment
+     * @return InPostShipmentInterface
      */
-    public function save(ShipmentInterface $shipment): ShipmentInterface;
+    public function save(InPostShipmentInterface $shipment): InPostShipmentInterface;
 
     /**
      * Delete Parcel Template
      *
-     * @param ShipmentInterface&AbstractModel $shipment
+     * @param InPostShipmentInterface&AbstractModel $shipment
      * @return $this
      */
-    public function delete(ShipmentInterface $shipment): self;
+    public function delete(InPostShipmentInterface $shipment): self;
 
     /**
      * Load Parcel Template
      *
      * @param int $modelId
-     * @return ShipmentInterface
+     * @return InPostShipmentInterface
      */
-    public function load(int $modelId): ShipmentInterface;
+    public function load(int $modelId): InPostShipmentInterface;
 }

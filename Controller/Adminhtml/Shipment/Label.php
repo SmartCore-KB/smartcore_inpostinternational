@@ -12,8 +12,8 @@ use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\App\ResponseInterface;
 use Smartcore\InPostInternational\Exception\LabelException;
 use Smartcore\InPostInternational\Model\Api\InternationalApiService;
-use Smartcore\InPostInternational\Model\Shipment;
-use Smartcore\InPostInternational\Model\ShipmentRepository;
+use Smartcore\InPostInternational\Model\InPostShipment;
+use Smartcore\InPostInternational\Model\InPostShipmentRepository;
 use Smartcore\InPostInternational\Service\FileService;
 
 class Label extends Action
@@ -25,24 +25,24 @@ class Label extends Action
     protected FileFactory $fileFactory;
 
     /**
-     * @var ShipmentRepository
+     * @var InPostShipmentRepository
      */
-    protected ShipmentRepository $shipmentRepository;
+    protected InPostShipmentRepository $shipmentRepository;
 
     /**
      * Label constructor.
      *
      * @param Context $context
      * @param FileFactory $fileFactory
-     * @param ShipmentRepository $shipmentRepository
+     * @param InPostShipmentRepository $shipmentRepository
      * @param InternationalApiService $apiService
      * @param FileService $fileService
      */
     public function __construct(
-        Context $context,
-        FileFactory $fileFactory,
-        ShipmentRepository $shipmentRepository,
-        private readonly InternationalApiService  $apiService,
+        Context                                  $context,
+        FileFactory                              $fileFactory,
+        InPostShipmentRepository                 $shipmentRepository,
+        private readonly InternationalApiService $apiService,
         private readonly FileService             $fileService,
     ) {
         parent::__construct($context);
@@ -60,7 +60,7 @@ class Label extends Action
         $shipmentId = $this->getRequest()->getParam('id');
 
         try {
-            /** @var Shipment $shipment */
+            /** @var InPostShipment $shipment */
             $shipment = $this->shipmentRepository->load((int) $shipmentId);
             $labelUrl = $shipment->getLabelUrl();
 

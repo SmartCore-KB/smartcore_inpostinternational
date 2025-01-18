@@ -6,13 +6,13 @@ namespace Smartcore\InPostInternational\Model;
 
 use DateTime;
 use Magento\Framework\Model\AbstractModel;
-use Smartcore\InPostInternational\Api\Data\ShipmentInterface;
-use Smartcore\InPostInternational\Model\ResourceModel\Shipment as ShipmentResourceModel;
+use Smartcore\InPostInternational\Api\Data\InPostShipmentInterface;
+use Smartcore\InPostInternational\Model\ResourceModel\InPostShipment as ShipmentResourceModel;
 
 /**
  * @SuppressWarnings(PHPMD)
  */
-class Shipment extends AbstractModel implements ShipmentInterface
+class InPostShipment extends AbstractModel implements InPostShipmentInterface
 {
 
     /**
