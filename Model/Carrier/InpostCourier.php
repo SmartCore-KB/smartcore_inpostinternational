@@ -15,9 +15,11 @@ use Magento\Shipping\Model\Carrier\AbstractCarrier;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\Result;
 use Magento\Shipping\Model\Rate\ResultFactory;
+use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Smartcore\InPostInternational\Model\Config\Source\PriceCalculationType;
+use Smartcore\InPostInternational\Model\Config\Source\WeightOutOfRange;
 use Smartcore\InPostInternational\Model\ResourceModel\WeightPrice\CollectionFactory as WeightPriceCollectionFactory;
 use Smartcore\InPostInternational\Setup\Patch\Data\AddProductBlockPointsAttribute;
 
@@ -52,7 +54,7 @@ class InpostCourier extends AbstractCarrier implements CarrierInterface
      * @param array $data
      */
     public function __construct(
-        ScopeConfigInterface                   $scopeConfig,
+        protected ScopeConfigInterface         $scopeConfig,
         ErrorFactory                           $rateErrorFactory,
         LoggerInterface                        $logger,
         protected ResultFactory                $rateResultFactory,
@@ -111,6 +113,9 @@ class InpostCourier extends AbstractCarrier implements CarrierInterface
         $method->setMethodTitle($this->getConfigData('name'));
 
         $shippingCost = $this->calculateShippingCost($request);
+        if ($shippingCost === null) {
+            return false;
+        }
         $method->setPrice($shippingCost);
         $method->setCost($shippingCost);
 
@@ -154,15 +159,27 @@ class InpostCourier extends AbstractCarrier implements CarrierInterface
      * Calculate shipping cost
      *
      * @param RateRequest $request
-     * @return float
+     * @return float|null
      */
-    protected function calculateShippingCost(RateRequest $request): float
+    protected function calculateShippingCost(RateRequest $request): ?float
     {
         $calculationType = $this->getConfigData('price_calculation_type');
 
+        if ($this->getConfigFlag('free_shipping_enable')) {
+            $freeShippingAmount = (float) $this->getConfigData('free_shipping_subtotal');
+            $freeAmountInclTax = $this->getConfigFlag('free_shipping_subtotal_incl_tax');
+            $subtotal = $this->getQuoteTotal($request, $freeAmountInclTax);
+            if ($subtotal >= $freeShippingAmount) {
+                return 0;
+            }
+        }
+
         if ($calculationType === PriceCalculationType::WEIGHT) {
             $totalWeight = 0;
-            $weightAttr = $this->getConfigData('weight_attribute') ?: 'weight';
+            $weightAttr = $this->scopeConfig->getValue(
+                'shipping/inpostinternational/weight_attribute_code',
+                ScopeInterface::SCOPE_STORE
+            ) ?: 'weight';
 
             foreach ($request->getAllItems() as $item) {
                 if ($item->getProduct()->getTypeId() === 'configurable') {
@@ -174,8 +191,15 @@ class InpostCourier extends AbstractCarrier implements CarrierInterface
             }
 
             $collection = $this->weightPriceColFactor->create();
-            $collection->addFieldToFilter('weight_from', ['lte' => $totalWeight])
-                ->addFieldToFilter('weight_to', ['gt' => $totalWeight])
+            $collection
+                ->addFieldToFilter('weight_from', ['lteq' => $totalWeight])
+                ->addFieldToFilter(
+                    ['weight_to', 'weight_to'],
+                    [
+                        ['gteq' => $totalWeight],
+                        ['null' => true]
+                    ]
+                )
                 ->setPageSize(1);
 
             $weightPrice = $collection->getFirstItem();
@@ -184,6 +208,45 @@ class InpostCourier extends AbstractCarrier implements CarrierInterface
             }
         }
 
+        $weightOutOfRange = $this->getConfigData('weight_out_of_range');
+        if ($weightOutOfRange === WeightOutOfRange::BLOCK_SHIP) {
+            return null;
+        }
+
         return (float)$this->getConfigData('price');
+    }
+
+    /**
+     * Get quote total
+     *
+     * @param RateRequest $request
+     * @param bool $inclTax
+     * @return float
+     */
+    protected function getQuoteTotal(RateRequest $request, bool $inclTax): float
+    {
+        $discountAmount = 0;
+        if ($request->getAllItems()) {
+            foreach ($request->getAllItems() as $item) {
+                if ($item->getProduct()->isVirtual() || $item->getParentItem()) {
+                    continue;
+                }
+                $discountAmount += $item->getBaseDiscountAmount();
+            }
+
+            if (!isset($item)) {
+                return 0;
+            }
+
+            $subTotal = $request->getBaseSubtotalInclTax();
+            if (!$inclTax) {
+                $subTotal = $item->getQuote()->getBaseSubtotal();
+            }
+            $total = $subTotal - $discountAmount;
+
+            return (float) $total;
+        }
+
+        return 0;
     }
 }

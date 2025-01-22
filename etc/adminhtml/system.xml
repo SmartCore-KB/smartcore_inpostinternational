@@ -20,14 +20,16 @@
                     <label>Method name</label>
                 </field>
                 <field id="price_calculation_type" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Price Calculation Type</label>
+                    <label>Price calculation type</label>
                     <source_model>Smartcore\InPostInternational\Model\Config\Source\PriceCalculationType</source_model>
                 </field>
-                <field id="weight_attribute" translate="label" type="text" sortOrder="36" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-                    <label>Weight Attribute Code</label>
+                <field id="weight_out_of_range" translate="label" type="select" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>When cart weight is out of range</label>
                     <depends>
                         <field id="price_calculation_type">weight</field>
                     </depends>
+                    <source_model>Smartcore\InPostInternational\Model\Config\Source\WeightOutOfRange</source_model>
+                    <comment>If a product in the shopping cart has no weight, its weight is treated as zero.</comment>
                 </field>
                 <field id="price" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1"
                        showInStore="1" canRestore="1">
@@ -36,20 +38,20 @@
                 </field>
                 <field id="free_shipping_enable" translate="label" type="select" sortOrder="50" showInDefault="1"
                        showInWebsite="1">
-                    <label>Enable Free Shipping Threshold</label>
+                    <label>Enable free shipping threshold</label>
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                 </field>
                 <field id="free_shipping_subtotal" translate="label" type="text" sortOrder="60" showInDefault="1"
                        showInWebsite="1">
-                    <label>Free Shipping Amount Threshold</label>
+                    <label>Free shipping amount threshold</label>
                     <validate>validate-number validate-zero-or-greater</validate>
                     <depends>
                         <field id="free_shipping_enable">1</field>
                     </depends>
                 </field>
-                <field id="tax_including" translate="label" type="select" sortOrder="61" showInDefault="1"
+                <field id="free_shipping_subtotal_incl_tax" translate="label" type="select" sortOrder="61" showInDefault="1"
                        showInWebsite="1">
-                    <label>Free Shipping Amount Including Tax</label>
+                    <label>Free shipping amount threshold including tax</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
                         <field id="free_shipping_enable">1</field>
@@ -76,13 +78,13 @@
                 </field>
                 <field id="sallowspecific" translate="label" type="select" sortOrder="110" showInDefault="1"
                        showInWebsite="1" showInStore="0">
-                    <label>Ship to Applicable Countries</label>
+                    <label>Ship to applicable countries</label>
                     <frontend_class>shipping-applicable-country</frontend_class>
                     <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="120" showInDefault="1"
                        showInWebsite="1" showInStore="0">
-                    <label>Ship to Specific Countries</label>
+                    <label>Ship to specific countries</label>
                     <source_model>Smartcore\InPostInternational\Model\Config\Source\CountryShipTo</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
@@ -100,14 +102,14 @@
                 </field>
                 <field id="client_id_production" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
-                    <label>Production Client ID</label>
+                    <label>Production client ID</label>
                     <depends>
                         <field id="mode">production</field>
                     </depends>
                 </field>
                 <field id="client_secret_production" translate="label" type="obscure" sortOrder="20" showInDefault="1"
                        showInWebsite="1" showInStore="1">
-                    <label>Production Client secret</label>
+                    <label>Production client secret</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <depends>
                         <field id="mode">production</field>
@@ -115,14 +117,14 @@
                 </field>
                 <field id="client_id_sandbox" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
-                    <label>Sandbox Client ID</label>
+                    <label>Sandbox client ID</label>
                     <depends>
                         <field id="mode">sandbox</field>
                     </depends>
                 </field>
                 <field id="client_secret_sandbox" translate="label" type="obscure" sortOrder="20" showInDefault="1"
                        showInWebsite="1" showInStore="1">
-                    <label>Sandbox Client secret</label>
+                    <label>Sandbox client secret</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <depends>
                         <field id="mode">sandbox</field>
