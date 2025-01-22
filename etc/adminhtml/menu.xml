@@ -10,7 +10,7 @@
              resource="Smartcore_InPostInternational::inpostinternational"
         />
         <add id="Smartcore_InPostInternational::shipments_index"
-             title="Shipment List"
+             title="Shipments"
              translate="title"
              module="Smartcore_InPostInternational"
              sortOrder="20"
@@ -19,7 +19,7 @@
              resource="Smartcore_InPostInternational::shipments_index"
         />
         <add id="Smartcore_InPostInternational::parceltemplate_index"
-             title="Parcel template list"
+             title="Parcel templates"
              translate="title"
              module="Smartcore_InPostInternational"
              sortOrder="40"
@@ -28,7 +28,7 @@
              resource="Smartcore_InPostInternational::parceltemplate_index"
         />
         <add id="Smartcore_InPostInternational::pickupaddress_index"
-             title="Pickup address list"
+             title="Pickup addresses"
              translate="title"
              module="Smartcore_InPostInternational"
              sortOrder="50"

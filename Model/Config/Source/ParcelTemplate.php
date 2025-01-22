@@ -41,7 +41,7 @@ class ParcelTemplate implements OptionSourceInterface
             $option = [
                 'value' => $template->getId(),
                 'label' => sprintf(
-                    '%s (%d%s x %d%s x %d%s, %d%s)',
+                    '%s (%s%s x %s%s x %s%s, %s%s)',
                     $template->getLabel(),
                     $template->getLength(),
                     $sizeUnit,

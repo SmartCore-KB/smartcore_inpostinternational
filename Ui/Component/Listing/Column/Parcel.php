@@ -25,9 +25,9 @@ class Parcel extends Column
                     ? $item['insurance_value'] . ' ' . $item['insurance_currency']
                     : __('No')->render();
                 $item[$this->getData('name')] = round((float)$item['parcel_width'], 2) . $dimUnit
-                    . ' x ' . round((float)$item['parcel_length']) . $dimUnit
-                    . ' x ' . round((float)$item['parcel_height']) . $dimUnit . '<br/>'
-                    . round((float)$item['parcel_weight']) . strtolower($item['parcel_weight_unit']) . '<br/>'
+                    . ' x ' . round((float)$item['parcel_length'], 2) . $dimUnit
+                    . ' x ' . round((float)$item['parcel_height'], 2) . $dimUnit . '<br/>'
+                    . round((float)$item['parcel_weight'], 2) . strtolower($item['parcel_weight_unit']) . '<br/>'
                     . $comment
                     . $barcode
                     . __('Insurance: ')->render() . $insurance;
