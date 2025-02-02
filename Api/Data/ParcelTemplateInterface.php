@@ -6,18 +6,18 @@ namespace Smartcore\InPostInternational\Api\Data;
 
 interface ParcelTemplateInterface
 {
-    public const string ENTITY_ID = 'entity_id';
-    public const string TYPE = 'type';
-    public const string LABEL = 'label';
-    public const string IS_DEFAULT = 'is_default';
-    public const string LENGTH = 'length';
-    public const string WIDTH = 'width';
-    public const string HEIGHT = 'height';
-    public const string WEIGHT = 'weight';
-    public const string COMMENT = 'comment';
-    public const string BARCODE = 'barcode';
-    public const string DIMENSION_UNIT = 'dimension_unit';
-    public const string WEIGHT_UNIT = 'weight_unit';
+    public const ENTITY_ID = 'entity_id';
+    public const TYPE = 'type';
+    public const LABEL = 'label';
+    public const IS_DEFAULT = 'is_default';
+    public const LENGTH = 'length';
+    public const WIDTH = 'width';
+    public const HEIGHT = 'height';
+    public const WEIGHT = 'weight';
+    public const COMMENT = 'comment';
+    public const BARCODE = 'barcode';
+    public const DIMENSION_UNIT = 'dimension_unit';
+    public const WEIGHT_UNIT = 'weight_unit';
 
     /**
      * Get entity id

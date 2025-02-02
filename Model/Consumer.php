@@ -15,8 +15,8 @@ use Throwable;
 
 class Consumer
 {
-    public const string INPOSTINTERNATIONAL_ORDER_SHIPMENT_CREATE = 'inpostinternational.order.shipment.create';
-    public const string INPOSTINTERNATIONAL_ORDER_SHIPMENT_CREATE_DLQ = 'inpostinternational.order.shipment.create.dlq';
+    public const INPOSTINTERNATIONAL_ORDER_SHIPMENT_CREATE = 'inpostinternational.order.shipment.create';
+    public const INPOSTINTERNATIONAL_ORDER_SHIPMENT_CREATE_DLQ = 'inpostinternational.order.shipment.create.dlq';
 
     /**
      * Consumer constructor.

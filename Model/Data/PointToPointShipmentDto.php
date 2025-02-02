@@ -14,8 +14,8 @@ use Smartcore\InPostInternational\Model\InPostShipmentFactory;
 
 class PointToPointShipmentDto extends ShipmentTypeDto implements ShipmentTypeInterface
 {
-    public const string POINT_TO_POINT = 'point-to-point';
-    public const string LABEL = 'From point (Locker, Pick-up Drop-off Point, other)';
+    public const POINT_TO_POINT = 'point-to-point';
+    public const LABEL = 'From point (Locker, Pick-up Drop-off Point, other)';
 
     /**
      * PointToPointShipmentDto constructor.

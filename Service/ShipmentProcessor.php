@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Smartcore\InPostInternational\Service;
 
 use Exception;
-use InvalidArgumentException;
 use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
@@ -20,9 +19,7 @@ use Smartcore\InPostInternational\Model\Data\DimensionsDto;
 use Smartcore\InPostInternational\Model\Data\InsuranceDto;
 use Smartcore\InPostInternational\Model\Data\LabelDto;
 use Smartcore\InPostInternational\Model\Data\ParcelDto;
-use Smartcore\InPostInternational\Model\Data\PhoneDto;
 use Smartcore\InPostInternational\Model\Data\RecipientDto;
-use Smartcore\InPostInternational\Model\Data\ReferencesDto;
 use Smartcore\InPostInternational\Model\Data\SenderDto;
 use Smartcore\InPostInternational\Model\Data\ShipmentDto;
 use Smartcore\InPostInternational\Model\Data\ShipmentTypeFactory;
@@ -37,9 +34,9 @@ use Smartcore\InPostInternational\Ui\DataProvider\Shipment\CreateDataProvider;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ShipmentProcessor
+class ShipmentProcessor extends CommonProcessor
 {
-    public const string SHIPMENT_FIELDSET = 'shipment_fieldset';
+    public const SHIPMENT_FIELDSET = 'shipment_fieldset';
 
     /**
      * ShipmentProcessor constructor.
@@ -65,6 +62,7 @@ class ShipmentProcessor
         private readonly CreateDataProvider       $createDataProvider,
         private readonly EventManager             $eventManager
     ) {
+        parent::__construct($this->abstractDtoBuilder);
     }
 
     /**
@@ -84,7 +82,7 @@ class ShipmentProcessor
             $shipmentType->setLabelFormat($shipmentFieldsetData['label_format']);
             $shipmentType->setShipment($this->createShipmentDto($shipmentFieldsetData, $shipmentType));
 
-            $apiResponse =  $this->apiService->createApiShipment($shipmentType);
+            $apiResponse = $this->apiService->createApiShipment($shipmentType);
             $this->processApiResponse($shipmentType, $apiResponse, $formData);
         } catch (TokenSaveException $e) {
             throw new TokenSaveException($e->getMessage());
@@ -226,22 +224,6 @@ class ShipmentProcessor
     }
 
     /**
-     * Create phone object
-     *
-     * @psalm-param array{prefix: string, number: string} $phoneData
-     * @param array<string> $phoneData
-     * @return PhoneDto
-     * @throws InvalidArgumentException If required keys are missing.
-     */
-    private function createPhone(array $phoneData): PhoneDto
-    {
-        /** @var PhoneDto $phone */
-        $phone = $this->abstractDtoBuilder->buildDtoInstance(PhoneDto::class);
-        return $phone->setPrefix($phoneData['prefix'])
-            ->setNumber($phoneData['number']);
-    }
-
-    /**
      * Create recipient object
      *
      * @param array $shipmentFieldsetData
@@ -309,24 +291,6 @@ class ShipmentProcessor
         $valueAddedServices->setInsurance($insurance);
 
         return $valueAddedServices;
-    }
-
-    /**
-     * Create references
-     *
-     * @param array $shipmentFieldsetData
-     * @return ReferencesDto|null
-     */
-    private function createReferences(array $shipmentFieldsetData): ?ReferencesDto
-    {
-        if (!isset($shipmentFieldsetData['custom_reference'])) {
-            return null;
-        }
-        /** @var ReferencesDto $references */
-        $references = $this->abstractDtoBuilder->buildDtoInstance(ReferencesDto::class);
-        $references->setCustom($shipmentFieldsetData['custom_reference']);
-
-        return $references;
     }
 
     /**

@@ -16,6 +16,7 @@ use Smartcore\InPostInternational\Exception\LabelException;
 use Smartcore\InPostInternational\Exception\TokenSaveException;
 use Smartcore\InPostInternational\Model\Config\Source\Mode;
 use Smartcore\InPostInternational\Model\ConfigProvider;
+use Smartcore\InPostInternational\Model\Data\OneTimePickupDto;
 use Smartcore\InPostInternational\Model\Data\ShipmentTypeInterface;
 
 /**
@@ -23,9 +24,9 @@ use Smartcore\InPostInternational\Model\Data\ShipmentTypeInterface;
  */
 class InternationalApiService
 {
-    public const string API_PROD_BASE_URL = 'https://api.inpost-group.com/';
-    public const string API_SANDBOX_BASE_URL = 'https://sandbox-api.inpost-group.com/';
-    private const string API_VERSION = '2024-06-01';
+    public const API_PROD_BASE_URL = 'https://api.inpost-group.com/';
+    public const API_SANDBOX_BASE_URL = 'https://sandbox-api.inpost-group.com/';
+    private const API_VERSION = '2024-06-01';
 
     /**
      * @var string
@@ -67,7 +68,7 @@ class InternationalApiService
      * Create shipment using InPost API
      *
      * @param ShipmentTypeInterface $shipment
-     * @return array
+     * @return array<mixed>
      * @throws TokenSaveException
      * @throws Exception
      */
@@ -123,6 +124,43 @@ class InternationalApiService
     }
 
     /**
+     * Get pickup cutoff time using InPost API
+     *
+     * @param string $postalCode
+     * @param string $countryCode
+     * @return array
+     * @throws ApiException
+     * @throws LocalizedException
+     * @throws TokenSaveException
+     */
+    public function getCutoffTime(string $postalCode, string $countryCode): array
+    {
+        return $this->sendRequest(
+            'GET',
+            sprintf('cutoff-time?postalCode=%s&countryCode=%s', $postalCode, $countryCode)
+        );
+    }
+
+    /**
+     * Create one-time pickup using InPost API
+     *
+     * @param OneTimePickupDto $oneTimePickupDto
+     * @return array<mixed>
+     * @throws ApiException
+     * @throws LocalizedException
+     * @throws TokenSaveException
+     */
+    public function createApiOneTimePickup(OneTimePickupDto $oneTimePickupDto): array
+    {
+        $oneTimePickupDtoData = $oneTimePickupDto->toArray();
+        return $this->sendRequest(
+            'POST',
+            'one-time-pickups',
+            $oneTimePickupDtoData
+        );
+    }
+
+    /**
      * Send HTTP request to the InPost API
      *
      * @param string $method
@@ -142,12 +180,14 @@ class InternationalApiService
         $this->curl->addHeader('Accept', 'application/json');
         $this->curl->addHeader('X-InPost-Api-Version', self::API_VERSION);
 
+        $serializedData = $data ? $this->json->serialize($data) : null;
+
         switch ($method) {
             case 'GET':
                 $this->curl->get($url);
                 break;
             case 'POST':
-                $this->curl->post($url, $this->json->serialize($data));
+                $this->curl->post($url, $serializedData);
                 break;
             default:
                 throw new InvalidArgumentException(
@@ -156,7 +196,8 @@ class InternationalApiService
         }
 
         $statusCode = $this->curl->getStatus();
-        $response = $this->json->unserialize($this->curl->getBody());
+        $responseBody = $this->curl->getBody();
+        $response = $this->json->unserialize($responseBody);
 
         $this->handleResponseStatus($statusCode, $response);
 

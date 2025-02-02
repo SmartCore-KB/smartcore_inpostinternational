@@ -14,8 +14,8 @@ use Smartcore\InPostInternational\Model\PickupAddressRepository;
 
 class AddressToPointShipmentDto extends ShipmentTypeDto implements ShipmentTypeInterface
 {
-    public const string ADDRESS_TO_POINT = 'address-to-point';
-    public const string LABEL = 'From address (courier pickup)';
+    public const ADDRESS_TO_POINT = 'address-to-point';
+    public const LABEL = 'From address (courier pickup)';
 
     /**
      * AddressToPointShipmentDto constructor.
@@ -93,12 +93,12 @@ class AddressToPointShipmentDto extends ShipmentTypeDto implements ShipmentTypeI
 
         /** @var AddressDto $address */
         $address = $this->abstractDtoBuilder->buildDtoInstance(AddressDto::class);
-        $address->setHouseNumber($pickupAddress->getHouseNumber())
-            ->setFlatNumber($pickupAddress->getFlatNumber())
-            ->setStreet($pickupAddress->getStreet())
-            ->setCity($pickupAddress->getCity())
-            ->setPostalCode($pickupAddress->getPostalCode())
-            ->setCountryCode($pickupAddress->getCountryCode());
+        $address->setHouseNumber($pickupAddress->getAddressHouseNumber())
+            ->setFlatNumber($pickupAddress->getAddressFlatNumber())
+            ->setStreet($pickupAddress->getAddressStreet())
+            ->setCity($pickupAddress->getAddressCity())
+            ->setPostalCode($pickupAddress->getAddressPostalCode())
+            ->setCountryCode($pickupAddress->getAddressCountryCode());
 
         /** @var OriginDto $origin */
         $origin = $this->abstractDtoBuilder->buildDtoInstance(OriginDto::class);

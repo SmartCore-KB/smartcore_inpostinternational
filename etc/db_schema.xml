@@ -23,13 +23,48 @@
     <table name="inpostinternational_pickup_address" resource="default" engine="innodb" comment="InPost pickup address">
         <column name="entity_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity id"/>
         <column name="label" xsi:type="varchar" length="255" nullable="false" comment="Pickup address label"/>
-        <column name="house_number" xsi:type="varchar" length="64" nullable="false" comment="House number"/>
-        <column name="flat_number" xsi:type="varchar" length="64" nullable="false" comment="Flat number"/>
-        <column name="street" xsi:type="varchar" length="255" nullable="false" comment="Street"/>
-        <column name="city" xsi:type="varchar" length="255" nullable="false" comment="City"/>
-        <column name="postal_code" xsi:type="varchar" length="16" nullable="false" comment="Postal code"/>
-        <column name="country_code" xsi:type="varchar" length="2" nullable="false" comment="Country code"/>
+        <column name="contact_first_name" xsi:type="varchar" length="255" nullable="false" comment="Contact person first name"/>
+        <column name="contact_last_name" xsi:type="varchar" length="255" nullable="false" comment="Contact person last name"/>
+        <column name="contact_email" xsi:type="varchar" length="255" nullable="false" comment="Contact person email"/>
+        <column name="contact_phone_prefix" xsi:type="varchar" length="5" nullable="false" comment="Contact person phone prefix"/>
+        <column name="contact_phone_number" xsi:type="varchar" length="12" nullable="false" comment="Contact person phone number"/>
+        <column name="address_house_number" xsi:type="varchar" length="64" nullable="false" comment="House number"/>
+        <column name="address_flat_number" xsi:type="varchar" length="64" nullable="false" comment="Flat number"/>
+        <column name="address_street" xsi:type="varchar" length="255" nullable="false" comment="Street"/>
+        <column name="address_city" xsi:type="varchar" length="255" nullable="false" comment="City"/>
+        <column name="address_postal_code" xsi:type="varchar" length="16" nullable="false" comment="Postal code"/>
+        <column name="address_country_code" xsi:type="varchar" length="2" nullable="false" comment="Country code"/>
+        <column name="address_location_description" xsi:type="varchar" length="255" nullable="true" comment="Pickup address location description"/>
         <column name="is_default" xsi:type="smallint" nullable="false" comment="Is default"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <table name="inpostinternational_pickup" resource="default" engine="innodb" comment="InPost pickup">
+        <column name="entity_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity id"/>
+        <column name="address_country_code" xsi:type="varchar" length="2" nullable="false" comment="Pickup address country code"/>
+        <column name="address_postal_code" xsi:type="varchar" length="16" nullable="false" comment="Pickup address postal code"/>
+        <column name="address_city" xsi:type="varchar" length="255" nullable="false" comment="Pickup address city"/>
+        <column name="address_street" xsi:type="varchar" length="255" nullable="false" comment="Pickup address street"/>
+        <column name="address_house_number" xsi:type="varchar" length="64" nullable="false" comment="Pickup address house number"/>
+        <column name="address_flat_number" xsi:type="varchar" length="64" nullable="true" comment="Pickup address flat number"/>
+        <column name="address_location_description" xsi:type="varchar" length="255" nullable="true" comment="Pickup address location description"/>
+        <column name="contact_first_name" xsi:type="varchar" length="255" nullable="false" comment="Contact person first name"/>
+        <column name="contact_last_name" xsi:type="varchar" length="255" nullable="false" comment="Contact person last name"/>
+        <column name="contact_email" xsi:type="varchar" length="255" nullable="false" comment="Contact person email"/>
+        <column name="contact_phone_prefix" xsi:type="varchar" length="5" nullable="false" comment="Contact person phone prefix"/>
+        <column name="contact_phone_number" xsi:type="varchar" length="12" nullable="false" comment="Contact person phone number"/>
+        <column name="pickup_time_from" xsi:type="timestamp" nullable="false" comment="Pickup time from"/>
+        <column name="pickup_time_to" xsi:type="timestamp" nullable="false" comment="Pickup time to"/>
+        <column name="volume_item_type" xsi:type="varchar" length="16" nullable="false" comment="Volume item type"/>
+        <column name="volume_count" xsi:type="int" nullable="false" comment="Volume count"/>
+        <column name="volume_weight_amount" xsi:type="int" nullable="false" comment="Volume weight amount"/>
+        <column name="volume_weight_unit" xsi:type="varchar" length="4" nullable="false" comment="Volume weight unit"/>
+        <column name="references" xsi:type="text" nullable="true" comment="References"/>
+        <column name="created_at" xsi:type="timestamp" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column name="updated_at" xsi:type="timestamp" nullable="false" on_update="true" default="CURRENT_TIMESTAMP" comment="Updated At"/>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="entity_id"/>

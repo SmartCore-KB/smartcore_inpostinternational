@@ -8,8 +8,8 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 class WeightUnit implements OptionSourceInterface
 {
-    private const string KILOGRAM = 'kg';
-    private const string GRAM = 'g';
+    private const KILOGRAM = 'kg';
+    private const GRAM = 'g';
 
     /**
      * @inheritdoc

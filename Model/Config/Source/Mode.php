@@ -8,8 +8,8 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 class Mode implements OptionSourceInterface
 {
-    public const string SANDBOX = 'sandbox';
-    public const string PRODUCTION = 'production';
+    public const SANDBOX = 'sandbox';
+    public const PRODUCTION = 'production';
 
     /**
      * @inheritdoc

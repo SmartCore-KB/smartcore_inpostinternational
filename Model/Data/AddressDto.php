@@ -49,6 +49,13 @@ class AddressDto extends AbstractDto
     public ?string $flatNumber = null;
 
     /**
+     * Description of the location of the address (optional)
+     *
+     * @var string|null
+     */
+    public ?string $locationDescription = null;
+
+    /**
      * Get the country code of the address
      *
      * @return string
@@ -177,6 +184,28 @@ class AddressDto extends AbstractDto
     public function setFlatNumber(?string $flatNumber): static
     {
         $this->flatNumber = $flatNumber;
+        return $this;
+    }
+
+    /**
+     * Get location description
+     *
+     * @return string
+     */
+    public function getLocationDescription(): string
+    {
+        return $this->locationDescription;
+    }
+
+    /**
+     * Set location description
+     *
+     * @param string $locationDescription
+     * @return $this
+     */
+    public function setLocationDescription(string $locationDescription): static
+    {
+        $this->locationDescription = $locationDescription;
         return $this;
     }
 }

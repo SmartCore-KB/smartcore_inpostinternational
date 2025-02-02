@@ -25,13 +25,25 @@ class ErrorProcessor
      */
     public function processErrors(array $apiResponse): array
     {
-        if (!isset($apiResponse['errors']) || !is_array($apiResponse['errors'])) {
+        if (!is_array($apiResponse['errors'])
+            || (empty($apiResponse['errors']))
+        ) {
+            if (is_array($apiResponse['messages'])) {
+                $messages = [$apiResponse['detail'] ?? ''];
+                foreach ($apiResponse['messages'] as $message) {
+                    $messages[] = $message['message'] ?? '';
+                }
+                return $messages;
+            }
             return [$apiResponse['detail']
                 ?? sprintf(__('Unknown error occurred! %s')->render(), json_encode($apiResponse))];
         }
 
         $messages = [];
         foreach ($apiResponse['errors'] as $field => $errors) {
+            if (!is_array($errors)) {
+                $errors = [$errors];
+            }
             foreach ($errors as $error) {
                 $messages[] = $this->formatErrorMessage($field, $error);
             }

@@ -8,9 +8,9 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 class AutoInsurance implements OptionSourceInterface
 {
-    public const int NO_AUTO_INSURANCE = 0;
-    public const int AUTO_INSURANCE_ORDER = 1;
-    public const int AUTO_INSURANCE_FIXED = 2;
+    public const NO_AUTO_INSURANCE = 0;
+    public const AUTO_INSURANCE_ORDER = 1;
+    public const AUTO_INSURANCE_FIXED = 2;
 
     /**
      * @inheritdoc

@@ -11,7 +11,7 @@ use Magento\Store\Model\ScopeInterface;
 
 class ShippingMethods implements OptionSourceInterface
 {
-    private const array INPOST_CARRIER_CODES = ['inpostinternationalcourier'];
+    private const INPOST_CARRIER_CODES = ['inpostinternationalcourier'];
 
     /**
      * Shipping methods mapper

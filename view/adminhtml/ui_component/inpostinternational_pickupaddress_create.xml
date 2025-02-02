@@ -89,7 +89,82 @@
                 </validation>
             </settings>
         </field>
-        <field name="street" formElement="input">
+        <field name="contact_first_name" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Contact person first name</label>
+                <dataScope>contact_first_name</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="contact_last_name" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Contact person last name</label>
+                <dataScope>contact_last_name</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="contact_email" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Contact person email</label>
+                <dataScope>contact_email</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="contact_phone_prefix" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Contact person phone prefix</label>
+                <dataScope>contact_phone_prefix</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="contact_phone_number" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Contact person phone number</label>
+                <dataScope>contact_phone_number</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="address_street" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
@@ -98,13 +173,13 @@
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">Street</label>
-                <dataScope>street</dataScope>
+                <dataScope>address_street</dataScope>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">true</rule>
                 </validation>
             </settings>
         </field>
-        <field name="house_number" formElement="input">
+        <field name="address_house_number" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
@@ -113,13 +188,13 @@
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">House number</label>
-                <dataScope>house_number</dataScope>
+                <dataScope>address_house_number</dataScope>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">true</rule>
                 </validation>
             </settings>
         </field>
-        <field name="flat_number" formElement="input">
+        <field name="address_flat_number" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
@@ -128,13 +203,13 @@
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">Flat number</label>
-                <dataScope>flat_number</dataScope>
+                <dataScope>address_flat_number</dataScope>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">false</rule>
                 </validation>
             </settings>
         </field>
-        <field name="postal_code" formElement="input">
+        <field name="address_postal_code" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
@@ -143,13 +218,13 @@
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">Postal code</label>
-                <dataScope>postal_code</dataScope>
+                <dataScope>address_postal_code</dataScope>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">true</rule>
                 </validation>
             </settings>
         </field>
-        <field name="city" formElement="input">
+        <field name="address_city" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
@@ -158,13 +233,28 @@
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">City</label>
-                <dataScope>city</dataScope>
+                <dataScope>address_city</dataScope>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">true</rule>
                 </validation>
             </settings>
         </field>
-        <field name="country_code" formElement="select">
+        <field name="address_location_description" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Location description</label>
+                <dataScope>address_location_description</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="address_country_code" formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
@@ -173,7 +263,7 @@
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">Country</label>
-                <dataScope>country_code</dataScope>
+                <dataScope>address_country_code</dataScope>
             </settings>
             <formElements>
                 <select>

@@ -15,7 +15,7 @@ use stdClass;
 class AccessTokenService
 {
 
-    public const int ACCESS_TOKEN_EXPIRING_AT_THRESHOLD = 30;
+    public const ACCESS_TOKEN_EXPIRING_AT_THRESHOLD = 30;
 
     /**
      * AccessTokenService constructor.

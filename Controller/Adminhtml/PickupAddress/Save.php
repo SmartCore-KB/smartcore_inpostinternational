@@ -44,7 +44,7 @@ class Save extends Action
             $model = $this->pickupTmplFactory->create();
 
             if (isset($data['entity_id'])) {
-                $model = $this->pickupTmplRepository->load($data['entity_id']);
+                $model = $this->pickupTmplRepository->load((int) $data['entity_id']);
             }
 
             $model->setData($data);

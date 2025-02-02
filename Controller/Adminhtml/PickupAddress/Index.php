@@ -40,7 +40,7 @@ class Index extends Action
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->prepend(__('InPost International Pickup address')->render());
+        $resultPage->getConfig()->getTitle()->prepend(__('InPost International Pickup addresses')->render());
         return $resultPage;
     }
 

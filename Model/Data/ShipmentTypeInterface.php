@@ -8,8 +8,8 @@ use Smartcore\InPostInternational\Model\InPostShipment;
 
 interface ShipmentTypeInterface
 {
-    public const string LABEL_FORMAT = 'labelFormat';
-    public const string SHIPMENT = 'shipment';
+    public const LABEL_FORMAT = 'labelFormat';
+    public const SHIPMENT = 'shipment';
 
     /**
      * Get API endpoint for shipment type

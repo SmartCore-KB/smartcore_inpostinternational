@@ -22,12 +22,12 @@ use Smartcore\InPostInternational\Model\Carrier\InpostCourier;
  */
 class ConfigProvider
 {
-    public const string SHIPPING_CONFIG_PATH = 'shipping/inpostinternational/';
-    public const string CARRIERS_CONFIG_PATH = 'carriers/inpostinternationalcourier/';
-    private const string ACCESS_TOKEN_EXPIRES_AT = 'access_token_expires_at';
-    private const string ACCESS_TOKEN = 'access_token';
-    private const string REFRESH_TOKEN = 'refresh_token';
-    private const string CODE_VERIFIER = 'code_verifier';
+    public const SHIPPING_CONFIG_PATH = 'shipping/inpostinternational/';
+    public const CARRIERS_CONFIG_PATH = 'carriers/inpostinternationalcourier/';
+    private const ACCESS_TOKEN_EXPIRES_AT = 'access_token_expires_at';
+    private const ACCESS_TOKEN = 'access_token';
+    private const REFRESH_TOKEN = 'refresh_token';
+    private const CODE_VERIFIER = 'code_verifier';
 
     /**
      * ConfigProvider constructor.

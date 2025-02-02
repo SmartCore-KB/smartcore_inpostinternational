@@ -82,40 +82,18 @@
                 <label translate="true">Label</label>
             </settings>
         </column>
-        <column name="street">
+        <column name="contact_person" class="Smartcore\InPostInternational\Ui\Component\Listing\Column\PickupContactPerson">
             <settings>
                 <filter>text</filter>
-                <label translate="true">Street</label>
+                <label translate="true">Contact person</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
             </settings>
         </column>
-        <column name="house_number">
+        <column name="pickup_address" class="Smartcore\InPostInternational\Ui\Component\Listing\Column\PickupAddress">
             <settings>
                 <filter>text</filter>
-                <label translate="true">House number</label>
-            </settings>
-        </column>
-        <column name="flat_number">
-            <settings>
-                <filter>text</filter>
-                <label translate="true">Flat number</label>
-            </settings>
-        </column>
-        <column name="postal_code">
-            <settings>
-                <filter>text</filter>
-                <label translate="true">Postal code</label>
-            </settings>
-        </column>
-        <column name="city">
-            <settings>
-                <filter>text</filter>
-                <label translate="true">City</label>
-            </settings>
-        </column>
-        <column name="country_code">
-            <settings>
-                <filter>text</filter>
-                <label translate="true">Country</label>
+                <label translate="true">Pickup address</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
             </settings>
         </column>
         <column name="is_default" component="Magento_Ui/js/grid/columns/select">
