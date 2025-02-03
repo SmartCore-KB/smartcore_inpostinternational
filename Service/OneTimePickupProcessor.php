@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Smartcore\InPostInternational\Service;
 
 use Exception;
+use Magento\Framework\Event\ManagerInterface as EventManager;
+use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Smartcore\InPostInternational\Exception\ApiException;
@@ -15,13 +17,12 @@ use Smartcore\InPostInternational\Model\Data\AbstractDtoBuilder;
 use Smartcore\InPostInternational\Model\Data\AddressDto;
 use Smartcore\InPostInternational\Model\Data\ContactPersonDto;
 use Smartcore\InPostInternational\Model\Data\OneTimePickupDto;
+use Smartcore\InPostInternational\Model\Data\OneTimePickupDtoFactory;
 use Smartcore\InPostInternational\Model\Data\PickupTimeDto;
 use Smartcore\InPostInternational\Model\Data\TotalWeightDto;
 use Smartcore\InPostInternational\Model\Data\VolumeDto;
 use Smartcore\InPostInternational\Model\Pickup;
-use Smartcore\InPostInternational\Model\PickupAddress;
 use Smartcore\InPostInternational\Model\PickupAddressRepository;
-use Smartcore\InPostInternational\Model\PickupFactory;
 use Smartcore\InPostInternational\Model\PickupRepository;
 
 /**
@@ -35,22 +36,24 @@ class OneTimePickupProcessor extends CommonProcessor
     /**
      * OneTimePickupProcessor constructor.
      *
-     * @param PickupFactory $pickupFactory
      * @param PickupAddressRepository $pickupAddrRepository
      * @param PickupRepository $pickupRepository
      * @param InternationalApiService $apiService
      * @param AbstractDtoBuilder $abstractDtoBuilder
      * @param TimezoneInterface $timezone
      * @param ErrorProcessor $errorProcessor
+     * @param EventManager $eventManager
+     * @param OneTimePickupDtoFactory $pickupDtoFactory
      */
     public function __construct(
-        private readonly PickupFactory $pickupFactory,
         private readonly PickupAddressRepository $pickupAddrRepository,
         private readonly PickupRepository $pickupRepository,
         private readonly InternationalApiService $apiService,
         private readonly AbstractDtoBuilder $abstractDtoBuilder,
         private readonly TimezoneInterface $timezone,
         private readonly ErrorProcessor $errorProcessor,
+        private readonly EventManager $eventManager,
+        private readonly OneTimePickupDtoFactory $pickupDtoFactory
     ) {
         parent::__construct($this->abstractDtoBuilder);
     }
@@ -68,18 +71,9 @@ class OneTimePickupProcessor extends CommonProcessor
     {
         try {
             $pickupFieldsetData = $formData[self::PICKUP_FIELDSET];
-            /** @var Pickup $pickup */
-            $pickup = $this->pickupFactory->create();
-            $pickup->setData($pickupFieldsetData);
-
-            /** @var PickupAddress $pickupAddress */
-            $pickupAddress = $this->pickupAddrRepository->load((int) $pickupFieldsetData['pickup_address']);
-            $pickupAddress->copyToPickup($pickup);
-
             $oneTimePickupDto = $this->createOneTimePickupDto($pickupFieldsetData);
-
-            $this->apiService->createApiOneTimePickup($oneTimePickupDto);
-            $this->pickupRepository->save($pickup);
+            $apiResponse = $this->apiService->createApiOneTimePickup($oneTimePickupDto);
+            $this->processApiResponse($oneTimePickupDto, $apiResponse);
         } catch (TokenSaveException $e) {
             throw new TokenSaveException($e->getMessage());
         } catch (ApiException $e) {
@@ -93,6 +87,55 @@ class OneTimePickupProcessor extends CommonProcessor
     }
 
     /**
+     * Process API response
+     *
+     * @param OneTimePickupDto $oneTimePickupDto
+     * @param array $apiResponse
+     * @throws LocalizedException
+     */
+    private function processApiResponse(
+        OneTimePickupDto $oneTimePickupDto,
+        array            $apiResponse
+    ): void {
+        $oneTimePickup = $oneTimePickupDto->toDbModel();
+        $oneTimePickup->setApiResponse($apiResponse);
+
+        $this->dispatchEvent($oneTimePickup);
+
+        try {
+            $this->pickupRepository->save($oneTimePickup);
+        } catch (AlreadyExistsException $e) {
+            throw new LocalizedException(__('Pickup with the same UUID already exists.'));
+        } catch (LocalizedException $e) {
+            throw new LocalizedException(
+                __('Pickup save failed because of error: %1.', $e->getMessage())
+            );
+        }
+    }
+
+    /**
+     * Dispatch events
+     *
+     * @param Pickup $pickup
+     * @return void
+     */
+    private function dispatchEvent(Pickup $pickup): void
+    {
+        if ($pickup->getId()) {
+            $this->eventManager->dispatch(
+                'inpostinternational_pickup_updated',
+                ['inpostInternationalPickup' => $pickup]
+            );
+            return;
+        }
+
+        $this->eventManager->dispatch(
+            'inpostinternational_pickup_created',
+            ['inpostInternationalPickup' => $pickup]
+        );
+    }
+
+    /**
      * Create OneTimePickupDto object
      *
      * @param array $pickupFieldsetData
@@ -101,8 +144,7 @@ class OneTimePickupProcessor extends CommonProcessor
      */
     public function createOneTimePickupDto(array $pickupFieldsetData): OneTimePickupDto
     {
-        /** @var OneTimePickupDto $oneTimePickupDto */
-        $oneTimePickupDto = $this->abstractDtoBuilder->buildDtoInstance(OneTimePickupDto::class);
+        $oneTimePickupDto = $this->pickupDtoFactory->create();
 
         $pickupFieldsetData['custom_reference'] = ['invoice' => '123456789'];
 

@@ -63,6 +63,7 @@
         <column name="volume_weight_amount" xsi:type="int" nullable="false" comment="Volume weight amount"/>
         <column name="volume_weight_unit" xsi:type="varchar" length="4" nullable="false" comment="Volume weight unit"/>
         <column name="references" xsi:type="text" nullable="true" comment="References"/>
+        <column name="api_response" xsi:type="text" nullable="true" comment="Api response"/>
         <column name="created_at" xsi:type="timestamp" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
         <column name="updated_at" xsi:type="timestamp" nullable="false" on_update="true" default="CURRENT_TIMESTAMP" comment="Updated At"/>
 

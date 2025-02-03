@@ -106,28 +106,6 @@
                 </validation>
             </settings>
         </field>
-        <field name="volume_item_type" formElement="select">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternational_pickup_create</item>
-                </item>
-            </argument>
-            <settings>
-                <dataType>text</dataType>
-                <label translate="true">Packages type</label>
-                <dataScope>volume_item_type</dataScope>
-                <validation>
-                    <rule name="required-entry" xsi:type="boolean">true</rule>
-                </validation>
-            </settings>
-            <formElements>
-                <select>
-                    <settings>
-                        <options class="Smartcore\InPostInternational\Model\Config\Source\VolumeItemType"/>
-                    </settings>
-                </select>
-            </formElements>
-        </field>
         <field name="volume_count" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -180,6 +158,28 @@
                 <select>
                     <settings>
                         <options class="Smartcore\InPostInternational\Model\Config\Source\ParcelWeightUnit"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="volume_item_type" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickup_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Packages type</label>
+                <dataScope>volume_item_type</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Smartcore\InPostInternational\Model\Config\Source\VolumeItemType"/>
                     </settings>
                 </select>
             </formElements>

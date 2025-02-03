@@ -173,6 +173,27 @@ class Pickup extends PickupCommon implements PickupInterface
     }
 
     /**
+     * Get api response
+     *
+     * @return array<mixed>
+     */
+    public function getApiResponse(): array
+    {
+        return $this->getData(self::API_RESPONSE);
+    }
+
+    /**
+     * Set api response
+     *
+     * @param array<mixed> $apiResponse
+     * @return $this
+     */
+    public function setApiResponse(array $apiResponse): static
+    {
+        return $this->setData(self::API_RESPONSE, json_encode($apiResponse));
+    }
+
+    /**
      * Get created at
      *
      * @return string

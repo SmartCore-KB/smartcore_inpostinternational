@@ -13,6 +13,7 @@ interface PickupInterface extends PickupCommonInterface
     public const VOLUME_WEIGHT_AMOUNT = 'volume_weight_amount';
     public const VOLUME_WEIGHT_UNIT = 'volume_weight_unit';
     public const REFERENCES = 'references';
+    public const API_RESPONSE = 'api_response';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
 
@@ -120,6 +121,21 @@ interface PickupInterface extends PickupCommonInterface
      * @return $this
      */
     public function setReferences(string $references): static;
+
+    /**
+     * Get api response
+     *
+     * @return array
+     */
+    public function getApiResponse(): array;
+
+    /**
+     * Set api response
+     *
+     * @param array<mixed> $apiResponse
+     * @return $this
+     */
+    public function setApiResponse(array $apiResponse): static;
 
     /**
      * Get created at

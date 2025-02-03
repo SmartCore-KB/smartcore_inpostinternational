@@ -4,8 +4,33 @@ declare(strict_types=1);
 
 namespace Smartcore\InPostInternational\Model\Data;
 
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
+use Smartcore\InPostInternational\Model\Pickup;
+use Smartcore\InPostInternational\Model\PickupFactory;
+
 class OneTimePickupDto extends AbstractDto
 {
+    /**
+     * OneTimePickupDto constructor.
+     *
+     * @param PickupFactory $pickupFactory
+     * @param Context $context
+     * @param Registry $registry
+     * @param AbstractResource|null $resource
+     * @param AbstractDb|null $resourceCollection
+     */
+    public function __construct(
+        private readonly PickupFactory $pickupFactory,
+        Context                          $context,
+        Registry                         $registry,
+        AbstractResource                 $resource = null,
+        AbstractDb                       $resourceCollection = null
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection);
+    }
 
     /**
      * Get address
@@ -115,5 +140,46 @@ class OneTimePickupDto extends AbstractDto
     {
         $this->setData('references', $references);
         return $this;
+    }
+
+    /**
+     * Convert DTO to Pickup model
+     *
+     * @return Pickup
+     */
+    public function toDbModel(): Pickup
+    {
+        $pickup = $this->pickupFactory->create();
+        $address = $this->getAddress();
+        $contactPerson = $this->getContactPerson();
+        $pickupTime = $this->getPickupTime();
+        $volume = $this->getVolume();
+        $references = $this->getReferences();
+
+        $pickup
+            ->setAddressStreet($address->getStreet())
+            ->setAddressCity($address->getCity())
+            ->setAddressPostalCode($address->getPostalCode())
+            ->setAddressCountryCode($address->getCountryCode())
+            ->setAddressHouseNumber($address->getHouseNumber())
+            ->setAddressFlatNumber($address->getFlatNumber())
+            ->setAddressLocationDescription($address->getLocationDescription())
+            ->setContactFirstName($contactPerson->getFirstName())
+            ->setContactLastName($contactPerson->getLastName())
+            ->setContactEmail($contactPerson->getEmail())
+            ->setContactPhonePrefix($contactPerson->getPhone()->getPrefix())
+            ->setContactPhoneNumber($contactPerson->getPhone()->getNumber())
+            ->setPickupTimeFrom($pickupTime->getFrom())
+            ->setPickupTimeTo($pickupTime->getTo())
+            ->setVolumeItemType($volume->getItemType())
+            ->setVolumeCount($volume->getCount())
+            ->setVolumeWeightAmount($volume->getTotalWeight()->getAmount())
+            ->setVolumeWeightUnit($volume->getTotalWeight()->getUnit());
+
+        if ($references) {
+            $pickup->setReferences(json_encode(json_encode($references->getCustom())));
+        }
+
+        return $pickup;
     }
 }
