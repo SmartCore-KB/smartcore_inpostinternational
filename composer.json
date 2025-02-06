@@ -2,7 +2,7 @@
     "name": "smartcore/inpostinternational",
     "description": "InPost International API official module",
     "type": "magento2-module",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "license": [
         "proprietary"
     ],
@@ -21,15 +21,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "Smartcore\\InPostInternational\\": "app/code/Smartcore/InPostInternational/"
+            "Smartcore\\InPostInternational\\": ""
         }
-    },
-    "extra": {
-        "map": [
-            [
-                "*",
-                "app/code/Smartcore/InPostInternational"
-            ]
-        ]
     }
 }
