@@ -7,4 +7,7 @@
         <observer name="inpostinternational_change_order_status_observer" instance="Smartcore\InPostInternational\Observer\ChangeOrderStatusObserver"/>
         <observer name="inpostinternational_create_order_shipment_observer" instance="Smartcore\InPostInternational\Observer\CreateOrderShipmentObserver"/>
     </event>
+    <event name="sales_model_service_quote_submit_before">
+        <observer name="smartcore_inpost_transfer_point" instance="Smartcore\InPostInternational\Observer\TransferInpostPointToOrder"/>
+    </event>
 </config>

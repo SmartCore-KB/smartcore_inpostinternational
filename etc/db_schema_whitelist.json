@@ -101,12 +101,14 @@
     },
     "quote": {
         "column": {
-            "inpostinternational_locker_id": true
+            "inpostinternational_locker_id": true,
+            "inpostinternational_locker_data": true
         }
     },
     "sales_order": {
         "column": {
-            "inpostinternational_locker_id": true
+            "inpostinternational_locker_id": true,
+            "inpostinternational_locker_data": true
         }
     },
     "inpostinternational_pickup_address": {
@@ -119,7 +121,19 @@
             "city": true,
             "postal_code": true,
             "country_code": true,
-            "is_default": true
+            "is_default": true,
+            "contact_first_name": true,
+            "contact_last_name": true,
+            "contact_email": true,
+            "contact_phone_prefix": true,
+            "contact_phone_number": true,
+            "address_house_number": true,
+            "address_flat_number": true,
+            "address_street": true,
+            "address_city": true,
+            "address_postal_code": true,
+            "address_country_code": true,
+            "address_location_description": true
         },
         "constraint": {
             "PRIMARY": true
@@ -283,6 +297,36 @@
             "weight_from": true,
             "weight_to": true,
             "price": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "inpostinternational_pickup": {
+        "column": {
+            "entity_id": true,
+            "address_country_code": true,
+            "address_postal_code": true,
+            "address_city": true,
+            "address_street": true,
+            "address_house_number": true,
+            "address_flat_number": true,
+            "address_location_description": true,
+            "contact_first_name": true,
+            "contact_last_name": true,
+            "contact_email": true,
+            "contact_phone_prefix": true,
+            "contact_phone_number": true,
+            "pickup_time_from": true,
+            "pickup_time_to": true,
+            "volume_item_type": true,
+            "volume_count": true,
+            "volume_weight_amount": true,
+            "volume_weight_unit": true,
+            "references": true,
+            "api_response": true,
+            "created_at": true,
+            "updated_at": true
         },
         "constraint": {
             "PRIMARY": true

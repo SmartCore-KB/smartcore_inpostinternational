@@ -154,10 +154,13 @@
     </table>
 
     <table name="quote" resource="default" engine="innodb">
-        <column name="inpostinternational_locker_id" xsi:type="varchar" length="16" />
+        <column name="inpostinternational_locker_id" xsi:type="varchar" length="64" />
+        <column name="inpostinternational_locker_data" xsi:type="text" nullable="true" />
     </table>
 
     <table name="sales_order" resource="default" engine="innodb">
-        <column name="inpostinternational_locker_id" xsi:type="varchar" length="16" />
+        <!-- InPost International Locker ID - could be useful for external integrations -->
+        <column name="inpostinternational_locker_id" xsi:type="varchar" length="64" comment="InPost International Locker ID"/>
+        <column name="inpostinternational_locker_data" xsi:type="text" nullable="true" />
     </table>
 </schema>

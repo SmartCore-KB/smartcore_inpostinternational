@@ -1,0 +1,57 @@
+<tr class="row">
+    <td class="col col-method">
+        <input type="radio"
+               class="radio"
+               data-bind="
+                    click: $parent.selectShippingMethod,
+                    checked: $parent.isSelected,
+                    value: method.carrier_code + '_' + method.method_code,
+                    attr: {
+                        'id': 'shipping_method_' + method.method_code
+                    },
+                    enable: !method.error_message"
+        />
+        <!-- ko if: $parent.getTemplateForMethod(method) === 'Smartcore_InPostInternational/shipping-method-item' -->
+        <input type="hidden" name="inpostinternational_locker_id" />
+        <!-- /ko -->
+    </td>
+    <td class="col col-price" data-bind="foreach: $parent.getRegion('price')">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </td>
+    <td class="col col-method">
+        <label data-bind="attr: {'for': 'shipping_method_' + method.method_code}">
+            <span data-bind="text: method.method_title"></span>
+        </label>
+    </td>
+    <td class="col col-carrier">
+        <span data-bind="text: method.carrier_title"></span>
+        <!-- ko if: $parent.getTemplateForMethod(method) === 'Smartcore_InPostInternational/shipping-method-item' -->
+        <!-- ko if: $parent.getSelectedPoint() -->
+        <div class="selected-point-details">
+            <div class="point-name">
+                <strong data-bind="i18n: 'Pickup point:'"></strong>
+                <span data-bind="text: $parent.getSelectedPoint().name"></span>
+            </div>
+            <div class="point-address">
+                <div data-bind="text: $parent.getSelectedPoint().address.line1"></div>
+                <div data-bind="text: $parent.getSelectedPoint().address.line2"></div>
+            </div>
+            <!-- ko if: $parent.getSelectedPoint().opening_hours -->
+            <div class="point-hours">
+                <span data-bind="i18n: 'Active:'"></span>
+                <span data-bind="text: $parent.getSelectedPoint().opening_hours"></span>
+            </div>
+            <!-- /ko -->
+        </div>
+        <!-- /ko -->
+        <button type="button" class="action primary" data-bind="click: function() { $parent.showInpostWidget(); }">
+            <!-- ko if: !$parent.getSelectedPoint() -->
+            <span data-bind="i18n: 'Select pickup point'"></span>
+            <!-- /ko -->
+            <!-- ko if: $parent.getSelectedPoint() -->
+            <span data-bind="i18n: 'Change pickup point'"></span>
+            <!-- /ko -->
+        </button>
+        <!-- /ko -->
+    </td>
+</tr>

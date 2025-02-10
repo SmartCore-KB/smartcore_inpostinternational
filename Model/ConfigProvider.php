@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Smartcore\InPostInternational\Model;
 
 use Magento\Backend\Model\UrlInterface;
+use Magento\Checkout\Model\ConfigProviderInterface;
+use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Config\Model\ResourceModel\Config;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\RequestInterface;
@@ -16,11 +18,12 @@ use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Smartcore\InPostInternational\Model\Carrier\InpostCourier;
+use Smartcore\InPostInternational\Model\Config\Source\Mode;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ConfigProvider
+class ConfigProvider implements ConfigProviderInterface
 {
     public const SHIPPING_CONFIG_PATH = 'shipping/inpostinternational/';
     public const CARRIERS_CONFIG_PATH = 'carriers/inpostinternationalcourier/';
@@ -41,17 +44,22 @@ class ConfigProvider
      * @param RequestInterface $request
      * @param LoggerInterface $logger
      * @param InpostCourier $inpostCourier
+     * @param \Magento\Framework\UrlInterface $urlBuilder
+     * @param CheckoutSession $checkoutSession
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        private readonly ScopeConfigInterface   $scopeConfig,
-        private readonly UrlInterface           $adminUrl,
-        private readonly EncryptorInterface     $encryptor,
-        private readonly Config                 $_resourceConfig,
-        private readonly StoreManagerInterface  $storeManager,
-        private readonly FlagManager            $flagManager,
-        private readonly RequestInterface       $request,
-        private readonly LoggerInterface        $logger,
-        private readonly InpostCourier          $inpostCourier,
+        private readonly ScopeConfigInterface            $scopeConfig,
+        private readonly UrlInterface                    $adminUrl,
+        private readonly EncryptorInterface              $encryptor,
+        private readonly Config                          $_resourceConfig,
+        private readonly StoreManagerInterface           $storeManager,
+        private readonly FlagManager                     $flagManager,
+        private readonly RequestInterface                $request,
+        private readonly LoggerInterface                 $logger,
+        private readonly InpostCourier                   $inpostCourier,
+        private readonly \Magento\Framework\UrlInterface $urlBuilder,
+        private CheckoutSession                          $checkoutSession,
     ) {
     }
 
@@ -85,6 +93,16 @@ class ConfigProvider
         return $this->encryptor->decrypt(
             $this->doGetShippingConfig('client_secret_' . $this->getMode())
         );
+    }
+
+    /**
+     * Get geowidget token
+     *
+     * @return string
+     */
+    public function getGeowidgetToken(): string
+    {
+        return $this->doGetShippingConfig('geowidget_token_' . $this->getMode());
     }
 
     /**
@@ -419,5 +437,31 @@ class ConfigProvider
         }
 
         return [$scope, $scopeId];
+    }
+
+    /**
+     * Checkout config
+     *
+     * @return array<mixed>
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    public function getConfig(): array
+    {
+        $quote = $this->checkoutSession->getQuote();
+        $pointId = null;
+
+        if ($quote->getId()) {
+            $pointId = $quote->getData('inpostinternational_locker_data');
+        }
+        return [
+            'inpostGeowidget' => [
+                'token' => $this->getGeowidgetToken(),
+                'isSandbox' => $this->getMode() === Mode::SANDBOX,
+                'shippingMethods' => 'inpostinternationalcourier',
+                'savePointUrl' => $this->urlBuilder->getUrl('inpostinternational/point/save'),
+                'savedPoint' => $pointId
+            ]
+        ];
     }
 }
