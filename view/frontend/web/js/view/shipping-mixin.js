@@ -17,7 +17,21 @@ define([
                 registry.get('checkout.inpost-geowidget', (component) => {
                     this.geowidget = component;
                 });
+
+                quote.shippingMethod.subscribe(this.onShippingMethodChange.bind(this));
+
                 return this;
+            },
+
+            onShippingMethodChange: function(method) {
+                if (!method) return;
+
+                const inpostMethods = window.checkoutConfig.inpostGeowidget?.shippingMethods || [];
+                const isInpostMethod = inpostMethods.includes(method.carrier_code);
+
+                if (isInpostMethod && this.geowidget && this.geowidget.selectedPoint()) {
+                    this.geowidget.updateInpostinternationalInputField(this.geowidget.selectedPoint());
+                }
             },
 
             getTemplateForMethod: function(method) {
@@ -28,15 +42,13 @@ define([
             },
 
             showInpostWidget: function() {
-                const geowidget = registry.get('checkout.inpost-geowidget');
-                if (geowidget) {
-                    geowidget.showWidget();
+                if (this.geowidget) {
+                    this.geowidget.showWidget();
                 }
             },
 
             getSelectedPoint: function() {
-                const geowidget = registry.get('checkout.inpost-geowidget');
-                return geowidget ? geowidget.selectedPoint() : null;
+                return this.geowidget ? this.geowidget.selectedPoint() : null;
             },
 
             validateShippingInformation: function () {
@@ -46,8 +58,18 @@ define([
                 const method = quote.shippingMethod();
                 const inpostMethods = window.checkoutConfig.inpostGeowidget?.shippingMethods || [];
 
-                if (inpostMethods.includes(method.carrier_code)) {
-                    const pointSelected = $('[name="inpostinternational_locker_id"]').val();
+                if (method && inpostMethods.includes(method.carrier_code)) {
+                    let pointSelected = $('[name="inpostinternational_locker_id"]').val();
+                    const selectedPoint = this.getSelectedPoint();
+
+                    if (!pointSelected && selectedPoint) {
+                        setTimeout(() => {
+                            this.geowidget.updateInpostinternationalInputField(selectedPoint);
+                            $('button.continue').trigger('click');
+                        }, 100);
+                        return false;
+                    }
+
                     if (!pointSelected) {
                         this.errorValidationMessage('Please select pickup point');
                         return false;

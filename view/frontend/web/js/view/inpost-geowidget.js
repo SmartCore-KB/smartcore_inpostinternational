@@ -57,8 +57,6 @@ define([
             const widget = document.createElement('inpost-geowidget');
 
             widget.setAttribute('token', config.token);
-            // widget.setAttribute('country', config.defaultCountry);
-            // widget.setAttribute('language', config.language);
             widget.setAttribute('config', 'parcelCollect');
             widget.setAttribute('onpoint', 'onpointselect');
 

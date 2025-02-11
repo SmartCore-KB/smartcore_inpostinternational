@@ -24,7 +24,15 @@
         </label>
     </td>
     <td class="col col-carrier">
-        <span data-bind="text: method.carrier_title"></span>
+        <div class="carrier-title-wrapper">
+            <!-- ko if: $parent.getTemplateForMethod(method) === 'Smartcore_InPostInternational/shipping-method-item' -->
+            <img data-bind="attr: {
+                src: window.checkoutConfig.inpostGeowidget.logoUrl,
+                alt: method.carrier_title
+            }" class="carrier-logo" />
+            <!-- /ko -->
+            <span data-bind="text: method.carrier_title"></span>
+        </div>
         <!-- ko if: $parent.getTemplateForMethod(method) === 'Smartcore_InPostInternational/shipping-method-item' -->
         <!-- ko if: $parent.getSelectedPoint() -->
         <div class="selected-point-details">
