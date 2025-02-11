@@ -23,7 +23,7 @@
                     <label>Price calculation type</label>
                     <source_model>Smartcore\InPostInternational\Model\Config\Source\PriceCalculationType</source_model>
                 </field>
-                <field id="weight_out_of_range" translate="label" type="select" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="weight_out_of_range" translate="label,comment" type="select" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>When cart weight is out of range</label>
                     <depends>
                         <field id="price_calculation_type">weight</field>
@@ -61,14 +61,15 @@
                        showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Position</label>
                 </field>
-                <field id="logo" translate="label" type="image" sortOrder="75" showInDefault="1" showInWebsite="1"
+                <field id="logo" translate="label,comment" type="image" sortOrder="75" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Logo for checkout</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
-                    <upload_dir config="system/filesystem/media">inpost_logo</upload_dir>
-                    <base_url type="media" scope_info="1">inpost_logo</base_url>
+                    <upload_dir config="system/filesystem/media" scope_info="1">inpostinternational/logo</upload_dir>
+                    <base_url type="media" scope_info="1">inpostinternational/logo</base_url>
+                    <comment>Allowed file types: jpg, jpeg, gif, png</comment>
                 </field>
-                <field id="max_cart_weight" translate="label" type="text" sortOrder="80" showInDefault="1"
+                <field id="max_cart_weight" translate="label,comment" type="text" sortOrder="80" showInDefault="1"
                        showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Max cart weight</label>
                     <comment>The default value of 25 refers to the maximum weight of a package that Inpost delivers
@@ -130,7 +131,7 @@
                         <field id="mode">sandbox</field>
                     </depends>
                 </field>
-                <field id="auth_request" translate="label" type="button" sortOrder="30" showInDefault="1"
+                <field id="auth_request" translate="label,comment" type="button" sortOrder="30" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <frontend_model>Smartcore\InPostInternational\Block\Adminhtml\System\Config\AuthRequestButton</frontend_model>
                     <comment>Client ID and Client Secret needs to be saved before You will request authorization. Authorization needs to be refreshed after mode change.</comment>

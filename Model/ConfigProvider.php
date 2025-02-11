@@ -19,6 +19,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Smartcore\InPostInternational\Model\Carrier\InpostCourier;
 use Smartcore\InPostInternational\Model\Config\Source\Mode;
+use Smartcore\InPostInternational\Service\Logo;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -46,6 +47,7 @@ class ConfigProvider implements ConfigProviderInterface
      * @param InpostCourier $inpostCourier
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param CheckoutSession $checkoutSession
+     * @param Logo $logo
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -60,6 +62,7 @@ class ConfigProvider implements ConfigProviderInterface
         private readonly InpostCourier                   $inpostCourier,
         private readonly \Magento\Framework\UrlInterface $urlBuilder,
         private CheckoutSession                          $checkoutSession,
+        private readonly Logo                            $logo
     ) {
     }
 
@@ -460,7 +463,8 @@ class ConfigProvider implements ConfigProviderInterface
                 'isSandbox' => $this->getMode() === Mode::SANDBOX,
                 'shippingMethods' => 'inpostinternationalcourier',
                 'savePointUrl' => $this->urlBuilder->getUrl('inpostinternational/point/save'),
-                'savedPoint' => $pointId
+                'savedPoint' => $pointId,
+                'logoUrl' => $this->logo->getLogoUrl()
             ]
         ];
     }
