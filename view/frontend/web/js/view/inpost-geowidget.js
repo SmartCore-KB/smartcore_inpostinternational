@@ -60,6 +60,15 @@ define([
             widget.setAttribute('config', 'parcelCollect');
             widget.setAttribute('onpoint', 'onpointselect');
 
+            const shippingAddress = quote.shippingAddress();
+            const countryId = shippingAddress.countryId;
+            const countries = config.geowidgetCountries.split(',');
+            if (countries.includes(countryId)) {
+                countries.splice(countries.indexOf(countryId), 1);
+                countries.unshift(countryId);
+            }
+            widget.setAttribute('country', countries.join(','));
+
             if (config.isSandbox) {
                 widget.setAttribute('sandbox', 'true');
             }

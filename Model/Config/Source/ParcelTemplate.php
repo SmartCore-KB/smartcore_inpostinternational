@@ -62,6 +62,13 @@ class ParcelTemplate implements OptionSourceInterface
             $methods[] = $option;
         }
 
+        if (count($methods) == 0) {
+            $methods[] = [
+                'value' => null,
+                'label' => __('No parcel templates available. Create one first.')->render(),
+            ];
+        }
+
         return $methods;
     }
 }

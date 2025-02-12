@@ -16,5 +16,11 @@
             event: {change: onChange}">
         </select>
         <div class="admin__field-note" data-bind="text: pickupCutoffForAddress"></div>
+
+        <label class="admin__field-error" if="error" attr="for: uid" text="error"></label>
+
+        <div class="admin__field-note" if="$data.notice" attr="id: noticeId">
+            <span translate="notice"></span>
+        </div>
     </div>
 </div>

@@ -58,6 +58,13 @@ class Cutofftime extends Action
         $resultJson = $this->resultJsonFactory->create();
         $addressId = $this->getRequest()->getParam('addressId');
 
+        if (!$addressId) {
+            return $resultJson->setData([
+                'success' => false,
+                'info' => 'Error: No address ID provided'
+            ]);
+        }
+
         try {
             $pickupAddress = $this->pickupAddrRepository->load((int) $addressId);
             $postalCode = $pickupAddress->getAddressPostalCode();

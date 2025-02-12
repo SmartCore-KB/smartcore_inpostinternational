@@ -9,8 +9,10 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
 use Magento\Sales\Block\Adminhtml\Order\AbstractOrder;
 use Magento\Sales\Helper\Admin;
-use Smartcore\InPostInternational\Api\Data\InPostShipmentInterface;
+use Smartcore\InPostInternational\Model\Config\Source\Service;
 use Smartcore\InPostInternational\Model\Config\Source\ShippingMethods;
+use Smartcore\InPostInternational\Model\Config\Source\Size;
+use Smartcore\InPostInternational\Model\Config\Source\Status;
 use Smartcore\InPostInternational\Model\ConfigProvider;
 use Smartcore\InPostInternational\Model\InPostShipment;
 
@@ -22,7 +24,7 @@ class InPostOrderView extends AbstractOrder
     protected $shippingMethods;
 
     /**
-     * @var \Smartcore\InPostInternational\Model\InPostShipment
+     * @var InPostShipment
      */
     protected $inpostShipment;
 
@@ -32,17 +34,17 @@ class InPostOrderView extends AbstractOrder
     protected $shipmentRepository;
 
     /**
-     * @var \Smartcore\InPostInternational\Model\Config\Source\Size
+     * @var Size
      */
     protected $sizeConfig;
 
     /**
-     * @var \Smartcore\InPostInternational\Model\Config\Source\Service
+     * @var Service
      */
     protected $serviceConfig;
 
     /**
-     * @var \Smartcore\InPostInternational\Model\Config\Source\Status
+     * @var Status
      */
     protected $statusConfig;
 
@@ -144,11 +146,11 @@ class InPostOrderView extends AbstractOrder
     public function getShippingDetails(InPostShipment $shipment): array
     {
         $details = [];
-        $details[InPostShipmentInterface::STATUS] = $this->statusConfig->getStatusLabel($shipment->getStatus());
+        $details['status'] = $this->statusConfig->getStatusLabel($shipment->getStatus());
         if (strpos($shipment->getService(), 'inpost_locker') !== false) {
-            $details[InPostShipmentInterface::SHIPMENT_ATTRIBUTES] =
+            $details['shipment_attributes'] =
                 $this->sizeConfig->getSizeLabel($shipment->getShipmentsAttributes());
-            $details[InPostShipmentInterface::TARGET_POINT] = __("Point: ") . $shipment->getTargetPoint();
+            $details['target_point'] = __("Point: ") . $shipment->getTargetPoint();
         }
         return $details;
     }

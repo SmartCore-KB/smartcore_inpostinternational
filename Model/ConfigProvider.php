@@ -105,7 +105,9 @@ class ConfigProvider implements ConfigProviderInterface
      */
     public function getGeowidgetToken(): string
     {
-        return $this->doGetShippingConfig('geowidget_token_' . $this->getMode());
+        return $this->encryptor->decrypt(
+            $this->doGetShippingConfig('geowidget_token_' . $this->getMode())
+        );
     }
 
     /**
@@ -464,7 +466,8 @@ class ConfigProvider implements ConfigProviderInterface
                 'shippingMethods' => 'inpostinternationalcourier',
                 'savePointUrl' => $this->urlBuilder->getUrl('inpostinternational/point/save'),
                 'savedPoint' => $pointId,
-                'logoUrl' => $this->logo->getLogoUrl()
+                'logoUrl' => $this->logo->getLogoUrl(),
+                'geowidgetCountries' => $this->getShippingCountries(),
             ]
         ];
     }

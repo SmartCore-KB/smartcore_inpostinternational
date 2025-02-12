@@ -35,6 +35,9 @@ define([
         },
 
         requestForCutoffTime: function (addressId) {
+            if(!addressId || addressId == 0) {
+                return;
+            }
             var self = this;
 
             $.ajax({

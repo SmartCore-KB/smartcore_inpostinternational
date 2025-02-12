@@ -50,6 +50,13 @@ class PickupAddress implements OptionSourceInterface
             $addresses[] = $option;
         }
 
+        if (count($addresses) == 0) {
+            $addresses[] = [
+                'value' => 0,
+                'label' => (string) __('No pickup address available. Create one first.'),
+            ];
+        }
+
         return $addresses;
     }
 }

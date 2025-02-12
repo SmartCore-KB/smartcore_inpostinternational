@@ -52,7 +52,7 @@
         <field name="pickup_address" formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
+                    <item name="source" xsi:type="string">inpostinternational_pickup_create</item>
                     <item name="component" xsi:type="string">Smartcore_InPostInternational/js/form/element/select-pickup-address</item>
                     <item name="template" xsi:type="string">Smartcore_InPostInternational/form/element/select-pickup-address</item>
                 </item>
@@ -61,6 +61,10 @@
                 <dataType>text</dataType>
                 <label translate="true">Pickup address</label>
                 <dataScope>pickup_address</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
             </settings>
             <formElements>
                 <select>

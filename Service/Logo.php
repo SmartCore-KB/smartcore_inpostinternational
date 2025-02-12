@@ -11,7 +11,7 @@ use Magento\Store\Model\ScopeInterface;
 class Logo
 {
     private const XML_PATH_LOGO = 'carriers/inpostinternationalcourier/logo';
-    private const DEFAULT_LOGO = 'Smartcore_InPostInternational::images/inpostinternational_courier_logo.png';
+    private const DEFAULT_LOGO = 'Smartcore_InPostInternational::images/inpostinternational_logo.png';
 
     /**
      * Logo constructor.

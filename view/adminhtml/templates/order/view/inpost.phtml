@@ -79,7 +79,6 @@ use Smartcore\InPostInternational\Block\Adminhtml\Order\View\InPostOrderView;
                     <input type="hidden" name="order_id"
                            value="<?= $escaper->escapeHtmlAttr($block->getOrder()->getId()) ?>">
                     <select id="shipping_method" class="admin__control-select" name="shipping_method" required>
-                        <option value=""><?= $escaper->escapeHtml(__('Choose method')) ?></option>
                         <?php foreach ($block->getInpostShippingMethods() as $method): ?>
                             <option value="<?= $escaper->escapeHtmlAttr($method['value']) ?>"
                                 <?php if ($selectedMethod == $method['value']): ?> selected<?php endif; ?>>
