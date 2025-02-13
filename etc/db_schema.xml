@@ -11,8 +11,8 @@
         <column name="dimension_unit" xsi:type="varchar" length="8" nullable="false" comment="Dimensions unit"/>
         <column name="weight" xsi:type="decimal" scale="2" precision="10" unsigned="true" nullable="false" comment="Weight"/>
         <column name="weight_unit" xsi:type="varchar" length="8" nullable="false" comment="Weight unit"/>
-        <column name="comment" xsi:type="varchar" length="64" nullable="false" comment="Parcel comment"/>
-        <column name="barcode" xsi:type="varchar" length="64" nullable="false" comment="Parcel barcode"/>
+        <column name="comment" xsi:type="varchar" length="64" nullable="true" comment="Parcel comment"/>
+        <column name="barcode" xsi:type="varchar" length="64" nullable="true" comment="Parcel barcode"/>
         <column name="is_default" xsi:type="smallint" nullable="false" comment="Is default"/>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">
@@ -118,8 +118,8 @@
         <column xsi:type="varchar" name="parcel_dimensions_unit" nullable="false" length="4" comment="Parcel dimensions unit"/>
         <column xsi:type="decimal" name="parcel_weight" nullable="false" precision="10" scale="2" comment="Parcel weight"/>
         <column xsi:type="varchar" name="parcel_weight_unit" nullable="false" length="4" comment="Parcel weight unit"/>
-        <column xsi:type="varchar" name="parcel_label_comment" nullable="false" length="255" comment="Parcel label comment"/>
-        <column xsi:type="varchar" name="parcel_label_barcode" nullable="false" length="255" comment="Parcel label barcode"/>
+        <column xsi:type="varchar" name="parcel_label_comment" nullable="true" length="255" comment="Parcel label comment"/>
+        <column xsi:type="varchar" name="parcel_label_barcode" nullable="true" length="255" comment="Parcel label barcode"/>
         <!-- Response -->
         <column xsi:type="varchar" name="label_url" nullable="true" length="255" comment="Label URL"/>
         <column xsi:type="varchar" name="uuid" nullable="true" length="36" comment="UUID"/>

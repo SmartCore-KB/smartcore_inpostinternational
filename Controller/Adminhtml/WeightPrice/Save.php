@@ -10,8 +10,7 @@ use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Smartcore\InPostInternational\Model\ResourceModel\WeightPrice as WeightPriceResource;
-use Smartcore\InPostInternational\Model\WeightPrice;
+use Smartcore\InPostInternational\Model\WeightPriceFactory;
 use Smartcore\InPostInternational\Model\WeightPriceRepository;
 use Smartcore\InPostInternational\Service\WeightPriceService;
 
@@ -23,14 +22,14 @@ class Save extends Action
      *
      * @param Context $context
      * @param WeightPriceRepository $weightPriceRepo
-     * @param WeightPriceResource $weightPriceResource
      * @param WeightPriceService $weightPriceService
+     * @param WeightPriceFactory $weightPriceFactory
      */
     public function __construct(
         Context                       $context,
         private readonly WeightPriceRepository $weightPriceRepo,
-        private readonly WeightPriceResource $weightPriceResource,
         private readonly WeightPriceService $weightPriceService,
+        private readonly WeightPriceFactory $weightPriceFactory,
     ) {
         parent::__construct($context);
     }
@@ -43,14 +42,15 @@ class Save extends Action
     public function execute(): ResultInterface|ResponseInterface|Redirect
     {
         $resultRedirect = $this->resultRedirectFactory->create();
-        $data = $this->getRequest()->getPostValue()['weightprice_fieldset'];
+        $data = $this->getRequest()->getPostValue('weightprice_fieldset');
 
         try {
             if ($data) {
+                $weightPrice = $this->weightPriceFactory->create();
                 $entityId = $data['entity_id'] ? (int) $data['entity_id'] : null;
-                unset($data['entity_id']);
-                /** @var WeightPrice $weightPrice */
-                $weightPrice = $this->weightPriceRepo->load($entityId);
+                if (isset($data['entity_id'])) {
+                    $weightPrice = $this->weightPriceRepo->load((int) $data['entity_id']);
+                }
 
                 $weightFrom = (float)$data['weight_from'];
                 $weightTo = $data['weight_to'] ? (float)$data['weight_to'] : null;
@@ -66,10 +66,13 @@ class Save extends Action
                 $weightPrice->setWeightTo($weightTo);
                 $weightPrice->setPrice($price);
 
-                $this->weightPriceResource->save($weightPrice);
-
-                $this->messageManager->addSuccessMessage(__('Weight-based price has been saved.')->render());
-                return $resultRedirect->setPath('*/*/');
+                try {
+                    $this->weightPriceRepo->save($weightPrice);
+                    $this->messageManager->addSuccessMessage(__('Weight-based price has been saved.')->render());
+                    return $resultRedirect->setPath('*/*/');
+                } catch (\Exception $e) {
+                    $this->messageManager->addErrorMessage($e->getMessage());
+                }
             }
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

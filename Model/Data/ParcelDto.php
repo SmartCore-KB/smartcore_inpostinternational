@@ -30,9 +30,9 @@ class ParcelDto extends AbstractDto
     /**
      * Label information associated with the parcel
      *
-     * @var LabelDto
+     * @var LabelDto|null
      */
-    public LabelDto $label;
+    public ?LabelDto $label = null;
 
     /**
      * Get the type of the parcel
@@ -103,9 +103,9 @@ class ParcelDto extends AbstractDto
     /**
      * Get the label information associated with the parcel
      *
-     * @return LabelDto
+     * @return LabelDto|null
      */
-    public function getLabel(): LabelDto
+    public function getLabel(): ?LabelDto
     {
         return $this->label;
     }
@@ -113,10 +113,10 @@ class ParcelDto extends AbstractDto
     /**
      * Set the label information associated with the parcel
      *
-     * @param LabelDto $label
+     * @param LabelDto|null $label
      * @return $this
      */
-    public function setLabel(LabelDto $label): static
+    public function setLabel(?LabelDto $label): static
     {
         $this->label = $label;
         return $this;

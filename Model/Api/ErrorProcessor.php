@@ -14,6 +14,7 @@ class ErrorProcessor
         'invalid' => 'Field %s is invalid',
         'unknown' => 'Field %s is unknown',
         'too_big' => 'Field %s value is too big',
+        'too_small' => 'Field %s value is too small',
         'not_found' => '%s not found',
     ];
 

@@ -85,8 +85,8 @@ class ShipmentTypeDto extends AbstractDto
             ->setParcelDimensionsUnit($dimensions->getUnit())
             ->setParcelWeight($parcel->getWeight()->getAmount())
             ->setParcelWeightUnit($parcel->getWeight()->getUnit())
-            ->setParcelLabelComment($parcel->getLabel()->getComment())
-            ->setParcelLabelBarcode($parcel->getLabel()->getBarcode());
+            ->setParcelLabelComment($parcel->getLabel()?->getComment())
+            ->setParcelLabelBarcode($parcel->getLabel()?->getBarcode());
 
         return $shipmentDbModel;
     }
