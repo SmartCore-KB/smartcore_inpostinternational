@@ -37,6 +37,7 @@ use Smartcore\InPostInternational\Ui\DataProvider\Shipment\CreateDataProvider;
 class ShipmentProcessor extends CommonProcessor
 {
     public const SHIPMENT_FIELDSET = 'shipment_fieldset';
+    public const ORDER_ID_REPLACE_TEMPLATE = '{orderId}';
 
     /**
      * ShipmentProcessor constructor.
@@ -315,17 +316,26 @@ class ShipmentProcessor extends CommonProcessor
         $weight->setAmount($parcelTemplate->getWeight())
             ->setUnit($parcelTemplate->getWeightUnit());
 
-        /** @var LabelDto $label */
-        $label = $this->abstractDtoBuilder->buildDtoInstance(LabelDto::class);
-        $label->setComment($parcelTemplate->getComment())
-            ->setBarcode($parcelTemplate->getBarcode());
-
         /** @var ParcelDto $parcel */
         $parcel = $this->abstractDtoBuilder->buildDtoInstance(ParcelDto::class);
         $parcel->setType($parcelTemplate->getType())
             ->setDimensions($dimensions)
-            ->setWeight($weight)
-            ->setLabel($label);
+            ->setWeight($weight);
+
+        $comment = str_replace(
+            self::ORDER_ID_REPLACE_TEMPLATE,
+            $shipmentFieldsetData['order_increment_id'],
+            $parcelTemplate->getComment()
+        );
+        $barcode = $parcelTemplate->getBarcode();
+        $shouldAddLabel = $comment && $barcode;
+        if ($shouldAddLabel) {
+            /** @var LabelDto $label */
+            $label = $this->abstractDtoBuilder->buildDtoInstance(LabelDto::class);
+            $label->setComment($comment)
+                ->setBarcode($barcode);
+            $parcel->setLabel($label);
+        }
 
         return $parcel;
     }

@@ -2,7 +2,7 @@ define([
     'Magento_Ui/js/form/element/select',
     'jquery',
     'mage/url',
-    'ko'
+    'ko',
 ], function (Select, $, urlBuilder, ko) {
     'use strict';
 
@@ -40,8 +40,10 @@ define([
             }
             var self = this;
 
+            const baseAdminUrl = window.BASE_URL.split('inpostinternational')[0];
+
             $.ajax({
-                url: window.location.origin + '/admin/inpostinternational/pickup/cutofftime',
+                url: baseAdminUrl + 'inpostinternational/pickup/cutofftime',
                 data: {
                     addressId: addressId,
                     form_key: window.FORM_KEY

@@ -235,8 +235,10 @@
                 <dataType>text</dataType>
                 <label translate="true">Parcel comment</label>
                 <dataScope>comment</dataScope>
+                <notice translate="true">You can use {orderId} to automatically set order number here. This field will appear on label only if filled together with barcode</notice>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">false</rule>
+                    <rule name="validate-barcode-and-comment" xsi:type="boolean">true</rule>
                 </validation>
             </settings>
         </field>
@@ -251,8 +253,11 @@
                 <dataType>text</dataType>
                 <label translate="true">Parcel barcode</label>
                 <dataScope>barcode</dataScope>
+                <notice translate="true">This field will appear on label only if filled together with comment</notice>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">false</rule>
+                    <rule name="validate-barcode" xsi:type="boolean">true</rule>
+                    <rule name="validate-barcode-and-comment" xsi:type="boolean">true</rule>
                 </validation>
             </settings>
         </field>

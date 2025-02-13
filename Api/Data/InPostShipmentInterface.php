@@ -600,32 +600,32 @@ interface InPostShipmentInterface
     /**
      * Get the parcel label comment
      *
-     * @return string
+     * @return string|null
      */
-    public function getParcelLabelComment(): string;
+    public function getParcelLabelComment(): ?string;
 
     /**
      * Set the parcel label comment
      *
-     * @param string $parcelLabelComment
+     * @param string|null $parcelLabelComment
      * @return self
      */
-    public function setParcelLabelComment(string $parcelLabelComment): self;
+    public function setParcelLabelComment(?string $parcelLabelComment): self;
 
     /**
      * Get the parcel label barcode
      *
-     * @return string
+     * @return string|null
      */
-    public function getParcelLabelBarcode(): string;
+    public function getParcelLabelBarcode(): ?string;
 
     /**
      * Set the parcel label barcode
      *
-     * @param string $parcelLabelBarcode
+     * @param string|null $parcelLabelBarcode
      * @return self
      */
-    public function setParcelLabelBarcode(string $parcelLabelBarcode): self;
+    public function setParcelLabelBarcode(?string $parcelLabelBarcode): self;
 
     /**
      * Get the label URL

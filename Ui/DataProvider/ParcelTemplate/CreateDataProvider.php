@@ -70,6 +70,12 @@ class CreateDataProvider extends AbstractDataProvider
             $this->dataPersistor->clear('parcel_template');
         }
 
-        return $this->loadedData ?: [];
+        $defaultData = [null => [
+            'parceltemplate_fieldset' => [
+                'comment' => '{orderId}'
+            ],
+        ]];
+
+        return count($this->loadedData) ? $this->loadedData : $defaultData;
     }
 }

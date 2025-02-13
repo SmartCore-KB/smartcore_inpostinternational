@@ -805,9 +805,9 @@ class InPostShipment extends AbstractModel implements InPostShipmentInterface
     /**
      * Get the comment on the parcel label
      *
-     * @return string
+     * @return string|null
      */
-    public function getParcelLabelComment(): string
+    public function getParcelLabelComment(): ?string
     {
         return $this->getData(self::PARCEL_LABEL_COMMENT);
     }
@@ -815,10 +815,10 @@ class InPostShipment extends AbstractModel implements InPostShipmentInterface
     /**
      * Set the comment on the parcel label
      *
-     * @param string $parcelLabelComment
+     * @param string|null $parcelLabelComment
      * @return $this
      */
-    public function setParcelLabelComment(string $parcelLabelComment): self
+    public function setParcelLabelComment(?string $parcelLabelComment): self
     {
         return $this->setData(self::PARCEL_LABEL_COMMENT, $parcelLabelComment);
     }
@@ -826,9 +826,9 @@ class InPostShipment extends AbstractModel implements InPostShipmentInterface
     /**
      * Get the barcode associated with the parcel label
      *
-     * @return string
+     * @return string|null
      */
-    public function getParcelLabelBarcode(): string
+    public function getParcelLabelBarcode(): ?string
     {
         return $this->getData(self::PARCEL_LABEL_BARCODE);
     }
@@ -836,10 +836,10 @@ class InPostShipment extends AbstractModel implements InPostShipmentInterface
     /**
      * Set the barcode associated with the parcel label
      *
-     * @param string $parcelLabelBarcode
+     * @param string|null $parcelLabelBarcode
      * @return $this
      */
-    public function setParcelLabelBarcode(string $parcelLabelBarcode): self
+    public function setParcelLabelBarcode(?string $parcelLabelBarcode): self
     {
         return $this->setData(self::PARCEL_LABEL_BARCODE, $parcelLabelBarcode);
     }
