@@ -8,6 +8,7 @@ use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Ui\DataProvider\AbstractDataProvider;
 use Smartcore\InPostInternational\Model\ResourceModel\ParcelTemplate\Collection;
 use Smartcore\InPostInternational\Model\ResourceModel\ParcelTemplate\CollectionFactory;
+use Smartcore\InPostInternational\Service\ShipmentProcessor;
 
 class CreateDataProvider extends AbstractDataProvider
 {
@@ -72,7 +73,8 @@ class CreateDataProvider extends AbstractDataProvider
 
         $defaultData = [null => [
             'parceltemplate_fieldset' => [
-                'comment' => '{orderId}'
+                'comment' => ShipmentProcessor::ORDER_ID_REPLACE_TEMPLATE,
+                'barcode' => ShipmentProcessor::ORDER_ID_REPLACE_TEMPLATE,
             ],
         ]];
 

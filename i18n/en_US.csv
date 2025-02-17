@@ -171,7 +171,7 @@
 "Parcel comment","Parcel comment"
 "You can use {orderId} to automatically set order number here. This field will appear on label only if filled together with barcode","You can use {orderId} to automatically set order number here. This field will appear on label only if filled together with barcode"
 "Parcel barcode","Parcel barcode"
-"This field will appear on label only if filled together with comment","This field will appear on label only if filled together with comment"
+"You can use {orderId} to automatically set order number here. This field will appear on label only if filled together with comment","You can use {orderId} to automatically set order number here. This field will appear on label only if filled together with comment"
 "Delete pickup","Delete pickup"
 "Are you sure you want to delete this pickup?","Are you sure you want to delete this pickup?"
 "Delete pickup address","Delete pickup address"
@@ -254,3 +254,4 @@
 "Pickup for postal code %1 possible until: %2","Pickup for postal code %1 possible until: %2"
 "Poland","Poland"
 "Selected pickup point: %1","Selected pickup point: %1"
+"Barcode can only contain letters, numbers, or {orderId} (max 16 characters)","Barcode can only contain letters, numbers, or {orderId} (max 16 characters)"
