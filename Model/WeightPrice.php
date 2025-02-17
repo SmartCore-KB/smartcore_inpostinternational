@@ -47,7 +47,7 @@ class WeightPrice extends AbstractModel implements WeightPriceInterface
      */
     public function getWeightTo(): ?float
     {
-        return $this->getData(self::WEIGHT_TO);
+        return (float) $this->getData(self::WEIGHT_TO);
     }
 
     /**

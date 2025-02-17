@@ -322,11 +322,14 @@ class ShipmentProcessor extends CommonProcessor
             ->setDimensions($dimensions)
             ->setWeight($weight);
 
-        $comment = str_replace(
-            self::ORDER_ID_REPLACE_TEMPLATE,
-            $shipmentFieldsetData['order_increment_id'],
-            $parcelTemplate->getComment()
-        );
+        $comment = '';
+        if ($parcelTemplate->getComment() && isset($shipmentFieldsetData['order_increment_id'])) {
+            $comment = str_replace(
+                self::ORDER_ID_REPLACE_TEMPLATE,
+                $shipmentFieldsetData['order_increment_id'],
+                $parcelTemplate->getComment()
+            );
+        }
         $barcode = $parcelTemplate->getBarcode();
         $shouldAddLabel = $comment && $barcode;
         if ($shouldAddLabel) {

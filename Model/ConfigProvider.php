@@ -179,14 +179,6 @@ class ConfigProvider implements ConfigProviderInterface
     }
 
     /**
-     * Get weight unit
-     */
-    public function getWeightUnit()
-    {
-        return $this->doGetShippingConfig('weight_unit');
-    }
-
-    /**
      * Get configured shipping countries
      */
     public function getShippingCountries()
@@ -351,7 +343,6 @@ class ConfigProvider implements ConfigProviderInterface
      */
     public function isInpostShippingMethod(string $shippingMethod): bool
     {
-        // @TODO Not really like it
         return str_contains($shippingMethod, array_key_first($this->inpostCourier->getAllowedMethods()));
     }
 
@@ -463,7 +454,7 @@ class ConfigProvider implements ConfigProviderInterface
             'inpostGeowidget' => [
                 'token' => $this->getGeowidgetToken(),
                 'isSandbox' => $this->getMode() === Mode::SANDBOX,
-                'shippingMethods' => 'inpostinternationalcourier',
+                'shippingMethods' => implode(',', array_keys($this->inpostCourier->getAllowedMethods())),
                 'savePointUrl' => $this->urlBuilder->getUrl('inpostinternational/point/save'),
                 'savedPoint' => $pointId,
                 'logoUrl' => $this->logo->getLogoUrl(),

@@ -32,7 +32,7 @@ class OriginCountry implements OptionSourceInterface
     {
         return [[
             'value' => 'PL',
-            'label' => 'Poland',
+            'label' => __('Poland')->render(),
         ]];
     }
 }

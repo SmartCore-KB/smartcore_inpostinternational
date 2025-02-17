@@ -5,7 +5,7 @@
         <section id="carriers">
             <group id="inpostinternationalcourier" translate="label" type="text" sortOrder="240" showInDefault="1" showInWebsite="1"
                    showInStore="1">
-                <label>InPost International - Przesyłka kurierska</label>
+                <label>InPost International - International shipment to point</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
                        canRestore="1">
                     <label>Enabled</label>
@@ -154,10 +154,6 @@
                 </field>
                 <field id="weight_attribute_code" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Weight attribute code</label>
-                </field>
-                <field id="weight_unit" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" canRestore="1">
-                    <label>Weight unit</label>
-                    <source_model>Smartcore\InPostInternational\Model\Config\Source\WeightUnit</source_model>
                 </field>
                 <field id="auto_inpostshipment_create" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" canRestore="1">
                     <label>Automatically create InPost shipment after order placement</label>
