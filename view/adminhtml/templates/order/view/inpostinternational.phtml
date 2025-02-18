@@ -1,8 +1,8 @@
 <?php
-use Smartcore\InPostInternational\Block\Adminhtml\Order\View\InPostOrderView;
+use Smartcore\InPostInternational\Block\Adminhtml\Order\View\InPostInternationalOrderView;
 
 /**
- * @var $block InPostOrderView
+ * @var $block InPostInternationalOrderView
  */
 ?>
 <section class="admin__page-section">
@@ -10,14 +10,19 @@ use Smartcore\InPostInternational\Block\Adminhtml\Order\View\InPostOrderView;
         <span class="title"><?= $escaper->escapeHtml(__('InPost International shipments')) ?></span>
     </div>
     <div class="admin__table-wrapper">
+        <?php if ($targetLockerId = $block->getSelectedLockerId()) { ?>
+            <div class="admin__page-section-item-title">
+                <strong><?= $escaper->escapeHtml(__('Selected pickup point: %1', $targetLockerId)) ?></strong>
+            </div>
+        <?php } ?>
         <div class="field">
             <?php if ($shipments = $block->getInpostShipments()): ?>
                 <table class="data-table admin__table-primary">
                     <thead class="headings">
                     <tr>
+                        <th><?= $escaper->escapeHtml(__('ID')) ?></th>
                         <th><?= $escaper->escapeHtml(__('Tracking number')) ?></th>
-                        <th><?= $escaper->escapeHtml(__('Service')) ?></th>
-                        <th><?= $escaper->escapeHtml(__('Details')) ?></th>
+                        <th><?= $escaper->escapeHtml(__('Status')) ?></th>
                         <th><?= $escaper->escapeHtml(__('Actions')) ?></th>
                     </tr>
                     </thead>
@@ -25,47 +30,22 @@ use Smartcore\InPostInternational\Block\Adminhtml\Order\View\InPostOrderView;
                     <?php foreach ($shipments as $shipment): ?>
                         <tr>
                             <td>
+                                <?= $escaper->escapeHtml($shipment->getId()) ?>
+                            </td>
+                            <td>
                                 <a href="<?= $escaper->escapeUrl($block->getShippingTrackingUrl($shipment)) ?>">
                                     <?= $escaper->escapeHtml($shipment->getTrackingNumber()) ?>
                                 </a>
                             </td>
                             <td>
-                                <?= $escaper->escapeHtml($block->getShippingService($shipment)) ?>
-                            </td>
-                            <td>
-                                <div>
-                                    <?php $details = $block->getShippingDetails($shipment); ?>
-                                    <?php foreach ($details as $key => $value): ?>
-                                        <div class="details-<?= $escaper->escapeHtmlAttr($key) ?>">
-                                            <?= $escaper->escapeHtml($value) ?>
-                                            <?php if ($key == 'target_point'): ?>
-                                                <?php $pointName = explode(" ", $value); ?>
-                                                <a data-inpost-select-point="
-                                                <?= $escaper->escapeHtmlAttr($pointName[1]) ?>" href="#">
-                                                    <?= $escaper->escapeHtml(__('Show on the map')) ?>
-                                                </a>
-                                            <?php endif; ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
+                                <?= $escaper->escapeHtml($shipment->getParcelStatus()) ?>
                             </td>
                             <td>
                                 <div class="actions" style="padding: 5px;">
-                                    <a class="action-default primary"
-                                       href="<?= $escaper->escapeUrl($block->getLabelUrl($shipment)) ?>">
-                                        <?= $escaper->escapeHtml(__('Print label')) ?>
+                                    <a href="<?= $escaper->escapeUrl($block->getLabelUrl($shipment)) ?>">
+                                        <?= $escaper->escapeHtml(__('Label')) ?>
                                     </a>
                                 </div>
-                                <?php if ($block->isReturnPossible($shipment)): ?>
-                                    <div class="actions" style="padding: 5px;">
-                                        <a class="action-default primary"
-                                           href="<?= $escaper->escapeUrl($block->getReturnUrl($shipment)) ?>"
-                                            <?php if ($block->isUrlBlank($shipment)): ?> target="_blank" <?php endif; ?>
-                                        >
-                                            <?= $escaper->escapeHtml(__('Return')) ?>
-                                        </a>
-                                    </div>
-                                <?php endif ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

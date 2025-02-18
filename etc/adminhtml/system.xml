@@ -69,14 +69,6 @@
                     <base_url type="media" scope_info="1">inpostinternational/logo</base_url>
                     <comment>Allowed file types: jpg, jpeg, gif, png</comment>
                 </field>
-                <field id="max_cart_weight" translate="label,comment" type="text" sortOrder="80" showInDefault="1"
-                       showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Max cart weight</label>
-                    <comment>The default value of 25 refers to the maximum weight of a package that Inpost delivers
-                        in kilograms. If you use a different unit, adjust this value and set the appropriate unit in
-                        the "Inpost - general configuration" section
-                    </comment>
-                </field>
                 <field id="sallowspecific" translate="label" type="select" sortOrder="110" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <label>Ship to applicable countries</label>

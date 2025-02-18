@@ -199,7 +199,7 @@ class InternationalApiService
         $responseBody = $this->curl->getBody();
         $response = $this->json->unserialize($responseBody);
 
-        $this->handleResponseStatus($statusCode, $response);
+        $this->handleResponseStatus($statusCode, $response, $url);
 
         return $response;
     }
@@ -209,11 +209,13 @@ class InternationalApiService
      *
      * @param int $statusCode
      * @param array $response
+     * @param string $url
      * @return void
-     * @throws LocalizedException|ApiException
+     * @throws ApiException
+     * @throws LocalizedException
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    private function handleResponseStatus(int $statusCode, array $response): void
+    private function handleResponseStatus(int $statusCode, array $response, string $url): void
     {
         switch ($statusCode) {
             case 200:
@@ -243,7 +245,7 @@ class InternationalApiService
                 );
             case 404:
                 throw new ApiException(
-                    __('Resource not found')->render(),
+                    __('Resource not found %1', $url)->render(),
                     $response,
                     $statusCode
                 );
