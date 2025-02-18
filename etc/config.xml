@@ -25,7 +25,6 @@
                 <name>InPost International</name>
                 <weight_out_of_range>use_price</weight_out_of_range>
                 <position>1</position>
-                <max_cart_weight>25</max_cart_weight>
                 <sallowspecific>1</sallowspecific>
                 <specificcountry>BE,ES,FR,IT,LU,NL,PT</specificcountry>
             </inpostinternationalcourier>

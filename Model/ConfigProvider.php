@@ -238,11 +238,11 @@ class ConfigProvider implements ConfigProviderInterface
     /**
      * Get InPost fixed insurance value
      *
-     * @return string
+     * @return float
      */
-    public function getInsuranceValue(): string
+    public function getInsuranceValue(): float
     {
-        return (string) $this->doGetShippingConfig('auto_insurance_value');
+        return (float) $this->doGetShippingConfig('auto_insurance_value');
     }
 
     /**

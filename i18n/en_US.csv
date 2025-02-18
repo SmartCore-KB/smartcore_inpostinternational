@@ -255,3 +255,7 @@
 "Poland","Poland"
 "Selected pickup point: %1","Selected pickup point: %1"
 "Barcode can only contain letters, numbers, or {orderId} (max 16 characters)","Barcode can only contain letters, numbers, or {orderId} (max 16 characters)"
+"From point (Locker, Pick-up Drop-off Point, other)","From point (Locker, Pick-up Drop-off Point, other)"
+"From address (courier pickup)","From address (courier pickup)"
+"Specific Countries","Specific Countries"
+"All Allowed Countries","All Allowed Countries"

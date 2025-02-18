@@ -104,11 +104,13 @@ class CreateDataProvider extends DataProvider
         $parcelTmplDefaultId = $this->parcelTmplRepository->getDefaultId();
         $pickupAddrDefaultId = $this->pickupAddrRepository->getDefaultId();
 
+        $insuranceValue = $this->getInsuranceValue();
         $defaultData = [
             ShipmentProcessor::SHIPMENT_FIELDSET => [
                 'shipment_type' => $this->configProvider->getShipmentType(),
                 'parcel_template' => $parcelTmplDefaultId,
-                'origin' => $pickupAddrDefaultId
+                'origin' => $pickupAddrDefaultId,
+                'insurance_value' => $insuranceValue,
             ],
         ];
 
@@ -122,14 +124,7 @@ class CreateDataProvider extends DataProvider
                 $countryId = $shippingAddress->getCountryId();
                 $grandTotal = $this->priceCurrency->convertAndRound($order->getGrandTotal());
                 $currencyCode = $this->currency->toOptionArray()[0]['value'];
-
-                $autoInsuranceSetting = (int)$this->configProvider->getAutoInsuranceSetting();
-                $insuranceValue = match ($autoInsuranceSetting) {
-                    AutoInsurance::AUTO_INSURANCE_ORDER => $grandTotal,
-                    AutoInsurance::AUTO_INSURANCE_FIXED => $this->configProvider->getInsuranceValue(),
-                    default => 0,
-                };
-                $insuranceValue = (float) min($insuranceValue, $this->configProvider->getInsuranceMaxValue());
+                $insuranceValue = $this->getInsuranceValue($grandTotal);
 
                 $orderData = [
                     'order_id' => $orderId,
@@ -189,5 +184,23 @@ class CreateDataProvider extends DataProvider
         }
 
         return $preparedData;
+    }
+
+    /**
+     * Get insurance value
+     *
+     * @param float|null $orderGrandTotal
+     * @return float
+     */
+    private function getInsuranceValue(?float $orderGrandTotal = null): float
+    {
+        $orderGrandTotal = $orderGrandTotal ?? 0;
+        $autoInsuranceSetting = (int)$this->configProvider->getAutoInsuranceSetting();
+        $insuranceValue = match ($autoInsuranceSetting) {
+            AutoInsurance::AUTO_INSURANCE_ORDER => $orderGrandTotal,
+            AutoInsurance::AUTO_INSURANCE_FIXED => $this->configProvider->getInsuranceValue(),
+            default => 0,
+        };
+        return (float) min($insuranceValue, $this->configProvider->getInsuranceMaxValue());
     }
 }
