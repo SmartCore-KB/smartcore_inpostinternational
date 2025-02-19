@@ -257,7 +257,7 @@
         <field name="address_country_code" formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">inpostinternational_shipment_form_create</item>
+                    <item name="source" xsi:type="string">inpostinternational_pickupaddress_create</item>
                 </item>
             </argument>
             <settings>
