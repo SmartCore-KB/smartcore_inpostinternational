@@ -27,6 +27,7 @@ class InternationalApiService
     public const API_PROD_BASE_URL = 'https://api.inpost-group.com/';
     public const API_SANDBOX_BASE_URL = 'https://sandbox-api.inpost-group.com/';
     private const API_VERSION = '2024-06-01';
+    private const API_PLUGIN_HEADER = 'InPost_Magento_International';
 
     /**
      * @var string
@@ -179,6 +180,7 @@ class InternationalApiService
         $this->curl->addHeader('Content-Type', 'application/json');
         $this->curl->addHeader('Accept', 'application/json');
         $this->curl->addHeader('X-InPost-Api-Version', self::API_VERSION);
+        $this->curl->addHeader('X-Inpost-Plugin', self::API_PLUGIN_HEADER);
 
         $serializedData = $data ? $this->json->serialize($data) : null;
 
