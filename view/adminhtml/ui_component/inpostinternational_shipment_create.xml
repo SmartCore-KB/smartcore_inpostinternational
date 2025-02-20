@@ -10,10 +10,8 @@
                 inpostinternational_shipment_create.inpostinternational_shipment_create_data_source
             </item>
         </item>
-        <item name="label" xsi:type="string" translate="true">New InPost Shipment</item>
-        <item name="layout" xsi:type="array">
-            <item name="type" xsi:type="string">tabs</item>
-        </item>
+        <item name="label" xsi:type="string" translate="true">New InPost International Shipment</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
     </argument>
 
     <settings>
@@ -51,6 +49,11 @@
                 <item name="label" xsi:type="string" translate="true">Shipment details</item>
             </item>
         </argument>
+        <settings>
+            <opened>true</opened>
+            <label translate="true">Shipment details</label>
+            <dataScope>shipment_fieldset</dataScope>
+        </settings>
 
         <field name="order_id">
             <argument name="data" xsi:type="array">

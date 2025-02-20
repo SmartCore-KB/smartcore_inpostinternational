@@ -18,7 +18,7 @@
 
     <type name="Smartcore\InPostInternational\Ui\DataProvider\Shipment\CreateDataProvider">
         <arguments>
-            <argument name="name" xsi:type="string">inpostinternational_shipment_create_form_data_source</argument>
+            <argument name="name" xsi:type="string">inpostinternational_shipment_create_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="meta" xsi:type="array"/>
