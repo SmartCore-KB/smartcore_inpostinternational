@@ -1,6 +1,10 @@
 # Changelog for Smartcore InPost International
 All notable changes to this project will be documented in this file.
 
+## 1.0.16 - 2025-02-20
+### Added
+- Field dependency on InPost shipment creation
+
 ## 1.0.13 - 2025-02-18
 ### Fixed
 - Cron job for shipment status update
