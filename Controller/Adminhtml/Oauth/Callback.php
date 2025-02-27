@@ -15,7 +15,6 @@ use Smartcore\InPostInternational\Model\TokenExchangeService;
 class Callback extends Action
 {
 
-    // @TODO There is no CSRF protection now, secure this endpoint
     /**
      * @inheritdoc
      * @var array
