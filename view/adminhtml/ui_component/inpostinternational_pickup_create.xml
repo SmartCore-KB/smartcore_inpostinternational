@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                inpostinternational_pickup_create.inpostinternational_pickup_create_data_source
+            </item>
+            <item name="deps" xsi:type="string">
+                inpostinternational_pickup_create.inpostinternational_pickup_create_data_source
+            </item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">New InPost Pickup </item>
+        <item name="layout" xsi:type="array">
+            <item name="type" xsi:type="string">tabs</item>
+        </item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save" class="Smartcore\InPostInternational\Block\Adminhtml\Buttons\Save" />
+            <button name="back" class="Smartcore\InPostInternational\Block\Adminhtml\Buttons\Back" />
+        </buttons>
+        <namespace>inpostinternational_pickup_create</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>inpostinternational_pickup_create.inpostinternational_pickup_create_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="inpostinternational_pickup_create_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">
+                Smartcore\InPostInternational\Ui\DataProvider\Pickup\CreateDataProvider
+            </argument>
+            <argument name="name" xsi:type="string">inpostinternational_pickup_create_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+                <item name="submit_url" path="*/*/save" xsi:type="url" />
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="pickup_fieldset" sortOrder="10">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Pickup details</item>
+            </item>
+        </argument>
+
+        <field name="pickup_address" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickup_create</item>
+                    <item name="component" xsi:type="string">Smartcore_InPostInternational/js/form/element/select-pickup-address</item>
+                    <item name="template" xsi:type="string">Smartcore_InPostInternational/form/element/select-pickup-address</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Pickup address</label>
+                <dataScope>pickup_address</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Smartcore\InPostInternational\Model\Config\Source\PickupAddress"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="pickup_time_from" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickup_create</item>
+                    <item name="options" xsi:type="array">
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>datetime</dataType>
+                <label translate="true">Pickup from</label>
+                <dataScope>pickup_time_from</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="pickup_time_to" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickup_create</item>
+                    <item name="options" xsi:type="array">
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>datetime</dataType>
+                <label translate="true">Pickup to</label>
+                <dataScope>pickup_time_to</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="volume_count" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickup_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Packages count</label>
+                <dataScope>volume_count</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="volume_weight_amount" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickup_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Packages total weight</label>
+                <dataScope>volume_weight_amount</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="volume_weight_unit" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickup_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Packages weight unit</label>
+                <dataScope>volume_weight_unit</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Smartcore\InPostInternational\Model\Config\Source\ParcelWeightUnit"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="volume_item_type" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">inpostinternational_pickup_create</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Packages type</label>
+                <dataScope>volume_item_type</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Smartcore\InPostInternational\Model\Config\Source\VolumeItemType"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+    </fieldset>
+</form>

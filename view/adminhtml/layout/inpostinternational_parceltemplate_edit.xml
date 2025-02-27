@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <script src="Smartcore_InPostInternational::js/validator/barcode.js"/>
+        <script src="Smartcore_InPostInternational::js/validator/barcode-and-comment.js"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <uiComponent name="inpostinternational_parceltemplate_create"/>
+        </referenceContainer>
+    </body>
+</page>
