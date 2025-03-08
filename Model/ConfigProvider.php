@@ -77,7 +77,7 @@ class ConfigProvider implements ConfigProviderInterface
     }
 
     /**
-     * Get client id
+     * Get ClientID
      *
      * @return string
      */

@@ -46,7 +46,7 @@ class AuthRequestButton extends Field
     {
         $buttonData = [
             'id' => 'auth_request',
-            'label' => __('Request Authorization'),
+            'label' => __('Login to InPost'),
             'onclick' => 'window.open(\'' . $this->getButtonUrl() . '\', \'_blank\')'
         ];
 

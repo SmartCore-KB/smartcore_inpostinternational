@@ -51,6 +51,7 @@ produkcyjnym. Instalacji oraz włączenia modułu powinien dokonywać developer 
 1. Instalacja przez Composer (preferowana):
 ```bash
 composer require smartcore/inpostinternational
+bin/magento module:enable Smartcore_InPostInternational
 bin/magento setup:upgrade
 bin/magento setup:di:compile
 bin/magento setup:static-content:deploy
@@ -93,14 +94,14 @@ Po zapisaniu zmian, użytkownicy przypisani do danej roli będą mieli odpowiedn
 ## Autoryzacja
 
 ### Uzyskanie dostępu do API
-Aby skonfigurować autoryzację z API InPost, należy wygenerować `ID klienta` (Client ID) i `Klucz tajny klienta` 
-(Client Secret). W tym celu należy skontaktować się z przedstawicielem InPost.  
+Aby skonfigurować autoryzację z API InPost, należy wygenerować `ClientID` i `ClientSecret`.  
+W tym celu należy skontaktować się z przedstawicielem InPost.  
 Następnie w panelu administracyjnym Magento 2 należy skonfigurować dane autoryzacyjne klikając w menu 
 `Sales > InPost International > Konfiguracja modułu` lub w sekcji `Stores > Configuration > Sales > Shipping Settings > 
 InPost International`.  
 Należy zwrócić uwagę na wybrany tryb działania API (Środowisko testowe / Produkcja) w polu `Tryb` oraz poprawność 
 wprowadzonych danych autoryzacyjnych.  
-Po wprowadzeniu i zapisaniu zmian należy kliknąć przycisk `Żądanie autoryzacji` w celu uzyskania dostępu do API InPost.  
+Po wprowadzeniu i zapisaniu zmian należy kliknąć przycisk `Zaloguj do InPost` w celu uzyskania dostępu do API InPost.  
 Wspomniany przycisk należy używać za każdym razem po zmianie danych autoryzacyjnych lub przełączeniu trybu działania API.
 
 ### Geowidget
@@ -115,15 +116,15 @@ testowy` w zależności od wybranego trybu działania API.
 
 ### Ustawienia API
 
-| Pole                              | Opis                                                                                                                                                             |
-|-----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Tryb                              | Tryb pracy API:<br>- Sandbox - Środowisko testowe<br>- Production - Środowisko produkcyjne. Pod tym polem wyświetlana jest aktualnie zainstalowana wersja modułu |
-| ID klienta produkcyjnego          | ID klienta dla środowiska produkcyjnego                                                                                                                          |
-| Klucz tajny klienta produkcyjnego | Klucz tajny dla środowiska produkcyjnego                                                                                                                         |
-| ID klienta testowego              | ID klienta dla środowiska testowego                                                                                                                              |
-| Klucz tajny klienta testowego     | Klucz tajny dla środowiska testowego                                                                                                                             |
-| Token geowidget produkcyjny       | Token dla widgetu mapy w środowisku produkcyjnym                                                                                                                 |
-| Token geowidget testowy           | Token dla widgetu mapy w środowisku testowym                                                                                                                     |
+| Pole                        | Opis                                                                                                                                                             |
+|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Tryb                        | Tryb pracy API:<br>- Sandbox - Środowisko testowe<br>- Production - Środowisko produkcyjne. Pod tym polem wyświetlana jest aktualnie zainstalowana wersja modułu |
+| ClientID produkcyjne        | ClientID dla środowiska produkcyjnego                                                                                                                          |
+| ClientSecret produkcyjne    | ClientSecret dla środowiska produkcyjnego                                                                                                                         |
+| ClientID testowe            | ClientID dla środowiska testowego                                                                                                                              |
+| ClientSecret testowe        | ClientSecret dla środowiska testowego                                                                                                                             |
+| Token geowidget produkcyjny | Token dla widgetu mapy w środowisku produkcyjnym                                                                                                                 |
+| Token geowidget testowy     | Token dla widgetu mapy w środowisku testowym                                                                                                                     |
 
 ### Ustawienia przesyłek
 

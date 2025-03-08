@@ -95,14 +95,14 @@
                 </field>
                 <field id="client_id_production" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
-                    <label>Production client ID</label>
+                    <label>Production ClientID</label>
                     <depends>
                         <field id="mode">production</field>
                     </depends>
                 </field>
                 <field id="client_secret_production" translate="label" type="obscure" sortOrder="20" showInDefault="1"
                        showInWebsite="1" showInStore="1">
-                    <label>Production client secret</label>
+                    <label>Production ClientSecret</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <depends>
                         <field id="mode">production</field>
@@ -110,14 +110,14 @@
                 </field>
                 <field id="client_id_sandbox" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
-                    <label>Sandbox client ID</label>
+                    <label>Sandbox ClientID</label>
                     <depends>
                         <field id="mode">sandbox</field>
                     </depends>
                 </field>
                 <field id="client_secret_sandbox" translate="label" type="obscure" sortOrder="20" showInDefault="1"
                        showInWebsite="1" showInStore="1">
-                    <label>Sandbox client secret</label>
+                    <label>Sandbox ClientSecret</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <depends>
                         <field id="mode">sandbox</field>
@@ -126,7 +126,7 @@
                 <field id="auth_request" translate="label,comment" type="button" sortOrder="30" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <frontend_model>Smartcore\InPostInternational\Block\Adminhtml\System\Config\AuthRequestButton</frontend_model>
-                    <comment>Client ID and Client Secret needs to be saved before You will request authorization. Authorization needs to be refreshed after mode change.</comment>
+                    <comment>ClientID and ClientSecret needs to be saved before You will Login to InPost. Authorization needs to be refreshed after mode change.</comment>
                 </field>
                 <field id="geowidget_token_production" translate="label" type="obscure" sortOrder="40" showInDefault="1"
                        showInWebsite="1" showInStore="1">
