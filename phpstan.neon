@@ -1,0 +1,16 @@
+parameters:
+    level: 5
+    paths:
+        - .
+    excludePaths:
+        - '../../../../vendor/*'
+    ignoreErrors:
+        # Add any specific errors you want to ignore here
+       - '#Call to an undefined method [a-zA-Z0-9\\_]+::(get|set|uns|has|calc|unset)[A-Z]#'
+       - '#Magento\Sales\Api\Data\ShipmentInterface does not exist#'
+    bootstrapFiles:
+        # - ../../../../vendor/bitexpert/phpstan-magento/bootstrap.php
+    scanDirectories:
+        - ../../../../vendor/magento
+includes:
+    # - ../../../../vendor/bitexpert/phpstan-magento/extension.neon

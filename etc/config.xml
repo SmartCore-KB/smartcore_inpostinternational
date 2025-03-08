@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <shipping>
+            <inpostinternational>
+                <mode>sandbox</mode>
+                <well_known_production>https://login.inpost-group.com/realms/external/.well-known/openid-configuration</well_known_production>
+                <well_known_sandbox>https://sandbox-login.inpost-group.com/realms/external/.well-known/openid-configuration</well_known_sandbox>
+                <tracking_link>https://inpost.pl/sledzenie-przesylek?number=</tracking_link>
+                <weight_attribute_code>weight</weight_attribute_code>
+                <auto_insurance>1</auto_insurance>
+                <max_insurance_value>5000</max_insurance_value>
+                <sender>
+                    <shipment_type>address-to-point</shipment_type>
+                    <language>pl_PL</language>
+                    <origin_country_code>PL</origin_country_code>
+                </sender>
+            </inpostinternational>
+        </shipping>
+        <carriers>
+            <inpostinternationalcourier>
+                <model>Smartcore\InPostInternational\Model\Carrier\InpostCourier</model>
+                <active>0</active>
+                <title>InPost International</title>
+                <name>InPost International</name>
+                <weight_out_of_range>use_price</weight_out_of_range>
+                <position>1</position>
+                <sallowspecific>1</sallowspecific>
+                <specificcountry>BE,ES,FR,IT,LU,NL,PT</specificcountry>
+            </inpostinternationalcourier>
+        </carriers>
+    </default>
+</config>

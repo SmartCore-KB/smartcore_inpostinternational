@@ -1,0 +1,76 @@
+<?php
+use Smartcore\InPostInternational\Block\Adminhtml\Order\View\InPostInternationalOrderView;
+
+/**
+ * @var $block InPostInternationalOrderView
+ */
+?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $escaper->escapeHtml(__('InPost International shipments')) ?></span>
+    </div>
+    <div class="admin__table-wrapper">
+        <?php if ($targetLockerId = $block->getSelectedLockerId()) { ?>
+            <div class="admin__page-section-item-title">
+                <strong><?= $escaper->escapeHtml(__('Selected pickup point: %1', $targetLockerId)) ?></strong>
+            </div>
+        <?php } ?>
+        <div class="field">
+            <?php if ($shipments = $block->getInpostShipments()): ?>
+                <table class="data-table admin__table-primary">
+                    <thead class="headings">
+                    <tr>
+                        <th><?= $escaper->escapeHtml(__('ID')) ?></th>
+                        <th><?= $escaper->escapeHtml(__('Tracking number')) ?></th>
+                        <th><?= $escaper->escapeHtml(__('Status')) ?></th>
+                        <th><?= $escaper->escapeHtml(__('Actions')) ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($shipments as $shipment): ?>
+                        <tr>
+                            <td>
+                                <?= $escaper->escapeHtml($shipment->getId()) ?>
+                            </td>
+                            <td>
+                                <a href="<?= $escaper->escapeUrl($block->getShippingTrackingUrl($shipment)) ?>">
+                                    <?= $escaper->escapeHtml($shipment->getTrackingNumber()) ?>
+                                </a>
+                            </td>
+                            <td>
+                                <?= $escaper->escapeHtml($shipment->getParcelStatus()) ?>
+                            </td>
+                            <td>
+                                <div class="actions" style="padding: 5px;">
+                                    <a href="<?= $escaper->escapeUrl($block->getLabelUrl($shipment)) ?>">
+                                        <?= $escaper->escapeHtml(__('Label')) ?>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif ?>
+            <?php $selectedMethod = $block->getSelectedMethod() ?? '';?>
+            <form action="<?= $escaper->escapeUrl($block->getUrl('inpostinternational/shipment/create')) ?>"
+                  class="inpost-shipments-form">
+                <div class="control" style="float: left;margin-right: 15px">
+                    <input type="hidden" name="order_id"
+                           value="<?= $escaper->escapeHtmlAttr($block->getOrder()->getId()) ?>">
+                    <select id="shipping_method" class="admin__control-select" name="shipping_method" required>
+                        <?php foreach ($block->getInpostShippingMethods() as $method): ?>
+                            <option value="<?= $escaper->escapeHtmlAttr($method['value']) ?>"
+                                <?php if ($selectedMethod == $method['value']): ?> selected<?php endif; ?>>
+                                <?= $escaper->escapeHtml($method['label']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <button id="submit" title="Submit" type="submit" class="action-default scalable edit primary">
+                    <span><?= $escaper->escapeHtml(__('Create shipment')) ?></span>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>

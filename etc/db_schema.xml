@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="inpostinternational_parcel_template" resource="default" engine="innodb" comment="InPost parcel template">
+        <column name="entity_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity id"/>
+        <column name="type" xsi:type="varchar" length="64" nullable="false" comment="Parcel type"/>
+        <column name="label" xsi:type="varchar" length="255" nullable="false" comment="Parcel template label"/>
+        <column name="length" xsi:type="decimal" scale="2" precision="10" unsigned="true" nullable="false" comment="Length"/>
+        <column name="width" xsi:type="decimal" scale="2" precision="10" unsigned="true" nullable="false" comment="Width"/>
+        <column name="height" xsi:type="decimal" scale="2" precision="10" unsigned="true" nullable="false" comment="Height"/>
+        <column name="dimension_unit" xsi:type="varchar" length="8" nullable="false" comment="Dimensions unit"/>
+        <column name="weight" xsi:type="decimal" scale="2" precision="10" unsigned="true" nullable="false" comment="Weight"/>
+        <column name="weight_unit" xsi:type="varchar" length="8" nullable="false" comment="Weight unit"/>
+        <column name="comment" xsi:type="varchar" length="64" nullable="true" comment="Parcel comment"/>
+        <column name="barcode" xsi:type="varchar" length="64" nullable="true" comment="Parcel barcode"/>
+        <column name="is_default" xsi:type="smallint" nullable="false" comment="Is default"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <table name="inpostinternational_pickup_address" resource="default" engine="innodb" comment="InPost pickup address">
+        <column name="entity_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity id"/>
+        <column name="label" xsi:type="varchar" length="255" nullable="false" comment="Pickup address label"/>
+        <column name="contact_first_name" xsi:type="varchar" length="255" nullable="false" comment="Contact person first name"/>
+        <column name="contact_last_name" xsi:type="varchar" length="255" nullable="false" comment="Contact person last name"/>
+        <column name="contact_email" xsi:type="varchar" length="255" nullable="false" comment="Contact person email"/>
+        <column name="contact_phone_prefix" xsi:type="varchar" length="5" nullable="false" comment="Contact person phone prefix"/>
+        <column name="contact_phone_number" xsi:type="varchar" length="12" nullable="false" comment="Contact person phone number"/>
+        <column name="address_house_number" xsi:type="varchar" length="64" nullable="false" comment="House number"/>
+        <column name="address_flat_number" xsi:type="varchar" length="64" nullable="false" comment="Flat number"/>
+        <column name="address_street" xsi:type="varchar" length="255" nullable="false" comment="Street"/>
+        <column name="address_city" xsi:type="varchar" length="255" nullable="false" comment="City"/>
+        <column name="address_postal_code" xsi:type="varchar" length="16" nullable="false" comment="Postal code"/>
+        <column name="address_country_code" xsi:type="varchar" length="2" nullable="false" comment="Country code"/>
+        <column name="address_location_description" xsi:type="varchar" length="255" nullable="true" comment="Pickup address location description"/>
+        <column name="is_default" xsi:type="smallint" nullable="false" comment="Is default"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <table name="inpostinternational_pickup" resource="default" engine="innodb" comment="InPost pickup">
+        <column name="entity_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity id"/>
+        <column name="address_country_code" xsi:type="varchar" length="2" nullable="false" comment="Pickup address country code"/>
+        <column name="address_postal_code" xsi:type="varchar" length="16" nullable="false" comment="Pickup address postal code"/>
+        <column name="address_city" xsi:type="varchar" length="255" nullable="false" comment="Pickup address city"/>
+        <column name="address_street" xsi:type="varchar" length="255" nullable="false" comment="Pickup address street"/>
+        <column name="address_house_number" xsi:type="varchar" length="64" nullable="false" comment="Pickup address house number"/>
+        <column name="address_flat_number" xsi:type="varchar" length="64" nullable="true" comment="Pickup address flat number"/>
+        <column name="address_location_description" xsi:type="varchar" length="255" nullable="true" comment="Pickup address location description"/>
+        <column name="contact_first_name" xsi:type="varchar" length="255" nullable="false" comment="Contact person first name"/>
+        <column name="contact_last_name" xsi:type="varchar" length="255" nullable="false" comment="Contact person last name"/>
+        <column name="contact_email" xsi:type="varchar" length="255" nullable="false" comment="Contact person email"/>
+        <column name="contact_phone_prefix" xsi:type="varchar" length="5" nullable="false" comment="Contact person phone prefix"/>
+        <column name="contact_phone_number" xsi:type="varchar" length="12" nullable="false" comment="Contact person phone number"/>
+        <column name="pickup_time_from" xsi:type="timestamp" nullable="false" comment="Pickup time from"/>
+        <column name="pickup_time_to" xsi:type="timestamp" nullable="false" comment="Pickup time to"/>
+        <column name="volume_item_type" xsi:type="varchar" length="16" nullable="false" comment="Volume item type"/>
+        <column name="volume_count" xsi:type="int" nullable="false" comment="Volume count"/>
+        <column name="volume_weight_amount" xsi:type="int" nullable="false" comment="Volume weight amount"/>
+        <column name="volume_weight_unit" xsi:type="varchar" length="4" nullable="false" comment="Volume weight unit"/>
+        <column name="references" xsi:type="text" nullable="true" comment="References"/>
+        <column name="api_response" xsi:type="text" nullable="true" comment="Api response"/>
+        <column name="created_at" xsi:type="timestamp" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column name="updated_at" xsi:type="timestamp" nullable="false" on_update="true" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <table name="inpostinternational_shipment" resource="default" engine="innodb" comment="InPost Shipment">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="true" comment="Order ID"/>
+        <column xsi:type="varchar" name="shipment_type" nullable="false" length="50" comment="Shipment Type"/>
+        <!-- Label format -->
+        <column xsi:type="varchar" name="label_format" nullable="true" length="10" comment="Label format"/>
+        <!-- Sender -->
+        <column xsi:type="varchar" name="sender_company_name" nullable="true" length="255" comment="Sender company name"/>
+        <column xsi:type="varchar" name="sender_first_name" nullable="false" length="255" comment="Sender first name"/>
+        <column xsi:type="varchar" name="sender_last_name" nullable="false" length="255" comment="Sender last name"/>
+        <column xsi:type="varchar" name="sender_email" nullable="false" length="255" comment="Sender email"/>
+        <column xsi:type="varchar" name="sender_phone_prefix" nullable="false" length="5" comment="Sender phone prefix"/>
+        <column xsi:type="varchar" name="sender_phone_number" nullable="false" length="12" comment="Sender phone number"/>
+        <column xsi:type="varchar" name="sender_language_code" nullable="true" length="5" comment="Sender language code"/>
+        <!-- Recipient -->
+        <column xsi:type="varchar" name="recipient_company_name" nullable="true" length="255" comment="Recipient company name"/>
+        <column xsi:type="varchar" name="recipient_first_name" nullable="false" length="255" comment="Recipient first name"/>
+        <column xsi:type="varchar" name="recipient_last_name" nullable="false" length="255" comment="Recipient last name"/>
+        <column xsi:type="varchar" name="recipient_email" nullable="false" length="255" comment="Recipient email"/>
+        <column xsi:type="varchar" name="recipient_phone_prefix" nullable="false" length="5" comment="Recipient phone prefix"/>
+        <column xsi:type="varchar" name="recipient_phone_number" nullable="false" length="12" comment="Recipient phone number"/>
+        <column xsi:type="varchar" name="recipient_language_code" nullable="true" length="5" comment="Recipient language code"/>
+        <!-- Origin address -->
+        <column xsi:type="varchar" name="origin_house_number" nullable="true" length="8" comment="Origin house number"/>
+        <column xsi:type="varchar" name="origin_flat_number" nullable="true" length="8" comment="Origin flat number"/>
+        <column xsi:type="varchar" name="origin_street" nullable="true" length="255" comment="Origin street"/>
+        <column xsi:type="varchar" name="origin_city" nullable="true" length="255" comment="Origin city"/>
+        <column xsi:type="varchar" name="origin_postal_code" nullable="true" length="255" comment="Origin postal code"/>
+        <column xsi:type="varchar" name="origin_country_code" nullable="false" length="3" comment="Origin country code"/>
+        <column xsi:type="varchar" name="origin_shipping_methods" nullable="true" length="255" comment="Origin shipping methods"/>
+        <!-- Destination -->
+        <column xsi:type="varchar" name="destination_country_code" nullable="false" length="3" comment="Destination country code"/>
+        <column xsi:type="varchar" name="destination_point_name" nullable="false" length="16" comment="Destination point name"/>
+        <!-- Other -->
+        <column xsi:type="varchar" name="priority" nullable="false" length="16" comment="Priority"/>
+        <column xsi:type="decimal" name="insurance_value" nullable="true" precision="10" scale="2" comment="Insurance value"/>
+        <column xsi:type="varchar" name="insurance_currency" nullable="false" length="3" comment="Insurance currency"/>
+        <column xsi:type="text" name="references" nullable="true" comment="References"/>
+        <!-- Parcel -->
+        <column xsi:type="varchar" name="parcel_type" nullable="false" length="8" comment="Insurance currency"/>
+        <column xsi:type="decimal" name="parcel_length" nullable="false" precision="10" scale="2" comment="Parcel length"/>
+        <column xsi:type="decimal" name="parcel_width" nullable="false" precision="10" scale="2" comment="Parcel width"/>
+        <column xsi:type="decimal" name="parcel_height" nullable="false" precision="10" scale="2" comment="Parcel height"/>
+        <column xsi:type="varchar" name="parcel_dimensions_unit" nullable="false" length="4" comment="Parcel dimensions unit"/>
+        <column xsi:type="decimal" name="parcel_weight" nullable="false" precision="10" scale="2" comment="Parcel weight"/>
+        <column xsi:type="varchar" name="parcel_weight_unit" nullable="false" length="4" comment="Parcel weight unit"/>
+        <column xsi:type="varchar" name="parcel_label_comment" nullable="true" length="255" comment="Parcel label comment"/>
+        <column xsi:type="varchar" name="parcel_label_barcode" nullable="true" length="255" comment="Parcel label barcode"/>
+        <!-- Response -->
+        <column xsi:type="varchar" name="label_url" nullable="true" length="255" comment="Label URL"/>
+        <column xsi:type="varchar" name="uuid" nullable="true" length="36" comment="UUID"/>
+        <column xsi:type="varchar" name="tracking_number" nullable="true" length="36" comment="Tracking number"/>
+        <column xsi:type="varchar" name="parcel_uuid" nullable="true" length="36" comment="Parcel UUID"/>
+        <column xsi:type="text" name="parcel_numbers" nullable="true" comment="Parcel numbers"/>
+        <column xsi:type="varchar" name="parcel_status" nullable="true" length="24" comment="Parcel status"/>
+        <column xsi:type="varchar" name="routing_delivery_area" nullable="true" length="16" comment="Routing delivery area"/>
+        <column xsi:type="varchar" name="routing_delivery_depot_number" nullable="true" length="16" comment="Routing delivery depot number"/>
+
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" nullable="false" on_update="true" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_INPOSTINTERNATIONAL_SHIPMENTS_ORDER_ID" table="inpostinternational_shipments" column="order_id"
+                    referenceTable="sales_order" referenceColumn="entity_id"/>
+        <index referenceId="IDX_INPOSTINTERNATIONAL_SHIPMENTS_ORDER_ID">
+            <column name="order_id"/>
+        </index>
+    </table>
+
+    <table name="inpostinternational_weight_price" resource="default" engine="innodb" comment="InPost Weight-based prices">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="decimal" name="weight_from" scale="2" precision="12" unsigned="true" nullable="false" comment="Weight From"/>
+        <column xsi:type="decimal" name="weight_to" scale="2" precision="12" unsigned="true" nullable="true" comment="Weight To"/>
+        <column xsi:type="decimal" name="price" scale="2" precision="12" unsigned="true" nullable="false" comment="Price"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <table name="quote" resource="default" engine="innodb">
+        <column name="inpostinternational_locker_id" xsi:type="varchar" length="64" />
+        <column name="inpostinternational_locker_data" xsi:type="text" nullable="true" />
+    </table>
+
+    <table name="sales_order" resource="default" engine="innodb">
+        <!-- InPost International Locker ID - could be useful for external integrations -->
+        <column name="inpostinternational_locker_id" xsi:type="varchar" length="64" comment="InPost International Locker ID"/>
+        <column name="inpostinternational_locker_data" xsi:type="text" nullable="true" />
+    </table>
+</schema>

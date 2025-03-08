@@ -1,0 +1,29 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Smartcore\InPostInternational\Api\ParcelTemplateRepositoryInterface"
+                type="Smartcore\InPostInternational\Model\ParcelTemplateRepository" />
+    <preference for="Smartcore\InPostInternational\Api\PickupAddressRepositoryInterface"
+                type="Smartcore\InPostInternational\Model\PickupAddressRepository" />
+    <preference for="Smartcore\InPostInternational\Api\Data\OrderShipmentCreateInterface"
+                type="Smartcore\InPostInternational\Model\OrderShipmentCreate" />
+
+    <type name="Smartcore\InPostInternational\Model\Config\Source\ShipmentTypesList">
+        <arguments>
+            <argument name="shipmentTypes" xsi:type="array">
+                <item name="addressToPoint" xsi:type="object">Smartcore\InPostInternational\Model\Data\AddressToPointShipmentDto</item>
+                <item name="pointToPoint" xsi:type="object">Smartcore\InPostInternational\Model\Data\PointToPointShipmentDto</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Smartcore\InPostInternational\Ui\DataProvider\Shipment\CreateDataProvider">
+        <arguments>
+            <argument name="name" xsi:type="string">inpostinternational_shipment_create_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="meta" xsi:type="array"/>
+            <argument name="data" xsi:type="array"/>
+        </arguments>
+    </type>
+
+</config>
